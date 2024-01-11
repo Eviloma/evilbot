@@ -1,1 +1,3 @@
-console.log(2);
+import Client from './classes/Client';
+
+new Client().Init();

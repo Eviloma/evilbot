@@ -9,8 +9,10 @@
     "skipLibCheck": true,
     "strictNullChecks": true,
     "resolveJsonModule": true,
-    "outDir": "dist"
+    "esModuleInterop": true,
+    "outDir": "dist",
+    "rootDir": "src"
   },
-  "include": ["src"],
+  "include": ["src", ".eslintrc.js"],
   "exclude": ["node_modules"]
 }
