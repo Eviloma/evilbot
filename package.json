@@ -25,8 +25,9 @@
   ],
   "scripts": {
     "clean": "del /s /q dist",
+    "dev": "pnpm clean && pnpm build && pnpm start",
     "build": "tsc --build",
-    "start": "pnpm clean && pnpm build && node .",
+    "start": "node .",
     "lint": "eslint -f mo .",
     "format": "prettier --write .",
     "prepare": "husky install"
