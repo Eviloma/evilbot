@@ -5,6 +5,7 @@ import {
   GuildMember,
   PermissionFlagsBits,
   VoiceBasedChannel,
+  VoiceChannel,
   VoiceState,
 } from 'discord.js';
 
@@ -76,26 +77,13 @@ export default class VoiceStateUpdate extends Event {
   }
 
   private RestrictCreateTempVoiceChat(guild: Guild, member: GuildMember) {
-    const joinToTalkChannel = guild.channels.cache.get(JOIN_TO_TALK_CHANNEL_ID);
+    const joinToTalkChannel = guild.channels.cache.get(JOIN_TO_TALK_CHANNEL_ID) as VoiceChannel | null;
     if (!joinToTalkChannel) return;
 
-    joinToTalkChannel.edit({
-      permissionOverwrites: [
-        {
-          id: member.id,
-          deny: [PermissionFlagsBits.Connect],
-        },
-      ],
-    });
+    joinToTalkChannel.permissionOverwrites.edit(member.id, { Connect: false });
 
     setTimeout(() => {
-      joinToTalkChannel.edit({
-        permissionOverwrites: [
-          {
-            id: member.id,
-          },
-        ],
-      });
+      joinToTalkChannel.permissionOverwrites.delete(member.id);
     }, 10_000);
   }
 }
