@@ -25,6 +25,7 @@ export default class Client extends Discord.Client implements IClient {
         'GuildMessages',
         'MessageContent',
         'Guilds',
+        'GuildVoiceStates',
       ],
     });
 

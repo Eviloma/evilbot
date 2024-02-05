@@ -41,6 +41,8 @@ export default class Handler implements IHandler {
         this.client.on(event.name.toString(), execute);
       }
 
+      logger.info(`Loaded event ${event.name.toString()}`);
+
       return delete require.cache[require.resolve(file)];
     });
   }
