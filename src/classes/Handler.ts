@@ -4,6 +4,7 @@ import { glob } from 'glob';
 import { forEach, map, split } from 'lodash';
 
 import IHandler from '../interfaces/IHandler';
+import env from '../libs/env';
 import logger from '../libs/logger';
 import Client from './Client';
 import Command from './Command';
@@ -69,6 +70,40 @@ export default class Handler implements IHandler {
       this.client.commands.set(command.name, command);
 
       return delete require.cache[require.resolve(file)];
+    });
+  }
+
+  async LoadLavalinkEvents() {
+    this.client.lavalink.on('close', (name, code, reason) => {
+      logger.info(`Lavalink ${name} is closed.\nCode: ${code}\nReason: ${reason}\n`);
+    });
+
+    this.client.lavalink.on('debug', (name, info) => {
+      if (env.isDev) {
+        logger.info(`Lavalink ${name}\ndebug: ${info}\n`);
+      }
+    });
+
+    this.client.lavalink.on('disconnect', (name, count) => {
+      logger.info(`Lavalink ${name} is disconnected.\nCount: ${count}\n`);
+    });
+
+    this.client.lavalink.on('raw', (name, json) => {
+      logger.info(`Lavalink ${name}\nraw: ${JSON.stringify(json)}\n`);
+    });
+
+    this.client.lavalink.on('ready', (name, reconnected) => {
+      logger.info(`Lavalink ${name} is ready.\nReconnected: ${reconnected}\n`);
+    });
+
+    this.client.lavalink.on('reconnecting', (name, reconnectsLeft, reconnectInterval) => {
+      logger.info(
+        `Lavalink ${name} is reconnecting.\nReconnects left: ${reconnectsLeft}\nReconnect interval: ${reconnectInterval}\n`
+      );
+    });
+
+    this.client.lavalink.on('error', (name, error) => {
+      logger.error(`Lavalink ${name}\nerror: ${error.message}\n`);
     });
   }
 }

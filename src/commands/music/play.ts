@@ -17,6 +17,6 @@ export default class Play extends Command {
   }
 
   Execute(interaction: ChatInputCommandInteraction) {
-    interaction.reply({ content: `Uptime: ${this.client.uptime}!`, ephemeral: true });
+    const { member } = interaction;
   }
 }

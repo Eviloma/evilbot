@@ -1,9 +1,10 @@
 import Discord, { Collection } from 'discord.js';
-import { LavalinkManager } from 'lavalink-client';
+import { Connectors, Shoukaku } from 'shoukaku';
 
 import IClient from '../interfaces/IClient';
 import env from '../libs/env';
 import logger from '../libs/logger';
+import PublicLavalink from '../public-lavalink.json';
 import Command from './Command';
 import Handler from './Handler';
 import SubCommand from './SubCommand';
@@ -17,7 +18,7 @@ export default class Client extends Discord.Client implements IClient {
 
   cooldowns: Collection<string, Collection<string, number>>;
 
-  lavalink: LavalinkManager;
+  lavalink: Shoukaku;
 
   constructor() {
     super({
@@ -36,29 +37,15 @@ export default class Client extends Discord.Client implements IClient {
     this.commands = new Collection();
     this.subCommands = new Collection();
     this.cooldowns = new Collection();
-    this.lavalink = new LavalinkManager({
-      nodes: [],
-      sendToShard: (guildId, payload) => this.guilds.cache.get(guildId)?.shard?.send(payload),
-      client: {
-        id: env.CLIENT_ID,
-        username: 'EvilBot',
-      },
-      autoSkip: true,
-      playerOptions: {
-        clientBasedPositionUpdateInterval: 150,
-        defaultSearchPlatform: 'ytsearch',
-        volumeDecrementer: 0.5,
-        onDisconnect: {
-          autoReconnect: true,
-          destroyPlayer: false,
-        },
-        onEmptyQueue: {
-          destroyAfterMs: 30_000,
-        },
-      },
-      queueOptions: {
-        maxPreviousTracks: 25,
-      },
+    this.lavalink = new Shoukaku(new Connectors.DiscordJS(this), [...PublicLavalink.nodes], {
+      resume: true,
+      resumeTimeout: 30_000,
+      resumeByLibrary: true,
+      reconnectTries: 5,
+      reconnectInterval: 5000,
+      restTimeout: 30_000,
+      moveOnDisconnect: true,
+      voiceConnectionTimeout: 30_000,
     });
   }
 
@@ -70,5 +57,6 @@ export default class Client extends Discord.Client implements IClient {
   LoadHandlers(): void {
     this.handlers.LoadEvents();
     this.handlers.LoadCommands();
+    this.handlers.LoadLavalinkEvents();
   }
 }

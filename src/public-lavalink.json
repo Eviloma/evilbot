@@ -1,0 +1,31 @@
+{
+  "nodes": [
+    {
+      "url": "lavalink-v4.teramont.net:443",
+      "auth": "eHKuFcz67k4lBS64",
+      "secure": true,
+      "name": "public-ssl-1"
+    },
+
+    {
+      "url": "lava.alfari.id:443",
+      "auth": "youshallnotpass",
+      "secure": true,
+      "name": "public-ssl-2"
+    },
+
+    {
+      "url": "lavalink-v4.teramont.net:25569",
+      "auth": "eHKuFcz67k4lBS64",
+      "secure": false,
+      "name": "public-no-ssl-1"
+    },
+
+    {
+      "url": "139.99.124.43:7784",
+      "auth": "PasswordIsZoldy",
+      "secure": false,
+      "name": "public-mo-ssl-2"
+    }
+  ]
+}
