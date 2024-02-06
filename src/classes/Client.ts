@@ -1,5 +1,6 @@
 import Discord, { Collection } from 'discord.js';
-import { Connectors, Shoukaku } from 'shoukaku';
+import { Kazagumo } from 'kazagumo';
+import { Connectors } from 'shoukaku';
 
 import IClient from '../interfaces/IClient';
 import env from '../libs/env';
@@ -18,7 +19,7 @@ export default class Client extends Discord.Client implements IClient {
 
   cooldowns: Collection<string, Collection<string, number>>;
 
-  lavalink: Shoukaku;
+  lavalink: Kazagumo;
 
   constructor() {
     super({
@@ -37,16 +38,17 @@ export default class Client extends Discord.Client implements IClient {
     this.commands = new Collection();
     this.subCommands = new Collection();
     this.cooldowns = new Collection();
-    this.lavalink = new Shoukaku(new Connectors.DiscordJS(this), [...PublicLavalink.nodes], {
-      resume: true,
-      resumeTimeout: 30_000,
-      resumeByLibrary: true,
-      reconnectTries: 5,
-      reconnectInterval: 5000,
-      restTimeout: 30_000,
-      moveOnDisconnect: true,
-      voiceConnectionTimeout: 30_000,
-    });
+    this.lavalink = new Kazagumo(
+      {
+        defaultSearchEngine: 'youtube',
+        send: (guildId, payload) => {
+          const guild = this.guilds.cache.get(guildId);
+          if (guild) guild.shard.send(payload);
+        },
+      },
+      new Connectors.DiscordJS(this),
+      [...PublicLavalink.nodes]
+    );
   }
 
   Init(): void {

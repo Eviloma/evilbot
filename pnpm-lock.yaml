@@ -20,12 +20,18 @@ dependencies:
   dotenv:
     specifier: ^16.4.1
     version: 16.4.1
+  easy-discord-components:
+    specifier: ^1.1.2
+    version: 1.1.2
   envalid:
     specifier: ^8.0.0
     version: 8.0.0
   glob:
     specifier: ^10.3.10
     version: 10.3.10
+  kazagumo:
+    specifier: ^3.0.0
+    version: 3.0.0
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
@@ -1268,6 +1274,16 @@ packages:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
     dev: false
 
+  /easy-discord-components@1.1.2:
+    resolution: {integrity: sha512-9HC/YIQ+D8l2C4PtDsHZYdaL4HKUqQfzYV6X5LOLzKEZcX9MtEdwM/S2yvjVQoHxLIaamYMnp9PxTyMk0Ahewg==}
+    dependencies:
+      '@discordjs/builders': 1.7.0
+      discord.js: 14.14.1
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+    dev: false
+
   /electron-to-chromium@1.4.657:
     resolution: {integrity: sha512-On2ymeleg6QbRuDk7wNgDdXtNqlJLM2w4Agx1D/RiTmItiL+a9oq5p7HUa2ZtkAtGBe/kil2dq/7rPfkbe0r5w==}
     dev: true
@@ -1882,6 +1898,11 @@ packages:
   /eventemitter3@5.0.1:
     resolution: {integrity: sha512-GWkBvjiSZK87ELrYOSESUYeVIc9mvLLf/nXalMOS5dYrgZq9o5OVkbZAVM06CVxYsCwH9BDZFPlQTlPA1j4ahA==}
     dev: true
+
+  /events@3.3.0:
+    resolution: {integrity: sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==}
+    engines: {node: '>=0.8.x'}
+    dev: false
 
   /execa@8.0.1:
     resolution: {integrity: sha512-VyhnebXciFV2DESc+p6B+y0LjSm0krU4OgJN44qFAhBY0TJ+1V61tYD2+wHusZ6F9n5K+vl8k0sTy7PEfV4qpg==}
@@ -2590,6 +2611,17 @@ packages:
       object.assign: 4.1.5
       object.values: 1.1.7
     dev: true
+
+  /kazagumo@3.0.0:
+    resolution: {integrity: sha512-FOqhKf4dShm+bevqCkomRzuTV1Q+RaXaWQ9CWFsQ5qRit/+3jlFLI7D3Q4mJaktu5lojVzzZgIygvuwpjfSkCg==}
+    engines: {node: '>=16.5.0 <=20'}
+    dependencies:
+      events: 3.3.0
+      shoukaku: 4.0.1
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+    dev: false
 
   /keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}

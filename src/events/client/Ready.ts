@@ -22,7 +22,12 @@ export default class Ready extends Event {
 
     const rest = new REST({ version: '10' }).setToken(env.BOT_TOKEN);
 
-    const setCommands = (await rest.put(Routes.applicationGuildCommands(env.CLIENT_ID, env.GUILD_ID), {
+    // clear all commands
+    await rest.put(Routes.applicationGuildCommands(env.CLIENT_ID, env.GUILD_ID), { body: [] });
+    await rest.put(Routes.applicationCommands(env.CLIENT_ID), { body: [] });
+
+    // add commands
+    const setCommands = (await rest.put(Routes.applicationCommands(env.CLIENT_ID), {
       body: commands,
     })) as { length: number };
 

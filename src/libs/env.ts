@@ -7,6 +7,7 @@ const env = cleanEnv(process.env, {
   CLIENT_ID: str(),
   GUILD_ID: str(),
   JOIN_TO_TALK_CHANNEL_ID: str(),
+  MUSIC_CHANNEL_ID: str(),
 });
 
 export default env;

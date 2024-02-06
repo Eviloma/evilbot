@@ -1,11 +1,12 @@
 import path from 'node:path';
 
 import { glob } from 'glob';
-import { forEach, map, split } from 'lodash';
+import { forEach, map, noop, split } from 'lodash';
 
 import IHandler from '../interfaces/IHandler';
 import env from '../libs/env';
 import logger from '../libs/logger';
+import MusicControllerUpdate from '../libs/music-controller-update';
 import Client from './Client';
 import Command from './Command';
 import Event from './Event';
@@ -74,36 +75,57 @@ export default class Handler implements IHandler {
   }
 
   async LoadLavalinkEvents() {
-    this.client.lavalink.on('close', (name, code, reason) => {
+    this.client.lavalink.shoukaku.on('close', (name, code, reason) => {
       logger.info(`Lavalink ${name} is closed.\nCode: ${code}\nReason: ${reason}\n`);
     });
 
-    this.client.lavalink.on('debug', (name, info) => {
+    this.client.lavalink.shoukaku.on('debug', (name, info) => {
       if (env.isDev) {
         logger.info(`Lavalink ${name}\ndebug: ${info}\n`);
       }
     });
 
-    this.client.lavalink.on('disconnect', (name, count) => {
+    this.client.lavalink.shoukaku.on('disconnect', (name, count) => {
       logger.info(`Lavalink ${name} is disconnected.\nCount: ${count}\n`);
     });
 
-    this.client.lavalink.on('raw', (name, json) => {
+    this.client.lavalink.shoukaku.on('raw', (name, json) => {
       logger.info(`Lavalink ${name}\nraw: ${JSON.stringify(json)}\n`);
     });
 
-    this.client.lavalink.on('ready', (name, reconnected) => {
+    this.client.lavalink.shoukaku.on('ready', (name, reconnected) => {
       logger.info(`Lavalink ${name} is ready.\nReconnected: ${reconnected}\n`);
     });
 
-    this.client.lavalink.on('reconnecting', (name, reconnectsLeft, reconnectInterval) => {
+    this.client.lavalink.shoukaku.on('reconnecting', (name, reconnectsLeft, reconnectInterval) => {
       logger.info(
         `Lavalink ${name} is reconnecting.\nReconnects left: ${reconnectsLeft}\nReconnect interval: ${reconnectInterval}\n`
       );
     });
 
-    this.client.lavalink.on('error', (name, error) => {
+    this.client.lavalink.shoukaku.on('error', (name, error) => {
       logger.error(`Lavalink ${name}\nerror: ${error.message}\n`);
+    });
+
+    this.client.lavalink.on('playerStart', (player, track) => {
+      MusicControllerUpdate(this.client, player, track);
+    });
+
+    this.client.lavalink.on('playerEnd', (player) => {
+      player.data.get('message')?.delete().catch(noop);
+    });
+
+    this.client.lavalink.on('playerEmpty', (player) => {
+      player.data.get('message')?.delete().catch(noop);
+      setTimeout(() => {
+        if (!player.playing) {
+          player.destroy();
+        }
+      }, 15_000);
+    });
+
+    this.client.lavalink.on('playerDestroy', (player) => {
+      player.data.get('message')?.delete().catch(noop);
     });
   }
 }

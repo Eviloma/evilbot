@@ -16,7 +16,8 @@ export default class Ping extends Command {
     });
   }
 
-  Execute(interaction: ChatInputCommandInteraction) {
-    interaction.reply({ content: `Uptime: ${this.client.uptime}!`, ephemeral: true });
+  async Execute(interaction: ChatInputCommandInteraction) {
+    const sent = await interaction.reply({ content: 'Pinging...', fetchReply: true, ephemeral: true });
+    interaction.editReply(`Roundtrip latency: ${sent.createdTimestamp - interaction.createdTimestamp}ms`);
   }
 }
