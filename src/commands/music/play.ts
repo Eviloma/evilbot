@@ -10,7 +10,7 @@ import { forEach } from 'lodash';
 import Client from '../../classes/Client';
 import Command from '../../classes/Command';
 import Category from '../../enums/Category';
-import { ErrorMessage, Warning } from '../../libs/discord-message';
+import { ErrorEmbed, WarningEmbed } from '../../libs/discord-embeds';
 import env from '../../libs/env';
 
 const EMBED_TITLE = '🎵 Evilbot Music';
@@ -42,7 +42,7 @@ export default class Play extends Command {
 
     if (!guild || !member || !channel) {
       interaction.reply({
-        embeds: [ErrorMessage(this.client, EMBED_TITLE, 'Помилка обробки команди')],
+        embeds: [ErrorEmbed(this.client, EMBED_TITLE, 'Помилка обробки команди')],
         ephemeral: true,
       });
       return;
@@ -51,7 +51,7 @@ export default class Play extends Command {
     if (channel?.id !== env.MUSIC_CHANNEL_ID) {
       interaction.reply({
         embeds: [
-          ErrorMessage(
+          ErrorEmbed(
             this.client,
             EMBED_TITLE,
             `Ви можете використовувати цю команду тільки в ${this.client.channels.cache.get(env.MUSIC_CHANNEL_ID)}`
@@ -64,7 +64,7 @@ export default class Play extends Command {
 
     if (!track) {
       interaction.reply({
-        embeds: [ErrorMessage(this.client, EMBED_TITLE, 'Введіть назву або помилання на трек')],
+        embeds: [ErrorEmbed(this.client, EMBED_TITLE, 'Введіть назву або помилання на трек')],
         ephemeral: true,
       });
       return;
@@ -72,7 +72,7 @@ export default class Play extends Command {
 
     if (!member?.voice.channel) {
       interaction.reply({
-        embeds: [ErrorMessage(this.client, EMBED_TITLE, 'Ви не в голосовому каналі')],
+        embeds: [ErrorEmbed(this.client, EMBED_TITLE, 'Ви не в голосовому каналі')],
         ephemeral: true,
       });
       return;
@@ -81,7 +81,7 @@ export default class Play extends Command {
     if (guild?.members.me?.voice.channelId && member?.voice.channelId !== guild?.members.me?.voice.channelId) {
       interaction.reply({
         embeds: [
-          ErrorMessage(
+          ErrorEmbed(
             this.client,
             EMBED_TITLE,
             `Бот використовується в іншому голосовому каналі (${guild.members.me.voice})`
@@ -107,7 +107,7 @@ export default class Play extends Command {
         })
         .catch(() => {
           interaction.editReply({
-            embeds: [ErrorMessage(this.client, EMBED_TITLE, `Не вдалось створити плеєр.`)],
+            embeds: [ErrorEmbed(this.client, EMBED_TITLE, `Не вдалось створити плеєр.`)],
           });
           return null;
         }));
@@ -117,7 +117,7 @@ export default class Play extends Command {
     const result = await this.client.lavalink.search(track, { requester: member });
     if (result.tracks.length === 0) {
       interaction.editReply({
-        embeds: [Warning(this.client, EMBED_TITLE, 'Трек не знайдено')],
+        embeds: [WarningEmbed(this.client, EMBED_TITLE, 'Трек не знайдено')],
       });
       return;
     }

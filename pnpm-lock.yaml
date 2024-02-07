@@ -30,8 +30,8 @@ dependencies:
     specifier: ^10.3.10
     version: 10.3.10
   kazagumo:
-    specifier: ^3.0.0
-    version: 3.0.0
+    specifier: ^3.0.1
+    version: 3.0.1
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
@@ -101,8 +101,8 @@ devDependencies:
     specifier: ^0.23.0
     version: 0.23.0(eslint@8.56.0)
   eslint-plugin-unicorn:
-    specifier: ^51.0.0
-    version: 51.0.0(eslint@8.56.0)
+    specifier: ^51.0.1
+    version: 51.0.1(eslint@8.56.0)
   eslint-plugin-xss:
     specifier: ^0.1.12
     version: 0.1.12
@@ -969,8 +969,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001584
-      electron-to-chromium: 1.4.657
+      caniuse-lite: 1.0.30001585
+      electron-to-chromium: 1.4.659
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.22.3)
     dev: true
@@ -995,7 +995,7 @@ packages:
       es-errors: 1.3.0
       function-bind: 1.1.2
       get-intrinsic: 1.2.4
-      set-function-length: 1.2.0
+      set-function-length: 1.2.1
     dev: true
 
   /callsites@3.1.0:
@@ -1003,8 +1003,8 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /caniuse-lite@1.0.30001584:
-    resolution: {integrity: sha512-LOz7CCQ9M1G7OjJOF9/mzmqmj3jE/7VOmrfw6Mgs0E8cjOsbRXQJHsPBfmBOXDskXKrHLyyW3n7kpDW/4BsfpQ==}
+  /caniuse-lite@1.0.30001585:
+    resolution: {integrity: sha512-yr2BWR1yLXQ8fMpdS/4ZZXpseBgE7o4g41x3a6AJOqZuOi+iE/WdJYAuZ6Y95i4Ohd2Y+9MzIWRR+uGABH4s3Q==}
     dev: true
 
   /chalk@2.4.2:
@@ -1284,8 +1284,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /electron-to-chromium@1.4.657:
-    resolution: {integrity: sha512-On2ymeleg6QbRuDk7wNgDdXtNqlJLM2w4Agx1D/RiTmItiL+a9oq5p7HUa2ZtkAtGBe/kil2dq/7rPfkbe0r5w==}
+  /electron-to-chromium@1.4.659:
+    resolution: {integrity: sha512-sRJ3nV3HowrYpBtPF9bASQV7OW49IgZC01Xiq43WfSE3RTCkK0/JidoCmR73Hyc1mN+l/H4Yqx0eNiomvExFZg==}
     dev: true
 
   /emoji-regex@10.3.0:
@@ -1768,8 +1768,8 @@ packages:
       eslint: 8.56.0
     dev: true
 
-  /eslint-plugin-unicorn@51.0.0(eslint@8.56.0):
-    resolution: {integrity: sha512-104L+VrZQ0RlyTYQPmF0ofoN1/rot1U/BoCSUDTTiPgumzA/QUzDwUqbR4Q0laOYXi5sYI2HDrJQ/b5PlJteCA==}
+  /eslint-plugin-unicorn@51.0.1(eslint@8.56.0):
+    resolution: {integrity: sha512-MuR/+9VuB0fydoI0nIn2RDA5WISRn4AsJyNSaNKLVwie9/ONvQhxOBbkfSICBPnzKrB77Fh6CZZXjgTt/4Latw==}
     engines: {node: '>=16'}
     peerDependencies:
       eslint: '>=8.56.0'
@@ -2328,7 +2328,7 @@ packages:
     dependencies:
       es-errors: 1.3.0
       hasown: 2.0.0
-      side-channel: 1.0.4
+      side-channel: 1.0.5
     dev: true
 
   /irregular-plurals@3.5.0:
@@ -2612,8 +2612,8 @@ packages:
       object.values: 1.1.7
     dev: true
 
-  /kazagumo@3.0.0:
-    resolution: {integrity: sha512-FOqhKf4dShm+bevqCkomRzuTV1Q+RaXaWQ9CWFsQ5qRit/+3jlFLI7D3Q4mJaktu5lojVzzZgIygvuwpjfSkCg==}
+  /kazagumo@3.0.1:
+    resolution: {integrity: sha512-I4eD7JOScqY+xtAE8O5M5d5/ro18wv4j9GHwNvQKW7yGL5eGlgy/LGgdlWCWg+webEtcagImYOIaH5x1c3poTw==}
     engines: {node: '>=16.5.0 <=20'}
     dependencies:
       events: 3.3.0
@@ -3333,11 +3333,12 @@ packages:
       has-property-descriptors: 1.0.1
     dev: true
 
-  /set-function-length@1.2.0:
-    resolution: {integrity: sha512-4DBHDoyHlM1IRPGYcoxexgh67y4ueR53FKV1yyxwFMY7aCqcN/38M1+SwZ/qJQ8iLv7+ck385ot4CcisOAPT9w==}
+  /set-function-length@1.2.1:
+    resolution: {integrity: sha512-j4t6ccc+VsKwYHso+kElc5neZpjtq9EnRICFZtWyBsLojhmeF/ZBd/elqm22WJh/BziDe/SBiOeAt0m2mfLD0g==}
     engines: {node: '>= 0.4'}
     dependencies:
       define-data-property: 1.1.2
+      es-errors: 1.3.0
       function-bind: 1.1.2
       get-intrinsic: 1.2.4
       gopd: 1.0.1
@@ -3378,6 +3379,16 @@ packages:
     dependencies:
       call-bind: 1.0.5
       get-intrinsic: 1.2.2
+      object-inspect: 1.13.1
+    dev: true
+
+  /side-channel@1.0.5:
+    resolution: {integrity: sha512-QcgiIWV4WV7qWExbN5llt6frQB/lBven9pqliLXfGPB+K9ZYXxDozp0wLkHS24kWCm+6YXH/f0HhnObZnZOBnQ==}
+    engines: {node: '>= 0.4'}
+    dependencies:
+      call-bind: 1.0.6
+      es-errors: 1.3.0
+      get-intrinsic: 1.2.4
       object-inspect: 1.13.1
     dev: true
 
@@ -3484,7 +3495,7 @@ packages:
       internal-slot: 1.0.7
       regexp.prototype.flags: 1.5.1
       set-function-name: 2.0.1
-      side-channel: 1.0.4
+      side-channel: 1.0.5
     dev: true
 
   /string.prototype.trim@1.2.8:

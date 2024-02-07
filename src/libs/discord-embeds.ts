@@ -2,7 +2,7 @@ import { EmbedBuilder } from 'discord.js';
 
 import Client from '../classes/Client';
 
-export function ErrorMessage(client: Client, title: string | null, description: string) {
+export function ErrorEmbed(client: Client, title: string | null, description: string) {
   return new EmbedBuilder()
     .setColor('Red')
     .setTitle(title ?? 'Помилка')
@@ -14,7 +14,7 @@ export function ErrorMessage(client: Client, title: string | null, description: 
     });
 }
 
-export function Warning(client: Client, title: string | null, description: string) {
+export function WarningEmbed(client: Client, title: string | null, description: string) {
   return new EmbedBuilder()
     .setColor('Yellow')
     .setTitle(title ?? 'Попередження')
