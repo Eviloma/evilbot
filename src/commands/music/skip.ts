@@ -11,8 +11,8 @@ const EMBED_TITLE = '🎵 Evilbot Music';
 export default class Stop extends Command {
   constructor(client: Client) {
     super(client, {
-      name: 'stop',
-      description: 'Stop the music',
+      name: 'skip',
+      description: 'Skip the current track',
       category: Category.Music,
       options: [],
       default_member_permissions: PermissionsBitField.Flags.UseApplicationCommands,
@@ -76,12 +76,12 @@ export default class Stop extends Command {
       return;
     }
 
-    await player.destroy();
+    player.skip();
 
     const embed = new EmbedBuilder()
       .setColor(0x56_20_c0)
       .setTitle(EMBED_TITLE)
-      .setDescription('⏹️ Відтворення зупинено')
+      .setDescription('⏭️ Ця пісня була пропущена')
       .setTimestamp();
     interaction.editReply({ embeds: [embed] });
   }

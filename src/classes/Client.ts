@@ -1,5 +1,6 @@
 import Discord, { Collection } from 'discord.js';
 import { Kazagumo } from 'kazagumo';
+import Spotify from 'kazagumo-spotify';
 import { Connectors } from 'shoukaku';
 
 import IClient from '../interfaces/IClient';
@@ -41,6 +42,16 @@ export default class Client extends Discord.Client implements IClient {
     this.lavalink = new Kazagumo(
       {
         defaultSearchEngine: 'youtube',
+        plugins: [
+          new Spotify({
+            clientId: env.SPOTIFY_CLIENT_ID,
+            clientSecret: env.SPOTIFY_CLIENT_SECRET,
+            playlistPageLimit: 1,
+            albumPageLimit: 1,
+            searchLimit: 10,
+            searchMarket: 'UA',
+          }),
+        ],
         send: (guildId, payload) => {
           const guild = this.guilds.cache.get(guildId);
           if (guild) guild.shard.send(payload);

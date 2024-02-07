@@ -6,7 +6,7 @@ export function ErrorEmbed(client: Client, title: string | null, description: st
   return new EmbedBuilder()
     .setColor('Red')
     .setTitle(title ?? 'Помилка')
-    .setDescription(description)
+    .setDescription(`⛔ ${description}`)
     .setTimestamp()
     .setFooter({
       text: client.user?.username ?? 'Unknown user',
@@ -18,7 +18,7 @@ export function WarningEmbed(client: Client, title: string | null, description: 
   return new EmbedBuilder()
     .setColor('Yellow')
     .setTitle(title ?? 'Попередження')
-    .setDescription(description)
+    .setDescription(`⚠️ ${description}`)
     .setTimestamp()
     .setFooter({
       text: client.user?.username ?? 'Unknown user',

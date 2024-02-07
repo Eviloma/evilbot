@@ -5,7 +5,6 @@ import {
   GuildMember,
   PermissionsBitField,
 } from 'discord.js';
-import { forEach } from 'lodash';
 
 import Client from '../../classes/Client';
 import Command from '../../classes/Command';
@@ -15,30 +14,32 @@ import env from '../../libs/env';
 
 const EMBED_TITLE = '🎵 Evilbot Music';
 
-export default class Play extends Command {
+export default class Volume extends Command {
   constructor(client: Client) {
     super(client, {
-      name: 'play',
-      description: 'Play a song!',
+      name: 'volume',
+      description: 'Set the volume',
       category: Category.Music,
       options: [
         {
-          name: 'track',
-          description: 'The track to play',
-          type: ApplicationCommandOptionType.String,
+          name: 'volume',
+          description: 'Set the volume',
+          type: ApplicationCommandOptionType.Integer,
           required: true,
+          min_value: 0,
+          max_value: 100,
         },
       ],
       default_member_permissions: PermissionsBitField.Flags.UseApplicationCommands,
       dm_permission: false,
-      cooldown: 10,
     });
   }
 
   async Execute(interaction: ChatInputCommandInteraction) {
     const { guild, options, channel } = interaction;
     const member = interaction.member as GuildMember | null;
-    const track = options.getString('track', true);
+
+    const volume = options.getInteger('volume', true);
 
     if (!guild || !member || !channel) {
       interaction.reply({
@@ -76,7 +77,7 @@ export default class Play extends Command {
           ErrorEmbed(
             this.client,
             EMBED_TITLE,
-            `Бот використовується в іншому голосовому каналі (${guild.members.me.voice})`
+            `Ви повинні бути в голосовому каналі разом з ботом (${guild.members.me.voice})`
           ),
         ],
         ephemeral: true,
@@ -84,51 +85,20 @@ export default class Play extends Command {
       return;
     }
 
-    const embed = new EmbedBuilder().setColor(0x56_20_c0).setTitle(EMBED_TITLE).setTimestamp();
-
     await interaction.deferReply({ ephemeral: true });
+    const player = this.client.lavalink.players.get(guild!.id);
 
-    const player =
-      this.client.lavalink.players.get(guild!.id) ??
-      (await this.client.lavalink
-        .createPlayer({
-          guildId: guild.id,
-          textId: channel.id,
-          voiceId: member.voice.channelId!,
-          volume: 25,
-        })
-        .catch(() => {
-          interaction.editReply({
-            embeds: [ErrorEmbed(this.client, EMBED_TITLE, `Не вдалось створити плеєр.`)],
-          });
-          return null;
-        }));
-
-    if (!player) return;
-
-    const result = await this.client.lavalink.search(track, { requester: member });
-    if (result.tracks.length === 0) {
-      interaction.editReply({
-        embeds: [WarningEmbed(this.client, EMBED_TITLE, 'Трек не знайдено')],
-      });
+    if (!player || !player.queue || !player.queue.current) {
+      interaction.editReply({ embeds: [WarningEmbed(this.client, EMBED_TITLE, 'Наразі черга пуста.')] });
       return;
     }
 
-    if (result.type === 'PLAYLIST') {
-      forEach(result.tracks, (e) => player.queue.add(e));
-    } else {
-      player.queue.add(result.tracks[0]);
-    }
-
-    if (!player.playing) {
-      await player.play();
-    }
-
-    embed.setDescription(
-      result.type === 'PLAYLIST'
-        ? `🎶 Додано ${result.tracks.length} публікації з ${result.playlistName}`
-        : `🎶 Додано ${result.tracks[0].title}`
-    );
+    player.setVolume(volume);
+    const embed = new EmbedBuilder()
+      .setColor(0x56_20_c0)
+      .setTitle(EMBED_TITLE)
+      .setDescription(`🔊 Гучність змінена на ${volume}%`)
+      .setTimestamp();
     interaction.editReply({ embeds: [embed] });
   }
 }

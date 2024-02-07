@@ -32,12 +32,18 @@ dependencies:
   kazagumo:
     specifier: ^3.0.1
     version: 3.0.1
+  kazagumo-spotify:
+    specifier: ^2.0.1
+    version: 2.0.1
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
   nanoid:
     specifier: ^5.0.5
     version: 5.0.5
+  plurals-cldr:
+    specifier: ^2.0.1
+    version: 2.0.1
   shoukaku:
     specifier: ^4.0.1
     version: 4.0.1
@@ -52,6 +58,9 @@ devDependencies:
   '@types/node':
     specifier: ^20.11.16
     version: 20.11.16
+  '@types/plurals-cldr':
+    specifier: ^1.0.5
+    version: 1.0.5
   '@typescript-eslint/eslint-plugin':
     specifier: ^6.21.0
     version: 6.21.0(@typescript-eslint/parser@6.21.0)(eslint@8.56.0)(typescript@5.3.3)
@@ -590,6 +599,10 @@ packages:
 
   /@types/normalize-package-data@2.4.4:
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
+    dev: true
+
+  /@types/plurals-cldr@1.0.5:
+    resolution: {integrity: sha512-HSBNGq7vbdOrusN9NnmXpDBwqbyYKW9R5eJth1PFN40G08XxG1BQrkGodptWDSKd1lPd2eF0W3axQ3IRR907mA==}
     dev: true
 
   /@types/semver@7.5.6:
@@ -2612,6 +2625,17 @@ packages:
       object.values: 1.1.7
     dev: true
 
+  /kazagumo-spotify@2.0.1:
+    resolution: {integrity: sha512-HKT38Hq/NZOXJHfAoonHYWlP5QYl29mIX/ZB6ipQyK9xwFcnnkXGFnFk3WkQUn6ND7t0X5mKbM9zwqQtjlb3/g==}
+    dependencies:
+      kazagumo: 3.0.1
+      shoukaku: 4.0.1
+      undici: 5.27.2
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+    dev: false
+
   /kazagumo@3.0.1:
     resolution: {integrity: sha512-I4eD7JOScqY+xtAE8O5M5d5/ro18wv4j9GHwNvQKW7yGL5eGlgy/LGgdlWCWg+webEtcagImYOIaH5x1c3poTw==}
     engines: {node: '>=16.5.0 <=20'}
@@ -3089,6 +3113,10 @@ packages:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
     engines: {node: '>=4'}
     dev: true
+
+  /plurals-cldr@2.0.1:
+    resolution: {integrity: sha512-7WLem4xl5C10kOqFUgqV5pNSgvlev0nPvWwgdXbCVGJN7BFqKWzVpHbARhIzS9TK9jWHZx5Nm8mr3aWtd0uldQ==}
+    dev: false
 
   /prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}

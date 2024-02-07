@@ -8,11 +8,11 @@ import env from '../../libs/env';
 
 const EMBED_TITLE = '🎵 Evilbot Music';
 
-export default class Stop extends Command {
+export default class Pause extends Command {
   constructor(client: Client) {
     super(client, {
-      name: 'stop',
-      description: 'Stop the music',
+      name: 'pause',
+      description: 'Pause the music',
       category: Category.Music,
       options: [],
       default_member_permissions: PermissionsBitField.Flags.UseApplicationCommands,
@@ -71,17 +71,17 @@ export default class Stop extends Command {
     await interaction.deferReply({ ephemeral: true });
     const player = this.client.lavalink.players.get(guild!.id);
 
-    if (!player) {
-      interaction.editReply({ embeds: [WarningEmbed(this.client, EMBED_TITLE, 'Бот не відтворює музику.')] });
+    if (!player || !player.queue) {
+      interaction.editReply({ embeds: [WarningEmbed(this.client, EMBED_TITLE, 'Наразі черга пуста.')] });
       return;
     }
 
-    await player.destroy();
+    player.pause(true);
 
     const embed = new EmbedBuilder()
       .setColor(0x56_20_c0)
       .setTitle(EMBED_TITLE)
-      .setDescription('⏹️ Відтворення зупинено')
+      .setDescription('⏸️ Відтворення призупенено')
       .setTimestamp();
     interaction.editReply({ embeds: [embed] });
   }

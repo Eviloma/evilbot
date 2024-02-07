@@ -1,18 +1,21 @@
 import { ChatInputCommandInteraction, EmbedBuilder, GuildMember, PermissionsBitField } from 'discord.js';
+import { forEach, slice } from 'lodash';
+import plural from 'plurals-cldr';
 
 import Client from '../../classes/Client';
 import Command from '../../classes/Command';
 import Category from '../../enums/Category';
 import { ErrorEmbed, WarningEmbed } from '../../libs/discord-embeds';
 import env from '../../libs/env';
+import plurals from '../../libs/plurals';
 
 const EMBED_TITLE = '🎵 Evilbot Music';
 
-export default class Stop extends Command {
+export default class Queue extends Command {
   constructor(client: Client) {
     super(client, {
-      name: 'stop',
-      description: 'Stop the music',
+      name: 'queue',
+      description: 'Show the music queue',
       category: Category.Music,
       options: [],
       default_member_permissions: PermissionsBitField.Flags.UseApplicationCommands,
@@ -71,18 +74,20 @@ export default class Stop extends Command {
     await interaction.deferReply({ ephemeral: true });
     const player = this.client.lavalink.players.get(guild!.id);
 
-    if (!player) {
-      interaction.editReply({ embeds: [WarningEmbed(this.client, EMBED_TITLE, 'Бот не відтворює музику.')] });
+    if (!player || !player.queue || !player.queue.current) {
+      interaction.editReply({ embeds: [WarningEmbed(this.client, EMBED_TITLE, 'Наразі черга пуста.')] });
       return;
     }
 
-    await player.destroy();
+    let data = '';
 
-    const embed = new EmbedBuilder()
-      .setColor(0x56_20_c0)
-      .setTitle(EMBED_TITLE)
-      .setDescription('⏹️ Відтворення зупинено')
-      .setTimestamp();
+    forEach(slice(player.queue, 0, 10), (song, id) => {
+      data += `**${id + 1}.** ${song.title} - ${song.author}\n`;
+    });
+    if (player.queue.length > 10) {
+      data += `\nта ще **${player.queue.length - 10}** ${plurals.pyramid![plural('uk', player.queue.length - 10) ?? '']}`;
+    }
+    const embed = new EmbedBuilder().setColor(0x56_20_c0).setTitle(EMBED_TITLE).setDescription(data).setTimestamp();
     interaction.editReply({ embeds: [embed] });
   }
 }
