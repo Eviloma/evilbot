@@ -1,4 +1,4 @@
-import { ButtonStyle, EmbedBuilder, GuildTextBasedChannel } from 'discord.js';
+import { ButtonStyle, EmbedBuilder } from 'discord.js';
 import { Button, Row } from 'easy-discord-components';
 import { KazagumoPlayer, KazagumoTrack } from 'kazagumo';
 import { capitalize, find, omit } from 'lodash';
@@ -46,9 +46,9 @@ export default async function MusicControllerUpdate(client: Client, player: Kaza
     .setImage(track.thumbnail ?? null)
     .setTimestamp();
 
-  const musicChannel = client.channels.cache.get(env.MUSIC_CHANNEL_ID) as GuildTextBasedChannel | null;
+  const musicChannel = client.channels.cache.get(env.MUSIC_CHANNEL_ID);
 
-  if (!musicChannel) return;
+  if (!musicChannel || !musicChannel.isTextBased()) return;
 
   await musicChannel
     .send({

@@ -4,11 +4,11 @@ import Button from '../../classes/Button';
 import Client from '../../classes/Client';
 import Event from '../../classes/Event';
 
-export default class CommandHadler extends Event {
+export default class ButtonHandler extends Event {
   constructor(client: Client) {
     super(client, {
       name: Events.InteractionCreate,
-      description: 'Command Handler',
+      description: 'Button Handler',
       once: false,
     });
   }
