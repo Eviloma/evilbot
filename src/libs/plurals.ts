@@ -10,6 +10,11 @@ const plurals: IPlural = {
     few: 'треки',
     many: 'треків',
   },
+  message: {
+    one: 'повідомлення',
+    few: 'повідомлення',
+    many: 'повідомлень',
+  },
 };
 
 export default plurals;

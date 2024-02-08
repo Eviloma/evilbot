@@ -84,7 +84,7 @@ export default class Queue extends Command {
       data += `**${id + 1}.** ${song.title} - ${song.author}\n`;
     });
     if (player.queue.length > 10) {
-      data += `\nта ще **${player.queue.length - 10}** ${plurals.pyramid![plural('uk', player.queue.length - 10) ?? '']}`;
+      data += `\nта ще **${player.queue.length - 10}** ${plurals.track[plural('uk', player.queue.length - 10) ?? '']}`;
     }
     const embed = new EmbedBuilder()
       .setColor(0x56_20_c0)
