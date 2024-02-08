@@ -10,10 +10,9 @@ import Client from '../../classes/Client';
 import Command from '../../classes/Command';
 import Category from '../../enums/Category';
 import { ErrorEmbed, WarningEmbed } from '../../libs/discord-embeds';
+import EmbedTitles from '../../libs/embed-titles';
 import env from '../../libs/env';
 import MusicControllerUpdate from '../../libs/music-controller-update';
-
-const EMBED_TITLE = '🎵 Evilbot Music';
 
 export default class Loop extends Command {
   constructor(client: Client) {
@@ -56,7 +55,7 @@ export default class Loop extends Command {
 
     if (!guild || !member || !channel) {
       interaction.reply({
-        embeds: [ErrorEmbed(this.client, EMBED_TITLE, 'Помилка обробки команди')],
+        embeds: [ErrorEmbed(this.client, EmbedTitles.music, 'Помилка обробки команди')],
         ephemeral: true,
       });
       return;
@@ -67,7 +66,7 @@ export default class Loop extends Command {
         embeds: [
           ErrorEmbed(
             this.client,
-            EMBED_TITLE,
+            EmbedTitles.music,
             `Ви можете використовувати цю команду тільки в ${this.client.channels.cache.get(env.MUSIC_CHANNEL_ID)}`
           ),
         ],
@@ -78,7 +77,7 @@ export default class Loop extends Command {
 
     if (!member?.voice.channel) {
       interaction.reply({
-        embeds: [ErrorEmbed(this.client, EMBED_TITLE, 'Ви не в голосовому каналі')],
+        embeds: [ErrorEmbed(this.client, EmbedTitles.music, 'Ви не в голосовому каналі')],
         ephemeral: true,
       });
       return;
@@ -89,7 +88,7 @@ export default class Loop extends Command {
         embeds: [
           ErrorEmbed(
             this.client,
-            EMBED_TITLE,
+            EmbedTitles.music,
             `Ви повинні бути в голосовому каналі разом з ботом (${guild.members.me.voice})`
           ),
         ],
@@ -102,14 +101,14 @@ export default class Loop extends Command {
     const player = this.client.lavalink.players.get(guild!.id);
 
     if (!player || !player.queue || !player.queue.current) {
-      interaction.editReply({ embeds: [WarningEmbed(this.client, EMBED_TITLE, 'Наразі черга пуста.')] });
+      interaction.editReply({ embeds: [WarningEmbed(this.client, EmbedTitles.music, 'Наразі черга пуста.')] });
       return;
     }
 
     player.setLoop(loopStatus);
     await MusicControllerUpdate(this.client, player, player.queue.current);
 
-    const embed = new EmbedBuilder().setColor(0x56_20_c0).setTitle(EMBED_TITLE).setTimestamp();
+    const embed = new EmbedBuilder().setColor(0x56_20_c0).setTitle(EmbedTitles.music).setTimestamp();
 
     switch (loopStatus) {
       case 'none': {

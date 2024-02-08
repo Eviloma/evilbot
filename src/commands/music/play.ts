@@ -11,9 +11,8 @@ import Client from '../../classes/Client';
 import Command from '../../classes/Command';
 import Category from '../../enums/Category';
 import { ErrorEmbed, WarningEmbed } from '../../libs/discord-embeds';
+import EmbedTitles from '../../libs/embed-titles';
 import env from '../../libs/env';
-
-const EMBED_TITLE = '🎵 Evilbot Music';
 
 export default class Play extends Command {
   constructor(client: Client) {
@@ -42,7 +41,7 @@ export default class Play extends Command {
 
     if (!guild || !member || !channel) {
       interaction.reply({
-        embeds: [ErrorEmbed(this.client, EMBED_TITLE, 'Помилка обробки команди')],
+        embeds: [ErrorEmbed(this.client, EmbedTitles.music, 'Помилка обробки команди')],
         ephemeral: true,
       });
       return;
@@ -53,7 +52,7 @@ export default class Play extends Command {
         embeds: [
           ErrorEmbed(
             this.client,
-            EMBED_TITLE,
+            EmbedTitles.music,
             `Ви можете використовувати цю команду тільки в ${this.client.channels.cache.get(env.MUSIC_CHANNEL_ID)}`
           ),
         ],
@@ -64,7 +63,7 @@ export default class Play extends Command {
 
     if (!member?.voice.channel) {
       interaction.reply({
-        embeds: [ErrorEmbed(this.client, EMBED_TITLE, 'Ви не в голосовому каналі')],
+        embeds: [ErrorEmbed(this.client, EmbedTitles.music, 'Ви не в голосовому каналі')],
         ephemeral: true,
       });
       return;
@@ -75,7 +74,7 @@ export default class Play extends Command {
         embeds: [
           ErrorEmbed(
             this.client,
-            EMBED_TITLE,
+            EmbedTitles.music,
             `Бот використовується в іншому голосовому каналі (${guild.members.me.voice})`
           ),
         ],
@@ -84,7 +83,7 @@ export default class Play extends Command {
       return;
     }
 
-    const embed = new EmbedBuilder().setColor(0x56_20_c0).setTitle(EMBED_TITLE).setTimestamp();
+    const embed = new EmbedBuilder().setColor(0x56_20_c0).setTitle(EmbedTitles.music).setTimestamp();
 
     await interaction.deferReply({ ephemeral: true });
 
@@ -99,7 +98,7 @@ export default class Play extends Command {
         })
         .catch(() => {
           interaction.editReply({
-            embeds: [ErrorEmbed(this.client, EMBED_TITLE, `Не вдалось створити плеєр.`)],
+            embeds: [ErrorEmbed(this.client, EmbedTitles.music, `Не вдалось створити плеєр.`)],
           });
           return null;
         }));
@@ -109,7 +108,7 @@ export default class Play extends Command {
     const result = await this.client.lavalink.search(track, { requester: member });
     if (result.tracks.length === 0) {
       interaction.editReply({
-        embeds: [WarningEmbed(this.client, EMBED_TITLE, 'Трек не знайдено')],
+        embeds: [WarningEmbed(this.client, EmbedTitles.music, 'Трек не знайдено')],
       });
       return;
     }

@@ -7,6 +7,7 @@ import IClient from '../interfaces/IClient';
 import env from '../libs/env';
 import logger from '../libs/logger';
 import PublicLavalink from '../public-lavalink.json';
+import Button from './Button';
 import Command from './Command';
 import Handler from './Handler';
 import SubCommand from './SubCommand';
@@ -15,6 +16,8 @@ export default class Client extends Discord.Client implements IClient {
   handlers: Handler;
 
   commands: Collection<string, Command>;
+
+  buttons: Collection<string, Button>;
 
   subCommands: Collection<string, SubCommand>;
 
@@ -37,6 +40,7 @@ export default class Client extends Discord.Client implements IClient {
 
     this.handlers = new Handler(this);
     this.commands = new Collection();
+    this.buttons = new Collection();
     this.subCommands = new Collection();
     this.cooldowns = new Collection();
     this.lavalink = new Kazagumo(
@@ -70,6 +74,7 @@ export default class Client extends Discord.Client implements IClient {
   LoadHandlers(): void {
     this.handlers.LoadEvents();
     this.handlers.LoadCommands();
+    this.handlers.LoadButtons();
     this.handlers.LoadLavalinkEvents();
   }
 }

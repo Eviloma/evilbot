@@ -11,11 +11,10 @@ import Client from '../../classes/Client';
 import Command from '../../classes/Command';
 import Category from '../../enums/Category';
 import { ErrorEmbed, WarningEmbed } from '../../libs/discord-embeds';
+import EmbedTitles from '../../libs/embed-titles';
 import env from '../../libs/env';
 import audioEffects from '../../libs/filters';
 import MusicControllerUpdate from '../../libs/music-controller-update';
-
-const EMBED_TITLE = '🎵 Evilbot Music';
 
 export default class Filter extends Command {
   constructor(client: Client) {
@@ -48,7 +47,7 @@ export default class Filter extends Command {
 
     if (!guild || !member || !channel) {
       interaction.reply({
-        embeds: [ErrorEmbed(this.client, EMBED_TITLE, 'Помилка обробки команди')],
+        embeds: [ErrorEmbed(this.client, EmbedTitles.music, 'Помилка обробки команди')],
         ephemeral: true,
       });
       return;
@@ -59,7 +58,7 @@ export default class Filter extends Command {
         embeds: [
           ErrorEmbed(
             this.client,
-            EMBED_TITLE,
+            EmbedTitles.music,
             `Ви можете використовувати цю команду тільки в ${this.client.channels.cache.get(env.MUSIC_CHANNEL_ID)}`
           ),
         ],
@@ -70,7 +69,7 @@ export default class Filter extends Command {
 
     if (!member?.voice.channel) {
       interaction.reply({
-        embeds: [ErrorEmbed(this.client, EMBED_TITLE, 'Ви не в голосовому каналі')],
+        embeds: [ErrorEmbed(this.client, EmbedTitles.music, 'Ви не в голосовому каналі')],
         ephemeral: true,
       });
       return;
@@ -81,7 +80,7 @@ export default class Filter extends Command {
         embeds: [
           ErrorEmbed(
             this.client,
-            EMBED_TITLE,
+            EmbedTitles.music,
             `Ви повинні бути в голосовому каналі разом з ботом (${guild.members.me.voice})`
           ),
         ],
@@ -94,14 +93,14 @@ export default class Filter extends Command {
     const player = this.client.lavalink.players.get(guild!.id);
 
     if (!player || !player.queue || !player.queue.current) {
-      interaction.editReply({ embeds: [WarningEmbed(this.client, EMBED_TITLE, 'Наразі черга пуста.')] });
+      interaction.editReply({ embeds: [WarningEmbed(this.client, EmbedTitles.music, 'Наразі черга пуста.')] });
       return;
     }
 
     const filterObject = find(audioEffects, ['key', filter]);
 
     if (!filterObject) {
-      interaction.editReply({ embeds: [WarningEmbed(this.client, EMBED_TITLE, 'Не вдалось знайти фільтр')] });
+      interaction.editReply({ embeds: [WarningEmbed(this.client, EmbedTitles.music, 'Не вдалось знайти фільтр')] });
       return;
     }
 
@@ -110,7 +109,7 @@ export default class Filter extends Command {
 
     const embed = new EmbedBuilder()
       .setColor(0x56_20_c0)
-      .setTitle(EMBED_TITLE)
+      .setTitle(EmbedTitles.music)
       .setDescription(`🎶 Змінено фільтр на ${filter}`)
       .setTimestamp();
     interaction.editReply({ embeds: [embed] });

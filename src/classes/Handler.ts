@@ -7,6 +7,7 @@ import IHandler from '../interfaces/IHandler';
 import env from '../libs/env';
 import logger from '../libs/logger';
 import MusicControllerUpdate from '../libs/music-controller-update';
+import Button from './Button';
 import Client from './Client';
 import Command from './Command';
 import Event from './Event';
@@ -63,7 +64,7 @@ export default class Handler implements IHandler {
         .catch((error) => logger.error(error));
 
       if (!command.name) {
-        return delete require.cache[require.resolve(file)] && logger.error(`Missing event name in ${file}`);
+        return delete require.cache[require.resolve(file)] && logger.error(`Missing command name in ${file}`);
       }
 
       if (split(split(file, '/').pop(), '.')[2]) return this.client.subCommands.set(command.name, command);
@@ -74,9 +75,32 @@ export default class Handler implements IHandler {
     });
   }
 
+  async LoadButtons() {
+    const files = await glob(`dist/buttons/**/*.js`)
+      .then((filePath) => map(filePath, (file) => path.resolve(file)))
+      .catch((error) => {
+        logger.error(error);
+        return [];
+      });
+
+    forEach(files, async (file) => {
+      const button: Button = await import(file)
+        .then((module) => new module.default(this.client))
+        .catch((error) => logger.error(error));
+
+      if (!button.id) {
+        return delete require.cache[require.resolve(file)] && logger.error(`Missing button id in ${file}`);
+      }
+
+      this.client.buttons.set(button.id, button);
+
+      return delete require.cache[require.resolve(file)];
+    });
+  }
+
   async LoadLavalinkEvents() {
     this.client.lavalink.shoukaku.on('close', (name, code, reason) => {
-      logger.info(`Lavalink ${name} is closed.\nCode: ${code}\nReason: ${reason}\n`);
+      logger.info(`Lavalink ${name} is closed. Code: ${code} Reason: ${reason}\n`);
     });
 
     this.client.lavalink.shoukaku.on('debug', (name, info) => {
@@ -86,25 +110,27 @@ export default class Handler implements IHandler {
     });
 
     this.client.lavalink.shoukaku.on('disconnect', (name, count) => {
-      logger.info(`Lavalink ${name} is disconnected.\nCount: ${count}\n`);
+      logger.info(`Lavalink ${name} is disconnected. Count: ${count}`);
     });
 
     this.client.lavalink.shoukaku.on('raw', (name, json) => {
-      logger.info(`Lavalink ${name}\nraw: ${JSON.stringify(json)}\n`);
+      if (env.isDev) {
+        logger.info(`Lavalink ${name}\nraw: ${JSON.stringify(json)}`);
+      }
     });
 
     this.client.lavalink.shoukaku.on('ready', (name, reconnected) => {
-      logger.info(`Lavalink ${name} is ready.\nReconnected: ${reconnected}\n`);
+      logger.info(`Lavalink ${name} is ready. Reconnected: ${reconnected}`);
     });
 
     this.client.lavalink.shoukaku.on('reconnecting', (name, reconnectsLeft, reconnectInterval) => {
       logger.info(
-        `Lavalink ${name} is reconnecting.\nReconnects left: ${reconnectsLeft}\nReconnect interval: ${reconnectInterval}\n`
+        `Lavalink ${name} is reconnecting... Reconnects left: ${reconnectsLeft}. Reconnect interval: ${reconnectInterval}`
       );
     });
 
     this.client.lavalink.shoukaku.on('error', (name, error) => {
-      logger.error(`Lavalink ${name}\nerror: ${error.message}\n`);
+      logger.error(`Lavalink ${name}. Error: ${error.message}\n`);
     });
 
     this.client.lavalink.on('playerStart', (player, track) => {
