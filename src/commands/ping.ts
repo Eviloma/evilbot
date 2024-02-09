@@ -27,15 +27,21 @@ export default class Ping extends Command {
 
     const card = new GreetingsCard()
       .setAvatar(interaction.user.displayAvatarURL({ forceStatic: true }))
-      .setDisplayName(interaction.user.username)
+      .setDisplayName(interaction.user.displayName)
       .setType('welcome')
       .setMessage(`Вітаємо на сервері ${interaction.guild?.name}!`);
 
+    const card2 = new GreetingsCard()
+      .setAvatar(interaction.user.displayAvatarURL({ forceStatic: true }))
+      .setDisplayName(interaction.user.displayName)
+      .setType('goodbye');
+
     const image = await card.build();
+    const image2 = await card2.build();
 
     interaction.editReply({
       content: `Roundtrip latency: ${sent.createdTimestamp - interaction.createdTimestamp}ms`,
-      files: [image],
+      files: [image, image2],
     });
   }
 }

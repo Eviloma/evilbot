@@ -5,8 +5,8 @@ import { Connectors } from 'shoukaku';
 
 import IClient from '../interfaces/IClient';
 import env from '../libs/env';
+import LavalinkServers from '../libs/lavalink-servers';
 import logger from '../libs/logger';
-import PublicLavalink from '../public-lavalink.json';
 import Button from './Button';
 import Command from './Command';
 import Handler from './Handler';
@@ -62,7 +62,7 @@ export default class Client extends Discord.Client implements IClient {
         },
       },
       new Connectors.DiscordJS(this),
-      [...PublicLavalink.nodes]
+      [...LavalinkServers()]
     );
   }
 

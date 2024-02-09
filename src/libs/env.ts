@@ -1,6 +1,6 @@
 import 'dotenv/config';
 
-import { cleanEnv, str } from 'envalid';
+import { cleanEnv, email, str, url } from 'envalid';
 
 const env = cleanEnv(process.env, {
   BOT_TOKEN: str(),
@@ -13,6 +13,13 @@ const env = cleanEnv(process.env, {
   MUSIC_CHANNEL_ID: str(),
   SPOTIFY_CLIENT_ID: str(),
   SPOTIFY_CLIENT_SECRET: str(),
+  LAVALINK_NAMES: str(),
+  LAVALINK_HOSTS: str(),
+  LAVALINK_PASSWORDS: str(),
+  LAVALINK_SECURED: str(),
+  LOGGER_HOST: url({ default: 'undefined' }),
+  LOGGER_EMAIL: email({ default: 'undefined' }),
+  LOGGER_PASSWORD: str({ default: 'undefined' }),
 });
 
 export default env;
