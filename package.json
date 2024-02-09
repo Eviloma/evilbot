@@ -16,10 +16,6 @@
     "url": "https://github.com/higherror",
     "email": "hierrorua@gmail.com"
   },
-  "engines": {
-    "node": "20.x",
-    "pnpm": ">=8.10.0"
-  },
   "keywords": [
     "discord, discord-bot, eviloma"
   ],

@@ -83,8 +83,6 @@ export default class Play extends Command {
       return;
     }
 
-    const embed = new EmbedBuilder().setColor(0x56_20_c0).setTitle(EmbedTitles.music).setTimestamp();
-
     await interaction.deferReply({ ephemeral: true });
 
     const player =
@@ -122,6 +120,8 @@ export default class Play extends Command {
     if (!player.playing) {
       await player.play();
     }
+
+    const embed = new EmbedBuilder().setColor(0x56_20_c0).setTitle(EmbedTitles.music).setTimestamp();
 
     embed.setDescription(
       result.type === 'PLAYLIST'

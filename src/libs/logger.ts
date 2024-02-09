@@ -1,11 +1,15 @@
-import pino from 'pino';
-import pinoToSeq from 'pino-seq';
+import dayjs from 'dayjs';
+import winston from 'winston';
 
-const stream = pinoToSeq.createStream({
-  serverUrl: '',
-  apiKey: '',
-  onError: (e) => console.log(e),
+const { combine, colorize, printf } = winston.format;
+
+const myFormat = printf(
+  ({ level, message, timestamp }) => `${dayjs(timestamp).format('DD.MM.YYYY HH:mm:ss')} ${level}: ${message}`
+);
+
+const logger = winston.createLogger({
+  format: combine(colorize(), myFormat),
+  transports: [new winston.transports.Console({})],
 });
-const logger = pino({ name: 'Evilbot' }, stream);
 
 export default logger;

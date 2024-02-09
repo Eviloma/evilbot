@@ -1,4 +1,5 @@
 import { ButtonInteraction, CacheType, EmbedBuilder } from 'discord.js';
+import { noop } from 'lodash';
 
 import Button from '../../classes/Button';
 import Client from '../../classes/Client';
@@ -29,8 +30,12 @@ export default class Stop extends Button {
       return;
     }
 
-    player.destroy();
-    const embed = new EmbedBuilder().setColor(0x56_20_c0).setTimestamp().setDescription('⏹️ Програвання зупинено.');
+    player.destroy().catch(noop);
+    const embed = new EmbedBuilder()
+      .setTitle(EmbedTitles.music)
+      .setColor(0x56_20_c0)
+      .setTimestamp()
+      .setDescription('⏹️ Програвання зупинено.');
 
     interaction.reply({ embeds: [embed], ephemeral: true });
   }

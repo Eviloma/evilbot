@@ -18,8 +18,7 @@ const env = cleanEnv(process.env, {
   LAVALINK_PASSWORDS: str(),
   LAVALINK_SECURED: str(),
   LOGGER_HOST: url({ default: 'undefined' }),
-  LOGGER_EMAIL: email({ default: 'undefined' }),
-  LOGGER_PASSWORD: str({ default: 'undefined' }),
+  LOGGER_API_KEY: str({ default: 'undefined' }),
 });
 
 export default env;

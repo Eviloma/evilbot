@@ -143,7 +143,7 @@ export default class Handler implements IHandler {
       player.data.get('message')?.delete().catch(noop);
       setTimeout(() => {
         if (!player.playing) {
-          player.destroy();
+          player.destroy().catch(noop);
         }
       }, 15_000);
     });

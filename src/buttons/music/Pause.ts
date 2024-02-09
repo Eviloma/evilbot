@@ -30,7 +30,11 @@ export default class Pause extends Button {
     }
 
     player.pause(true);
-    const embed = new EmbedBuilder().setColor(0x56_20_c0).setTimestamp().setDescription('⏸️ Відтворення призупинено.');
+    const embed = new EmbedBuilder()
+      .setTitle(EmbedTitles.music)
+      .setColor(0x56_20_c0)
+      .setTimestamp()
+      .setDescription('⏸️ Відтворення призупинено.');
 
     interaction.reply({ embeds: [embed], ephemeral: true });
   }

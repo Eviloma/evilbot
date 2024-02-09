@@ -104,7 +104,7 @@ export default class Filter extends Command {
       return;
     }
 
-    player.shoukaku.setFilters({ ...filterObject.value, volume: player.volume });
+    await player.shoukaku.setFilters({ ...filterObject.value, volume: player.volume });
     await MusicControllerUpdate(this.client, player, player.queue.current);
 
     const embed = new EmbedBuilder()

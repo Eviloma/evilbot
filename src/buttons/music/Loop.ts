@@ -31,7 +31,7 @@ export default class Loop extends Button {
     }
 
     const loopStatus = player.loop;
-    const embed = new EmbedBuilder().setColor(0x56_20_c0).setTimestamp();
+    const embed = new EmbedBuilder().setTitle(EmbedTitles.music).setColor(0x56_20_c0).setTimestamp();
 
     switch (loopStatus) {
       case 'none': {

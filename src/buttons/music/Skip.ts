@@ -30,7 +30,11 @@ export default class Skip extends Button {
     }
 
     player.skip();
-    const embed = new EmbedBuilder().setColor(0x56_20_c0).setTimestamp().setDescription('⏭️ Цей трек був пропущений.');
+    const embed = new EmbedBuilder()
+      .setTitle(EmbedTitles.music)
+      .setColor(0x56_20_c0)
+      .setTimestamp()
+      .setDescription('⏭️ Цей трек був пропущений.');
 
     interaction.reply({ embeds: [embed], ephemeral: true });
   }

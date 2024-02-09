@@ -29,8 +29,12 @@ export default class Resume extends Button {
       return;
     }
 
-    player.pause(true);
-    const embed = new EmbedBuilder().setColor(0x56_20_c0).setTimestamp().setDescription('▶️ Відтворення відновлено.');
+    player.pause(false);
+    const embed = new EmbedBuilder()
+      .setTitle(EmbedTitles.music)
+      .setColor(0x56_20_c0)
+      .setTimestamp()
+      .setDescription('▶️ Відтворення відновлено.');
 
     interaction.reply({ embeds: [embed], ephemeral: true });
   }
