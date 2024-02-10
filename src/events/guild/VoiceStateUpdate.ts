@@ -34,7 +34,7 @@ export default class VoiceStateUpdate extends Event {
       this.CreateTempVoiceChat(member, guild, newChannel);
     }
 
-    if (oldChannelId && oldChannel && channels.has(oldChannelId) && !newChannelId) {
+    if (oldChannelId && oldChannel && channels.has(oldChannelId)) {
       this.RemoveTempVoiceChat(oldChannel);
     }
   }
@@ -43,7 +43,7 @@ export default class VoiceStateUpdate extends Event {
     const voiceChannel = await guild.channels
       .create({
         name: `🔊${member.displayName}`,
-        parent: newChannel.parentId,
+        parent: newChannel.parent,
         type: ChannelType.GuildVoice,
         reason: 'Create temp voice chat',
         permissionOverwrites: [

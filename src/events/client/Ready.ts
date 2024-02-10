@@ -19,7 +19,7 @@ export default class Ready extends Event {
     logger.info(`Client ${this.client.user?.tag} is ready`);
 
     this.client.user?.setPresence({
-      activities: [{ name: 'Evilbot v4.0.0', type: ActivityType.Streaming, url: 'https://twitch.tv/higherror' }],
+      activities: [{ name: 'Evilbot v4.0.0', type: ActivityType.Streaming, url: 'https://twitch.tv/evilbot' }],
       status: 'online',
     });
 
