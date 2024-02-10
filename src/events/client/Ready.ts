@@ -1,4 +1,4 @@
-import { Collection, Events, REST, Routes } from 'discord.js';
+import { ActivityType, Collection, Events, REST, Routes } from 'discord.js';
 
 import Client from '../../classes/Client';
 import Command from '../../classes/Command';
@@ -17,6 +17,11 @@ export default class Ready extends Event {
 
   async Execute() {
     logger.info(`Client ${this.client.user?.tag} is ready`);
+
+    this.client.user?.setPresence({
+      activities: [{ name: 'Evilbot v4.0.0', type: ActivityType.Streaming, url: 'https://twitch.tv/higherror' }],
+      status: 'online',
+    });
 
     const commands = this.GetJson(this.client.commands);
 
