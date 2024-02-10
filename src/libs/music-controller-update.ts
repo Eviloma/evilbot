@@ -1,7 +1,7 @@
 import { ButtonStyle, EmbedBuilder, Message } from 'discord.js';
 import { Button, Row } from 'easy-discord-components';
 import { KazagumoPlayer, KazagumoTrack } from 'kazagumo';
-import { capitalize, find, omit } from 'lodash';
+import { capitalize, find, noop, omit } from 'lodash';
 
 import Client from '../classes/Client';
 import EmbedTitles from './embed-titles';
@@ -11,9 +11,7 @@ import audioEffects from './filters';
 export default async function MusicControllerUpdate(client: Client, player: KazagumoPlayer, track: KazagumoTrack) {
   const oldMessage = player.data.get('message') as Message | null;
 
-  if (oldMessage) {
-    oldMessage.delete();
-  }
+  oldMessage?.delete().catch(noop);
 
   const row = Row([
     Button({
