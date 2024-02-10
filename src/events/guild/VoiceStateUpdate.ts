@@ -28,10 +28,10 @@ export default class VoiceStateUpdate extends Event {
 
   async Execute(oldState: VoiceState, newState: VoiceState) {
     const { channelId: oldChannelId, channel: oldChannel, member, guild } = oldState;
-    const { channelId: newChannelId } = newState;
+    const { channelId: newChannelId, channel: newChannel } = newState;
 
-    if (newChannelId === JOIN_TO_TALK_CHANNEL_ID && member) {
-      this.CreateTempVoiceChat(member, guild);
+    if (newChannel && newChannelId === JOIN_TO_TALK_CHANNEL_ID && member) {
+      this.CreateTempVoiceChat(member, guild, newChannel);
     }
 
     if (oldChannelId && oldChannel && channels.has(oldChannelId) && !newChannelId) {
@@ -39,11 +39,11 @@ export default class VoiceStateUpdate extends Event {
     }
   }
 
-  private async CreateTempVoiceChat(member: GuildMember, guild: Guild) {
+  private async CreateTempVoiceChat(member: GuildMember, guild: Guild, newChannel: VoiceBasedChannel) {
     const voiceChannel = await guild.channels
       .create({
         name: `🔊${member.displayName}`,
-        parent: guild.channels.cache.get(JOIN_TO_TALK_CHANNEL_ID)?.parentId,
+        parent: newChannel.parentId,
         type: ChannelType.GuildVoice,
         reason: 'Create temp voice chat',
         permissionOverwrites: [

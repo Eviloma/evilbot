@@ -1,4 +1,4 @@
-import { AutocompleteInteraction, CacheType, ChatInputCommandInteraction, Guild } from 'discord.js';
+import { AutocompleteInteraction, CacheType, ChatInputCommandInteraction } from 'discord.js';
 
 import Category from '../enums/Category';
 import ICommand from '../interfaces/ICommand';
@@ -31,9 +31,6 @@ export default class Command implements ICommand {
     this.default_member_permissions = options.default_member_permissions;
     this.dm_permission = options.dm_permission;
     this.cooldown = options.cooldown ?? 3;
-  }
-  Log(guild: Guild): void {
-    throw new Error('Method not implemented.');
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -1,6 +1,6 @@
 import 'dotenv/config';
 
-import { cleanEnv, email, str, url } from 'envalid';
+import { cleanEnv, str, url } from 'envalid';
 
 const env = cleanEnv(process.env, {
   BOT_TOKEN: str(),

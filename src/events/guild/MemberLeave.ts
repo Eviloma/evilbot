@@ -14,7 +14,7 @@ export default class MemberLeave extends Event {
   }
 
   async Execute(member: GuildMember) {
-    const { user, guild } = member;
+    const { guild } = member;
     const globalChannel = guild.channels.cache.get(env.GLOBAL_CHANNEL_ID);
 
     if (!globalChannel || !globalChannel.isTextBased()) return;
