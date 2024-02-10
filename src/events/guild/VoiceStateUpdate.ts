@@ -1,12 +1,15 @@
 import {
+  CategoryChannel,
   ChannelType,
+  Collection,
   Events,
   Guild,
   GuildMember,
   PermissionFlagsBits,
-  VoiceBasedChannel,
+  VoiceChannel,
   VoiceState,
 } from 'discord.js';
+import { noop } from 'lodash';
 
 import Client from '../../classes/Client';
 import Event from '../../classes/Event';
@@ -14,8 +17,6 @@ import env from '../../libs/env';
 import logger from '../../libs/logger';
 
 const { JOIN_TO_TALK_CHANNEL_ID } = env;
-
-const channels: Set<string> = new Set();
 
 export default class VoiceStateUpdate extends Event {
   constructor(client: Client) {
@@ -27,25 +28,28 @@ export default class VoiceStateUpdate extends Event {
   }
 
   async Execute(oldState: VoiceState, newState: VoiceState) {
-    const { channelId: oldChannelId, channel: oldChannel, member, guild } = oldState;
-    const { channelId: newChannelId, channel: newChannel } = newState;
+    const { member, guild } = oldState;
+    const { channel: newChannel } = newState;
+    const parent = guild.channels.cache.find(
+      (x) => x.id === env.JOIN_TO_TALK_PARENT_ID && x.type === ChannelType.GuildCategory
+    ) as CategoryChannel | undefined;
 
-    if (newChannel && newChannelId === JOIN_TO_TALK_CHANNEL_ID && member) {
-      this.CreateTempVoiceChat(member, guild, newChannel);
+    if (!parent) return;
+
+    if (newChannel && newChannel.id === JOIN_TO_TALK_CHANNEL_ID && member) {
+      await this.CreateTempVoiceChat(member, guild, parent);
     }
 
-    if (oldChannelId && oldChannel && channels.has(oldChannelId)) {
-      this.RemoveTempVoiceChat(oldChannel);
-    }
+    await this.RemoveTempVoiceChat(guild, parent);
   }
 
-  private async CreateTempVoiceChat(member: GuildMember, guild: Guild, newChannel: VoiceBasedChannel) {
+  private async CreateTempVoiceChat(member: GuildMember, guild: Guild, parent: CategoryChannel) {
     const voiceChannel = await guild.channels
       .create({
         name: `🔊${member.displayName}`,
-        parent: newChannel.parent,
+        parent,
         type: ChannelType.GuildVoice,
-        reason: 'Create temp voice chat',
+        reason: `Create temp voice chat for ${member.displayName}`,
         permissionOverwrites: [
           {
             id: member.id,
@@ -60,19 +64,21 @@ export default class VoiceStateUpdate extends Event {
       });
 
     if (voiceChannel) {
-      member.voice.setChannel(voiceChannel);
-      channels.add(voiceChannel.id);
+      await member.voice.setChannel(voiceChannel);
       this.RestrictCreateTempVoiceChat(guild, member);
     }
   }
 
-  private RemoveTempVoiceChat(channel: VoiceBasedChannel) {
-    const membersCount = channel.members.size;
+  private async RemoveTempVoiceChat(guild: Guild, parent: CategoryChannel) {
+    const channels = guild.channels.cache.filter(
+      (x) => x.parent === parent && x.type === ChannelType.GuildVoice
+    ) as Collection<string, VoiceChannel>;
 
-    if (membersCount === 0) {
-      channel.delete();
-      channels.delete(channel.id);
-    }
+    channels.forEach(async (x) => {
+      if (x.members.size === 0) {
+        await x.delete().catch(noop);
+      }
+    });
   }
 
   private RestrictCreateTempVoiceChat(guild: Guild, member: GuildMember) {

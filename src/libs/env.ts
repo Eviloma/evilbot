@@ -1,6 +1,6 @@
 import 'dotenv/config';
 
-import { cleanEnv, str, url } from 'envalid';
+import { cleanEnv, str } from 'envalid';
 
 const env = cleanEnv(process.env, {
   BOT_TOKEN: str(),
@@ -8,8 +8,8 @@ const env = cleanEnv(process.env, {
   GUILD_ID: str(),
   DEFAULT_MEMBER_ROLE_ID: str(),
   GLOBAL_CHANNEL_ID: str(),
-  LOG_CHANNEL_ID: str(),
   JOIN_TO_TALK_CHANNEL_ID: str(),
+  JOIN_TO_TALK_PARENT_ID: str(),
   MUSIC_CHANNEL_ID: str(),
   SPOTIFY_CLIENT_ID: str(),
   SPOTIFY_CLIENT_SECRET: str(),
@@ -17,8 +17,6 @@ const env = cleanEnv(process.env, {
   LAVALINK_HOSTS: str(),
   LAVALINK_PASSWORDS: str(),
   LAVALINK_SECURED: str(),
-  LOGGER_HOST: url({ default: 'undefined' }),
-  LOGGER_API_KEY: str({ default: 'undefined' }),
 });
 
 export default env;

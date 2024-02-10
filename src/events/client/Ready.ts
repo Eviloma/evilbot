@@ -19,9 +19,11 @@ export default class Ready extends Event {
     logger.info(`Client ${this.client.user?.tag} is ready`);
 
     this.client.user?.setPresence({
-      activities: [{ name: 'Evilbot v4.0.0', type: ActivityType.Streaming, url: 'https://twitch.tv/evilbot' }],
+      activities: [{ name: 'Evilbot v4.0.1', type: ActivityType.Streaming, url: 'https://twitch.tv/evilbot' }],
       status: 'online',
     });
+
+    if (env.isDev) return;
 
     const commands = this.GetJson(this.client.commands);
 
@@ -41,8 +43,6 @@ export default class Ready extends Event {
   }
 
   private GetJson(commands: Collection<string, Command>) {
-    // Lodash can't iterate over Collection
-    // eslint-disable-next-line lodash/prefer-lodash-method
     return commands.map((command) => ({
       name: command.name,
       description: command.description,

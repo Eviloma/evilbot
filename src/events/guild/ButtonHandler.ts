@@ -26,6 +26,6 @@ export default class ButtonHandler extends Event {
       return;
     }
 
-    await button.Execute(interaction);
+    button.Execute(interaction);
   }
 }

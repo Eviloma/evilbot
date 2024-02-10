@@ -42,7 +42,7 @@ module.exports = {
 
     // lodash
     'lodash/import-scope': [2, 'member'],
-    'lodash/prefer-lodash-method': [2, { ignoreObjects: ['router', 'window.location'] }],
+    'lodash/prefer-lodash-method': [2, { ignoreObjects: ['router', 'window.location', 'cache', 'commands', 'channels'] }],
 
     // The following rules are disabled due to them being considered unduly restrictive or unhelpful.
     'unicorn/no-array-for-each': 'off',
