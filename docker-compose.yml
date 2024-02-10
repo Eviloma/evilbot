@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  evilbot:
+    image: higherror/evilbot
+    environment:
+      - BOT_TOKEN=""
+      - CLIENT_ID=""
+      - GUILD_ID=""
