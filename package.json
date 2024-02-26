@@ -2,7 +2,7 @@
   "private": true,
   "name": "@eviloma/evilbot",
   "description": "Official discord bot for Eviloma server",
-  "version": "4.0.2",
+  "version": "4.1.0",
   "homepage": "https://github.com/Eviloma/evilbot",
   "license": "MIT",
   "packageManager": "pnpm@8.10.0",
@@ -21,7 +21,7 @@
   ],
   "scripts": {
     "clean": "del /s /q dist",
-    "watch": "tsc-watch --onCompilationComplete \"tscp\" --onSuccess \"node .\"",
+    "dev": "tsc-watch --onCompilationComplete \"tscp\" --onSuccess \"node .\"",
     "build": "tsc --build && tscp",
     "start": "node .",
     "lint": "eslint -f mo .",
