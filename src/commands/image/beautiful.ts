@@ -5,6 +5,7 @@ import {
   GuildMember,
   PermissionsBitField,
 } from 'discord.js';
+import { constant } from 'lodash';
 
 import Client from '../../classes/Client';
 import Command from '../../classes/Command';
@@ -17,19 +18,13 @@ export default class Beautiful extends Command {
   constructor(client: Client) {
     super(client, {
       name: 'beautiful',
-      description: 'Create beautiful filter image. Priority: File -> User -> You',
+      description: 'Create beautiful filter image',
       category: Category.Fun,
       options: [
         {
           name: 'user',
-          description: 'The user',
+          description: 'Select a user to take their avatar for the filter (ignored when using a file)',
           type: ApplicationCommandOptionType.User,
-          required: false,
-        },
-        {
-          name: 'image',
-          description: 'The image file',
-          type: ApplicationCommandOptionType.Attachment,
           required: false,
         },
       ],
@@ -41,21 +36,24 @@ export default class Beautiful extends Command {
   async Execute(interaction: ChatInputCommandInteraction) {
     const member = interaction.member as GuildMember | null;
     const user = interaction.options.getMember('user') as GuildMember | null;
-    const attachImage = interaction.options.getAttachment('image');
 
-    const image = await getImageByUrl(
-      attachImage?.url ?? user?.displayAvatarURL({ size: 512 }) ?? member?.displayAvatarURL({ size: 512 })
-    );
-
+    const image = await getImageByUrl(user?.displayAvatarURL({ size: 512 }) ?? member?.displayAvatarURL({ size: 512 }));
     if (!image) {
       interaction.reply({
-        embeds: [ErrorEmbed(this.client, EmbedTitles.fun, 'Ви не маєте аватара')],
+        embeds: [ErrorEmbed(this.client, EmbedTitles.fun, 'Не вдалось отримати зображення для обробки')],
         ephemeral: true,
       });
       return;
     }
 
-    const filteredImage = await canvacord.beautiful(image);
+    const filteredImage = await canvacord.beautiful(image).catch(constant(null));
+    if (!filteredImage) {
+      interaction.reply({
+        embeds: [ErrorEmbed(this.client, EmbedTitles.fun, 'Не вдалось обробити зображення')],
+        ephemeral: true,
+      });
+      return;
+    }
     interaction.reply({ files: [filteredImage] });
   }
 }

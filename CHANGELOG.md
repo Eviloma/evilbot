@@ -9,6 +9,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ## [**4.1.0**] - Unknown
 
+### Added
+* Added new commands: `/beautiful`, `/facepalm`, `/hitler`, `/rainbow`, `/rip`, `/trash`
+
 ### Changed
 * Renamed the **watch** command to **dev**
 * The bot now displays the version from the package.json file instead of the static one

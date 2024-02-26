@@ -5,6 +5,7 @@ import {
   GuildMember,
   PermissionsBitField,
 } from 'discord.js';
+import { constant } from 'lodash';
 
 import Client from '../../classes/Client';
 import Command from '../../classes/Command';
@@ -22,7 +23,7 @@ export default class Rainbow extends Command {
       options: [
         {
           name: 'user',
-          description: 'The user',
+          description: 'Select a user to take their avatar for the filter (ignored when using a file)',
           type: ApplicationCommandOptionType.User,
           required: false,
         },
@@ -37,16 +38,22 @@ export default class Rainbow extends Command {
     const user = interaction.options.getMember('user') as GuildMember | null;
 
     const image = await getImageByUrl(user?.displayAvatarURL({ size: 512 }) ?? member?.displayAvatarURL({ size: 512 }));
-
     if (!image) {
       interaction.reply({
-        embeds: [ErrorEmbed(this.client, EmbedTitles.fun, 'Ви не маєте аватара')],
+        embeds: [ErrorEmbed(this.client, EmbedTitles.fun, 'Не вдалось отримати зображення для обробки')],
         ephemeral: true,
       });
       return;
     }
 
-    const filteredImage = await canvacord.rainbow(image);
+    const filteredImage = await canvacord.rainbow(image).catch(constant(null));
+    if (!filteredImage) {
+      interaction.reply({
+        embeds: [ErrorEmbed(this.client, EmbedTitles.fun, 'Не вдалось обробити зображення')],
+        ephemeral: true,
+      });
+      return;
+    }
     interaction.reply({ files: [filteredImage] });
   }
 }
