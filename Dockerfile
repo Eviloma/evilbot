@@ -1,21 +1,20 @@
-# Use the official Node.js image with the latest LTS version
-FROM node:lts-alpine
-
-# Set the working directory inside the container
+# Build stage
+FROM node:lts-alpine as builder
 WORKDIR /usr/src/app
-
-# Copy package.json and package-lock.json to the working directory
-COPY package.json .
-COPY pnpm-lock.yaml .
-
-# Install project dependencies
-RUN npm install -g pnpm && pnpm install
-
-# Copy the rest of the application code
 COPY . .
-
-# Build the application
+RUN npm install -g pnpm && pnpm install
 RUN pnpm build
 
-# Command to run the bot
+# Runner stage
+FROM node:lts-alpine as runner
+ENV NODE_ENV=production
+ENV HUSKY=0
+WORKDIR /usr/src/app
+
+COPY --from=builder /usr/src/app/dist ./dist
+COPY --from=builder /usr/src/app/package.json ./package.json
+COPY --from=builder /usr/src/app/pnpm-lock.yaml ./pnpm-lock.yaml
+
+RUN npm install -g pnpm && pnpm install
+
 CMD ["pnpm", "start"]
