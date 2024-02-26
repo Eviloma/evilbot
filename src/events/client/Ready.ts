@@ -19,7 +19,9 @@ export default class Ready extends Event {
     logger.info(`Client ${this.client.user?.tag} is ready`);
 
     this.client.user?.setPresence({
-      activities: [{ name: 'customstatus', type: ActivityType.Custom, state: 'Evilbot v4.0.2' }],
+      activities: [
+        { name: 'customstatus', type: ActivityType.Custom, state: `Evilbot v${process.env.npm_package_version}` },
+      ],
       status: 'online',
     });
 
