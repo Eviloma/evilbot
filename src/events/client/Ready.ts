@@ -19,11 +19,14 @@ export default class Ready extends Event {
     logger.info(`Client ${this.client.user?.tag} is ready`);
 
     this.client.user?.setPresence({
-      activities: [{ name: 'Evilbot v4.0.1', type: ActivityType.Streaming, url: 'https://twitch.tv/evilbot' }],
+      activities: [{ name: 'customstatus', type: ActivityType.Custom, state: 'Evilbot v4.0.2' }],
       status: 'online',
     });
 
-    if (env.isDev) return;
+    if (env.DISABLE_UPDATE_COMMANDS) {
+      logger.warn('Update commands is disabled');
+      return;
+    }
 
     const commands = this.GetJson(this.client.commands);
 

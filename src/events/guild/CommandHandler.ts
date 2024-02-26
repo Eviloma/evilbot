@@ -1,8 +1,9 @@
-import { ChatInputCommandInteraction, Collection, EmbedBuilder, Events } from 'discord.js';
+import { ChatInputCommandInteraction, Collection, Events } from 'discord.js';
 
 import Client from '../../classes/Client';
 import Command from '../../classes/Command';
 import Event from '../../classes/Event';
+import { ErrorEmbed } from '../../libs/discord-embeds';
 import logger from '../../libs/logger';
 
 export default class CommandHadler extends Event {
@@ -39,7 +40,7 @@ export default class CommandHadler extends Event {
 
     if (timestamps?.has(interaction.user.id) && now < (timestamps.get(interaction.user.id) ?? 0) + cooldownAmount) {
       await interaction.reply({
-        embeds: [new EmbedBuilder().setColor('Red').setDescription('You are on cooldown, please wait')],
+        embeds: [ErrorEmbed(this.client, 'Cooldown', 'You are on cooldown, please wait')],
         ephemeral: true,
       });
       return;

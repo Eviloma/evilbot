@@ -2,7 +2,6 @@ import {
   ApplicationCommandOptionType,
   ChannelType,
   ChatInputCommandInteraction,
-  EmbedBuilder,
   GuildMember,
   PermissionsBitField,
 } from 'discord.js';
@@ -11,7 +10,7 @@ import plural from 'plurals-cldr';
 import Client from '../classes/Client';
 import Command from '../classes/Command';
 import Category from '../enums/Category';
-import { ErrorEmbed } from '../libs/discord-embeds';
+import DefaultEmbed, { ErrorEmbed } from '../libs/discord-embeds';
 import EmbedTitles from '../libs/embed-titles';
 import plurals from '../libs/plurals';
 
@@ -51,11 +50,9 @@ export default class Clear extends Command {
 
     await channel.bulkDelete(count, true);
 
-    const embed = new EmbedBuilder()
-      .setColor(0x56_20_c0)
+    const embed = DefaultEmbed(this.client)
       .setTitle(EmbedTitles.music)
-      .setDescription(`🧹 Очищено ${count} ${plurals.message[plural('uk', count) ?? '']}`)
-      .setTimestamp();
+      .setDescription(`🧹 Очищено ${count} ${plurals.message[plural('uk', count) ?? '']}`);
     interaction.reply({ embeds: [embed], ephemeral: true });
   }
 }

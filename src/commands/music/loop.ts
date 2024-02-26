@@ -1,7 +1,6 @@
 import {
   ApplicationCommandOptionType,
   ChatInputCommandInteraction,
-  EmbedBuilder,
   GuildMember,
   PermissionsBitField,
 } from 'discord.js';
@@ -9,7 +8,7 @@ import {
 import Client from '../../classes/Client';
 import Command from '../../classes/Command';
 import Category from '../../enums/Category';
-import { ErrorEmbed, WarningEmbed } from '../../libs/discord-embeds';
+import DefaultEmbed, { ErrorEmbed, WarningEmbed } from '../../libs/discord-embeds';
 import EmbedTitles from '../../libs/embed-titles';
 import env from '../../libs/env';
 import MusicControllerUpdate from '../../libs/music-controller-update';
@@ -108,7 +107,7 @@ export default class Loop extends Command {
     player.setLoop(loopStatus);
     await MusicControllerUpdate(this.client, player, player.queue.current);
 
-    const embed = new EmbedBuilder().setColor(0x56_20_c0).setTitle(EmbedTitles.music).setTimestamp();
+    const embed = DefaultEmbed(this.client).setTitle(EmbedTitles.music);
 
     switch (loopStatus) {
       case 'none': {

@@ -1,7 +1,6 @@
 import {
   ApplicationCommandOptionType,
   ChatInputCommandInteraction,
-  EmbedBuilder,
   GuildMember,
   PermissionsBitField,
 } from 'discord.js';
@@ -9,7 +8,7 @@ import {
 import Client from '../../classes/Client';
 import Command from '../../classes/Command';
 import Category from '../../enums/Category';
-import { ErrorEmbed, WarningEmbed } from '../../libs/discord-embeds';
+import DefaultEmbed, { ErrorEmbed, WarningEmbed } from '../../libs/discord-embeds';
 import EmbedTitles from '../../libs/embed-titles';
 import env from '../../libs/env';
 
@@ -93,11 +92,9 @@ export default class Volume extends Command {
     }
 
     player.setVolume(volume);
-    const embed = new EmbedBuilder()
-      .setColor(0x56_20_c0)
+    const embed = DefaultEmbed(this.client)
       .setTitle(EmbedTitles.music)
-      .setDescription(`🔊 Гучність змінена на ${volume}%`)
-      .setTimestamp();
+      .setDescription(`🔊 Гучність змінена на ${volume}%`);
     interaction.editReply({ embeds: [embed] });
   }
 }

@@ -1,9 +1,10 @@
-import { ButtonStyle, EmbedBuilder, Message } from 'discord.js';
+import { ButtonStyle, Message } from 'discord.js';
 import { Button, Row } from 'easy-discord-components';
 import { KazagumoPlayer, KazagumoTrack } from 'kazagumo';
 import { capitalize, find, noop, omit } from 'lodash';
 
 import Client from '../classes/Client';
+import DefaultEmbed from './discord-embeds';
 import EmbedTitles from './embed-titles';
 import env from './env';
 import audioEffects from './filters';
@@ -41,14 +42,12 @@ export default async function MusicControllerUpdate(client: Client, player: Kaza
     }),
   ]);
 
-  const embed = new EmbedBuilder()
-    .setColor(0x56_20_c0)
+  const embed = DefaultEmbed(client)
     .setTitle(EmbedTitles.music)
     .setDescription(
       `**Зараз грає**: [${track.title}](${track.uri})\n**Автор**: ${track.author}\n\n **Ввімкнено за запитом**: ${track.requester}\n\n**Статус повтору**: ${player.loop === 'none' ? 'Вимкнено' : player.loop === 'queue' ? 'Список відтворення' : 'Один трек'}\n**Фільтр**: ${capitalize(find(audioEffects, ['value', omit(player.filters, 'volume')])?.key ?? 'Не вдалось визначити')}`
     )
-    .setImage(track.thumbnail ?? null)
-    .setTimestamp();
+    .setImage(track.thumbnail ?? null);
 
   const musicChannel = client.channels.cache.get(env.MUSIC_CHANNEL_ID);
 

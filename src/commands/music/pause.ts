@@ -1,9 +1,9 @@
-import { ChatInputCommandInteraction, EmbedBuilder, GuildMember, PermissionsBitField } from 'discord.js';
+import { ChatInputCommandInteraction, GuildMember, PermissionsBitField } from 'discord.js';
 
 import Client from '../../classes/Client';
 import Command from '../../classes/Command';
 import Category from '../../enums/Category';
-import { ErrorEmbed, WarningEmbed } from '../../libs/discord-embeds';
+import DefaultEmbed, { ErrorEmbed, WarningEmbed } from '../../libs/discord-embeds';
 import EmbedTitles from '../../libs/embed-titles';
 import env from '../../libs/env';
 
@@ -77,11 +77,7 @@ export default class Pause extends Command {
 
     player.pause(true);
 
-    const embed = new EmbedBuilder()
-      .setColor(0x56_20_c0)
-      .setTitle(EmbedTitles.music)
-      .setDescription('⏸️ Відтворення призупенено')
-      .setTimestamp();
+    const embed = DefaultEmbed(this.client).setTitle(EmbedTitles.music).setDescription('⏸️ Відтворення призупенено');
     interaction.editReply({ embeds: [embed] });
   }
 }

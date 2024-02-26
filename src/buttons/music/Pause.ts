@@ -1,8 +1,8 @@
-import { ButtonInteraction, CacheType, EmbedBuilder } from 'discord.js';
+import { ButtonInteraction, CacheType } from 'discord.js';
 
 import Button from '../../classes/Button';
 import Client from '../../classes/Client';
-import { ErrorEmbed, WarningEmbed } from '../../libs/discord-embeds';
+import DefaultEmbed, { ErrorEmbed, WarningEmbed } from '../../libs/discord-embeds';
 import EmbedTitles from '../../libs/embed-titles';
 
 export default class Pause extends Button {
@@ -30,11 +30,7 @@ export default class Pause extends Button {
     }
 
     player.pause(true);
-    const embed = new EmbedBuilder()
-      .setTitle(EmbedTitles.music)
-      .setColor(0x56_20_c0)
-      .setTimestamp()
-      .setDescription('⏸️ Відтворення призупинено.');
+    const embed = DefaultEmbed(this.client).setTitle(EmbedTitles.music).setDescription('⏸️ Відтворення призупинено.');
 
     interaction.reply({ embeds: [embed], ephemeral: true });
   }

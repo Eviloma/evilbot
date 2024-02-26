@@ -1,7 +1,6 @@
 import {
   ApplicationCommandOptionType,
   ChatInputCommandInteraction,
-  EmbedBuilder,
   GuildMember,
   PermissionsBitField,
 } from 'discord.js';
@@ -10,7 +9,7 @@ import { capitalize, find, map } from 'lodash';
 import Client from '../../classes/Client';
 import Command from '../../classes/Command';
 import Category from '../../enums/Category';
-import { ErrorEmbed, WarningEmbed } from '../../libs/discord-embeds';
+import DefaultEmbed, { ErrorEmbed, WarningEmbed } from '../../libs/discord-embeds';
 import EmbedTitles from '../../libs/embed-titles';
 import env from '../../libs/env';
 import audioEffects from '../../libs/filters';
@@ -107,11 +106,9 @@ export default class Filter extends Command {
     await player.shoukaku.setFilters({ ...filterObject.value, volume: player.volume });
     await MusicControllerUpdate(this.client, player, player.queue.current);
 
-    const embed = new EmbedBuilder()
-      .setColor(0x56_20_c0)
+    const embed = DefaultEmbed(this.client)
       .setTitle(EmbedTitles.music)
-      .setDescription(`🎶 Змінено фільтр на ${filter}`)
-      .setTimestamp();
+      .setDescription(`🎶 Змінено фільтр на ${filter}`);
     interaction.editReply({ embeds: [embed] });
   }
 }

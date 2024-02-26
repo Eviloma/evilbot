@@ -1,11 +1,11 @@
-import { ChatInputCommandInteraction, EmbedBuilder, GuildMember, PermissionsBitField } from 'discord.js';
+import { ChatInputCommandInteraction, GuildMember, PermissionsBitField } from 'discord.js';
 import { forEach, slice } from 'lodash';
 import plural from 'plurals-cldr';
 
 import Client from '../../classes/Client';
 import Command from '../../classes/Command';
 import Category from '../../enums/Category';
-import { ErrorEmbed, WarningEmbed } from '../../libs/discord-embeds';
+import DefaultEmbed, { ErrorEmbed, WarningEmbed } from '../../libs/discord-embeds';
 import EmbedTitles from '../../libs/embed-titles';
 import env from '../../libs/env';
 import plurals from '../../libs/plurals';
@@ -86,11 +86,7 @@ export default class Queue extends Command {
     if (player.queue.length > 10) {
       data += `\nта ще **${player.queue.length - 10}** ${plurals.track[plural('uk', player.queue.length - 10) ?? '']}`;
     }
-    const embed = new EmbedBuilder()
-      .setColor(0x56_20_c0)
-      .setTitle(EmbedTitles.music)
-      .setDescription(data)
-      .setTimestamp();
+    const embed = DefaultEmbed(this.client).setTitle(EmbedTitles.music).setDescription(data);
     interaction.editReply({ embeds: [embed] });
   }
 }

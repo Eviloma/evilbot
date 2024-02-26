@@ -1,6 +1,6 @@
 import 'dotenv/config';
 
-import { cleanEnv, str } from 'envalid';
+import { bool, cleanEnv, str } from 'envalid';
 
 const env = cleanEnv(process.env, {
   BOT_TOKEN: str(),
@@ -17,6 +17,7 @@ const env = cleanEnv(process.env, {
   LAVALINK_HOSTS: str(),
   LAVALINK_PASSWORDS: str(),
   LAVALINK_SECURED: str(),
+  DISABLE_UPDATE_COMMANDS: bool({ default: false }),
 });
 
 export default env;

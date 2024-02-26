@@ -2,11 +2,9 @@ import { EmbedBuilder } from 'discord.js';
 
 import Client from '../classes/Client';
 
-export function ErrorEmbed(client: Client, title: string | null, description: string) {
+export default function DefaultEmbed(client: Client) {
   return new EmbedBuilder()
-    .setColor('Red')
-    .setTitle(title ?? 'Помилка')
-    .setDescription(`⛔ ${description}`)
+    .setColor(0x56_20_c0)
     .setTimestamp()
     .setFooter({
       text: client.user?.username ?? 'Unknown user',
@@ -14,14 +12,16 @@ export function ErrorEmbed(client: Client, title: string | null, description: st
     });
 }
 
+export function ErrorEmbed(client: Client, title: string | null, description: string) {
+  return DefaultEmbed(client)
+    .setColor('Red')
+    .setTitle(title ?? 'Помилка')
+    .setDescription(`⛔ ${description}`);
+}
+
 export function WarningEmbed(client: Client, title: string | null, description: string) {
-  return new EmbedBuilder()
+  return DefaultEmbed(client)
     .setColor('Yellow')
     .setTitle(title ?? 'Попередження')
-    .setDescription(`⚠️ ${description}`)
-    .setTimestamp()
-    .setFooter({
-      text: client.user?.username ?? 'Unknown user',
-      iconURL: client.user?.avatarURL() ?? undefined,
-    });
+    .setDescription(`⚠️ ${description}`);
 }

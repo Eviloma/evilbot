@@ -1,7 +1,6 @@
 import {
   ApplicationCommandOptionType,
   ChatInputCommandInteraction,
-  EmbedBuilder,
   GuildMember,
   PermissionsBitField,
 } from 'discord.js';
@@ -10,7 +9,7 @@ import { forEach } from 'lodash';
 import Client from '../../classes/Client';
 import Command from '../../classes/Command';
 import Category from '../../enums/Category';
-import { ErrorEmbed, WarningEmbed } from '../../libs/discord-embeds';
+import DefaultEmbed, { ErrorEmbed, WarningEmbed } from '../../libs/discord-embeds';
 import EmbedTitles from '../../libs/embed-titles';
 import env from '../../libs/env';
 
@@ -121,7 +120,7 @@ export default class Play extends Command {
       await player.play();
     }
 
-    const embed = new EmbedBuilder().setColor(0x56_20_c0).setTitle(EmbedTitles.music).setTimestamp();
+    const embed = DefaultEmbed(this.client).setTitle(EmbedTitles.music);
 
     embed.setDescription(
       result.type === 'PLAYLIST'
