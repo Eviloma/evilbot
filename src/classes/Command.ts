@@ -2,6 +2,7 @@ import { AutocompleteInteraction, CacheType, ChatInputCommandInteraction } from 
 
 import Category from '../enums/Category';
 import ICommand from '../interfaces/ICommand';
+import ICommandOption from '../interfaces/ICommandOption';
 import ICommandOptions from '../interfaces/ICommandOptions';
 import Client from './Client';
 
@@ -14,7 +15,7 @@ export default class Command implements ICommand {
 
   category: Category;
 
-  options: object;
+  options: ICommandOption[];
 
   default_member_permissions: bigint;
 

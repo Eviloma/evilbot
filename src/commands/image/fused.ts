@@ -2,8 +2,8 @@ import Client from '../../classes/Client';
 import FunnyImageCommand from '../../classes/FunnyImage';
 import FunnyImageEffect from '../../libs/funny-image-effect';
 
-export default class Trash extends FunnyImageCommand {
+export default class Fused extends FunnyImageCommand {
   constructor(client: Client) {
-    super(client, FunnyImageEffect.trash);
+    super(client, FunnyImageEffect.fused);
   }
 }

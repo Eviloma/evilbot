@@ -7,6 +7,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ---
 
+## [**4.1.1**] - 2024-02-27
+
+### Added
+* Added new commands: `/affected`, `/fused`, `/kiss`, `/slap`, `/spank`
+* Added **ICommandOption** interface for command options
+
+### Changed
+* All **CanvaCord** funny image generators share a **FunnyImage** class that unifies the logic and allows you to quickly change it for all generators
+
 ## [**4.1.0**] - 2024-02-26
 
 ### Added

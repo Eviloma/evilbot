@@ -26,13 +26,14 @@
 
 ## About The Project
 
-This Discord bot is developed in TypeScript and utilizes the discord.js library for interacting with the Discord API. 
-It features the following functionalities:
+This Discord bot, developed in TypeScript, leverages the power of the discord.js library for seamless interaction with the Discord API. It boasts a diverse range of functionalities tailored to enhance the user experience within your server:
 
-- **Music Playback**: The bot can play music using Lavalink. You can provide a track link or specify keywords for music search.
-- **Welcome New Members**: Upon a new member joining the server, the bot can automatically greet them in a designated text channel with a welcome message.
-- **Role Assignment on Entry**: The bot can assign a specific role to new members when they join the server.
-- **Slash Commands**: The bot uses Discord Slash Commands for convenient interaction with users.
+- **Music Playback**: Elevate your server's atmosphere with the bot's impressive music playback capabilities. Integrated with Lavalink, the bot allows users to play music effortlessly. Whether you provide a direct track link or specify keywords for a music search, the bot ensures a smooth and enjoyable listening experience.
+- **Welcome New Members**: Foster a sense of community by automatically welcoming new members to your server. The bot takes care of this with a personalized greeting in a designated text channel, ensuring that newcomers feel right at home from the moment they join.
+- **Role Assignment on Entry**: Streamline server organization by having the bot assign specific roles to new members upon entry. This feature not only adds a layer of customization to your server structure but also helps in quickly integrating new members into specific community segments.
+- **Slash Commands**: Stay on the cutting edge of Discord interaction with the integration of Discord Slash Commands. These commands provide users with a convenient and intuitive way to engage with the bot, making interactions smoother and more user-friendly.
+- **Temporary Voice Chats**: Take communication to the next level with the addition of temporary voice chats. Users can create and join voice channels for temporary discussions or activities, adding a dynamic and spontaneous element to your server's voice communication experience.
+- **Fun Image Filters Command**: Inject a dose of fun and creativity into your server with the bot's image filter command. Users can apply various entertaining and amusing filters to their images, sparking creativity and laughter within the community.
 
 ## Built With
 
