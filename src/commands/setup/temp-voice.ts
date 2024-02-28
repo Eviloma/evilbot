@@ -4,7 +4,7 @@ import { eq } from 'drizzle-orm';
 import Client from '../../classes/Client';
 import SubCommand from '../../classes/SubCommand';
 import db from '../../db';
-import { tempVoicesTable } from '../../db/schemas/temp-voices';
+import { settingsSchema } from '../../db/schemas/settings';
 import { ErrorEmbed } from '../../libs/discord-embeds';
 import EmbedTitles from '../../libs/embed-titles';
 
@@ -50,18 +50,18 @@ export default class SetupTempVoice extends SubCommand {
       ephemeral: true,
     });
 
-    const result = await db.select().from(tempVoicesTable).where(eq(tempVoicesTable.guild_id, guildId));
+    const result = await db.select().from(settingsSchema).where(eq(settingsSchema.guild_id, guildId));
 
     await (result.length > 0
       ? db
-          .update(tempVoicesTable)
+          .update(settingsSchema)
           .set({
             join_to_channel_id: joinToTalkChannel.id,
             temp_voice_channels_category_id: tempVoiceChannelsCategory.id,
           })
-          .where(eq(tempVoicesTable.guild_id, guildId))
+          .where(eq(settingsSchema.guild_id, guildId))
       : db
-          .insert(tempVoicesTable)
+          .insert(settingsSchema)
           .values({
             guild_id: guildId,
             join_to_channel_id: joinToTalkChannel.id,

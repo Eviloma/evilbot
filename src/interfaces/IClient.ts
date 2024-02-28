@@ -14,4 +14,6 @@ export default interface IClient {
 
   Init(): void;
   LoadHandlers(): void;
+  UpdateSettings(): Promise<void>;
+  GetSetting(key: string): string | undefined;
 }

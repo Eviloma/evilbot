@@ -14,6 +14,7 @@ export default class SubCommand implements ISubCommand {
     this.name = options.name;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  Execute(interaction: ChatInputCommandInteraction<CacheType>): void {}
+  async Execute(interaction: ChatInputCommandInteraction<CacheType>) {
+    throw new Error(`Execute not implemented in ${interaction.command?.name} subcommand`);
+  }
 }

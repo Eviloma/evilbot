@@ -16,7 +16,7 @@ import { constant, noop } from 'lodash';
 import Client from '../../classes/Client';
 import Event from '../../classes/Event';
 import db from '../../db';
-import { tempVoicesTable } from '../../db/schemas/temp-voices';
+import { settingsSchema } from '../../db/schemas/settings';
 
 export default class VoiceStateUpdate extends Event {
   constructor(client: Client) {
@@ -36,8 +36,8 @@ export default class VoiceStateUpdate extends Event {
     // Find settings for this guild in database
     const data = await db
       .select()
-      .from(tempVoicesTable)
-      .where(eq(tempVoicesTable.guild_id, guild.id))
+      .from(settingsSchema)
+      .where(eq(settingsSchema.guild_id, guild.id))
       .limit(1)
       .catch(constant(null));
 
