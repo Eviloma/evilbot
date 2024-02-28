@@ -66,15 +66,19 @@ export default class Client extends Discord.Client implements IClient {
     );
   }
 
-  Init(): void {
-    this.LoadHandlers();
-    this.login(env.BOT_TOKEN).catch((error) => logger.error(error));
+  async Init() {
+    await this.LoadHandlers();
+
+    this.rest.on('rateLimited', (info) => {
+      console.log('rateLimited', info);
+    });
+    await this.login(env.BOT_TOKEN).catch((error) => logger.error(error));
   }
 
-  LoadHandlers(): void {
-    this.handlers.LoadEvents();
-    this.handlers.LoadCommands();
-    this.handlers.LoadButtons();
-    this.handlers.LoadLavalinkEvents();
+  async LoadHandlers() {
+    await this.handlers.LoadEvents();
+    await this.handlers.LoadCommands();
+    await this.handlers.LoadButtons();
+    await this.handlers.LoadLavalinkEvents();
   }
 }

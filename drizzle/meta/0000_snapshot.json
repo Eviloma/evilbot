@@ -1,0 +1,65 @@
+{
+  "id": "41e5d1d3-a2f0-4a7e-a0f2-f65817967f6b",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "5",
+  "dialect": "pg",
+  "tables": {
+    "temp_voices": {
+      "name": "temp_voices",
+      "schema": "",
+      "columns": {
+        "guild_id": {
+          "name": "guild_id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "join_to_channel_id": {
+          "name": "join_to_channel_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "temp_voice_channels_category_id": {
+          "name": "temp_voice_channels_category_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "temp_voices_guild_id_unique": {
+          "name": "temp_voices_guild_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "guild_id"
+          ]
+        },
+        "temp_voices_join_to_channel_id_unique": {
+          "name": "temp_voices_join_to_channel_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "join_to_channel_id"
+          ]
+        },
+        "temp_voices_temp_voice_channels_category_id_unique": {
+          "name": "temp_voices_temp_voice_channels_category_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "temp_voice_channels_category_id"
+          ]
+        }
+      }
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

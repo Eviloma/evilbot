@@ -4,6 +4,7 @@ import Category from '../enums/Category';
 import ICommand from '../interfaces/ICommand';
 import ICommandOption from '../interfaces/ICommandOption';
 import ICommandOptions from '../interfaces/ICommandOptions';
+import ILocalization from '../interfaces/ILocalization';
 import Client from './Client';
 
 export default class Command implements ICommand {
@@ -11,7 +12,11 @@ export default class Command implements ICommand {
 
   name: string;
 
+  name_localizations?: ILocalization;
+
   description: string;
+
+  description_localizations?: ILocalization;
 
   category: Category;
 
@@ -32,6 +37,8 @@ export default class Command implements ICommand {
     this.default_member_permissions = options.default_member_permissions;
     this.dm_permission = options.dm_permission;
     this.cooldown = options.cooldown ?? 3;
+
+    this.name_localizations = {};
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

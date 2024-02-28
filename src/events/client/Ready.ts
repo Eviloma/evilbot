@@ -16,35 +16,35 @@ export default class Ready extends Event {
   }
 
   async Execute() {
-    logger.info(`Client ${this.client.user?.tag} is ready`);
-
+    logger.info(`Starting...`);
+    logger.info(`Setting Presence...`);
     this.client.user?.setPresence({
       activities: [
         { name: 'customstatus', type: ActivityType.Custom, state: `Evilbot v${process.env.npm_package_version}` },
       ],
       status: 'online',
     });
+    logger.info(`Client ${this.client.user?.tag} is ready`);
 
     if (env.DISABLE_UPDATE_COMMANDS) {
       logger.warn('Update commands is disabled');
       return;
     }
 
+    logger.info('Updating commands...');
+
     const commands = this.GetJson(this.client.commands);
 
-    const rest = new REST({ version: '10' }).setToken(env.BOT_TOKEN);
+    const rest = new REST({ globalRequestsPerSecond: 10, invalidRequestWarningInterval: 1 }).setToken(env.BOT_TOKEN);
 
-    // clear all commands
-    await rest.put(Routes.applicationCommands(env.CLIENT_ID), { body: [] });
+    logger.info('Updating commands...');
 
-    // add commands
-    const setCommands = (await rest
+    await rest
       .put(Routes.applicationCommands(env.CLIENT_ID), {
         body: commands,
       })
-      .catch((error) => logger.error(error))) as { length: number };
-
-    logger.info(`Successfully set ${setCommands.length} commands`);
+      .then((data) => logger.info(`✅ Successfully set ${(data as { length: number }).length} commands`))
+      .catch((error) => logger.error(`❌ Failed to set ${(error as { length: number }).length} commands`));
   }
 
   private GetJson(commands: Collection<string, Command>) {

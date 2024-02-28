@@ -6,17 +6,17 @@ import {
   Guild,
   GuildMember,
   PermissionFlagsBits,
+  VoiceBasedChannel,
   VoiceChannel,
   VoiceState,
 } from 'discord.js';
-import { noop } from 'lodash';
+import { eq } from 'drizzle-orm';
+import { constant, noop } from 'lodash';
 
 import Client from '../../classes/Client';
 import Event from '../../classes/Event';
-import env from '../../libs/env';
-import logger from '../../libs/logger';
-
-const { JOIN_TO_TALK_CHANNEL_ID } = env;
+import db from '../../db';
+import { tempVoicesTable } from '../../db/schemas/temp-voices';
 
 export default class VoiceStateUpdate extends Event {
   constructor(client: Client) {
@@ -30,20 +30,42 @@ export default class VoiceStateUpdate extends Event {
   async Execute(oldState: VoiceState, newState: VoiceState) {
     const { member, guild } = oldState;
     const { channel: newChannel } = newState;
-    const parent = guild.channels.cache.find(
-      (x) => x.id === env.JOIN_TO_TALK_PARENT_ID && x.type === ChannelType.GuildCategory
-    ) as CategoryChannel | undefined;
 
-    if (!parent) return;
+    if (!guild || !member) return;
 
-    if (newChannel && newChannel.id === JOIN_TO_TALK_CHANNEL_ID && member) {
-      await this.CreateTempVoiceChat(member, guild, parent);
+    // Find settings for this guild in database
+    const data = await db
+      .select()
+      .from(tempVoicesTable)
+      .where(eq(tempVoicesTable.guild_id, guild.id))
+      .limit(1)
+      .catch(constant(null));
+
+    // If no settings found, return
+    if (!data || data.length === 0) return;
+
+    // Get channel and parent from settings in database
+    const joinToTalkChannel = guild.channels.cache.get(data[0].join_to_channel_id);
+    const parent = guild.channels.cache.get(data[0].temp_voice_channels_category_id);
+
+    // If channel or parent not found or channel not voice channel or parent not category, return
+    if (!joinToTalkChannel || !parent || !joinToTalkChannel.isVoiceBased() || parent.type !== ChannelType.GuildCategory)
+      return;
+
+    // If new channel is join to talk channel
+    if (newChannel?.id === joinToTalkChannel.id) {
+      await this.CreateTempVoiceChat(guild, member, joinToTalkChannel, parent);
     }
 
     await this.RemoveTempVoiceChat(guild, parent);
   }
 
-  private async CreateTempVoiceChat(member: GuildMember, guild: Guild, parent: CategoryChannel) {
+  private async CreateTempVoiceChat(
+    guild: Guild,
+    member: GuildMember,
+    joinToTalkChannel: VoiceBasedChannel,
+    parent: CategoryChannel
+  ) {
     const voiceChannel = await guild.channels
       .create({
         name: `🔊${member.displayName}`,
@@ -57,15 +79,13 @@ export default class VoiceStateUpdate extends Event {
           },
         ],
       })
-      .catch((error) => {
-        logger.error(`CreateTempVoiceChat: ${error.message}`);
+      .catch(() => {
         member.voice.disconnect();
         return null;
       });
-
     if (voiceChannel) {
       await member.voice.setChannel(voiceChannel);
-      this.RestrictCreateTempVoiceChat(guild, member);
+      this.RestrictCreateTempVoiceChat(member, joinToTalkChannel);
     }
   }
 
@@ -81,10 +101,7 @@ export default class VoiceStateUpdate extends Event {
     });
   }
 
-  private RestrictCreateTempVoiceChat(guild: Guild, member: GuildMember) {
-    const joinToTalkChannel = guild.channels.cache.get(JOIN_TO_TALK_CHANNEL_ID);
-    if (!joinToTalkChannel || !joinToTalkChannel.isVoiceBased()) return;
-
+  private RestrictCreateTempVoiceChat(member: GuildMember, joinToTalkChannel: VoiceBasedChannel) {
     joinToTalkChannel.permissionOverwrites.edit(member.id, { Connect: false });
 
     setTimeout(() => {

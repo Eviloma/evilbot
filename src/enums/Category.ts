@@ -1,10 +1,9 @@
 enum Category {
   Utilities = 'Utilities',
-  LethalCompany = 'Lethal Company',
-  Valorant = 'Valorant',
   Moderators = 'Moderators',
   Fun = 'Fun',
   Music = 'Music',
+  Setup = 'Setup',
 }
 
 export default Category;
