@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ### Added
 * Added database
+* Added the output of the list of **events** and **commands** in the form of a table in the console
 
 ### Changed
 * The configuration of temporary voice channels has been moved to the database
