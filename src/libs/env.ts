@@ -8,8 +8,6 @@ const env = cleanEnv(process.env, {
   GUILD_ID: str(),
   DEFAULT_MEMBER_ROLE_ID: str(),
   GLOBAL_CHANNEL_ID: str(),
-  JOIN_TO_TALK_CHANNEL_ID: str(),
-  JOIN_TO_TALK_PARENT_ID: str(),
   MUSIC_CHANNEL_ID: str(),
   SPOTIFY_CLIENT_ID: str(),
   SPOTIFY_CLIENT_SECRET: str(),
@@ -18,6 +16,7 @@ const env = cleanEnv(process.env, {
   LAVALINK_PASSWORDS: str(),
   LAVALINK_SECURED: str(),
   DISABLE_UPDATE_COMMANDS: bool({ default: false }),
+  DATABASE_URL: str(),
 });
 
 export default env;

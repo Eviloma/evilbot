@@ -8,4 +8,5 @@ export default interface ICommandOption {
   min?: number;
   max?: number;
   required?: boolean;
+  options?: ICommandOption[];
 }

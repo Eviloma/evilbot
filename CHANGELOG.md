@@ -7,6 +7,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ---
 
+## [**4.2.0**] - 2024-02-28
+
+### Added
+* Added database
+
+### Changed
+* The configuration of temporary voice channels has been moved to the database
+* Temporary voice channels are now available on all guilds (The multi-guild function is in the process of implementation)
+
+### Removed
+* Removed **JOIN_TO_TALK_CHANNEL_ID** and **JOIN_TO_TALK_PARENT_ID** envs
+
+
 ## [**4.1.1**] - 2024-02-27
 
 ### Added

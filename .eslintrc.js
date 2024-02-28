@@ -20,6 +20,7 @@ module.exports = {
     'plugin:import/recommended',
     'plugin:import/typescript',
     'plugin:promise/recommended',
+    'plugin:drizzle/recommended',
 
     // Prettier
     'prettier',
@@ -30,7 +31,7 @@ module.exports = {
     sourceType: 'module',
     project: './tsconfig.json',
   },
-  plugins: ['import', '@typescript-eslint', 'no-secrets', 'simple-import-sort', 'prettier', 'lodash'],
+  plugins: ['import', '@typescript-eslint', 'no-secrets', 'simple-import-sort', 'prettier', 'lodash', 'drizzle'],
   root: true,
   rules: {
     // no-secrets plugin
@@ -42,7 +43,10 @@ module.exports = {
 
     // lodash
     'lodash/import-scope': [2, 'member'],
-    'lodash/prefer-lodash-method': [2, { ignoreObjects: ['router', 'window.location', 'cache', 'commands', 'channels'] }],
+    'lodash/prefer-lodash-method': [
+      2,
+      { ignoreObjects: ['router', 'window.location', 'cache', 'commands', 'channels'] },
+    ],
 
     // The following rules are disabled due to them being considered unduly restrictive or unhelpful.
     'unicorn/no-array-for-each': 'off',
@@ -63,5 +67,7 @@ module.exports = {
     'class-methods-use-this': 'off',
     'new-cap': 'off',
     'import/no-cycle': 'off',
+    'unicorn/no-process-exit': 'off',
+    'drizzle/enforce-delete-with-where': ['error', { drizzleObjectName: ['db'] }],
   },
 };

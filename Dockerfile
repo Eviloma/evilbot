@@ -2,8 +2,7 @@
 FROM node:lts-alpine as builder
 WORKDIR /usr/src/app
 COPY . .
-RUN npm install -g pnpm && pnpm install
-RUN pnpm build
+RUN npm install -g pnpm && pnpm install && pnpm db:migrate && pnpm build
 
 # Runner stage
 FROM node:lts-alpine as runner

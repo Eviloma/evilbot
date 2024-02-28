@@ -1,5 +1,6 @@
 import path from 'node:path';
 
+import { Table } from 'console-table-printer';
 import { glob } from 'glob';
 import { forEach, map, noop, split } from 'lodash';
 
@@ -11,6 +12,7 @@ import Button from './Button';
 import Client from './Client';
 import Command from './Command';
 import Event from './Event';
+import SubCommand from './SubCommand';
 
 export default class Handler implements IHandler {
   client: Client;
@@ -20,6 +22,15 @@ export default class Handler implements IHandler {
   }
 
   async LoadEvents() {
+    const p = new Table({
+      columns: [
+        { name: 'name', title: 'Name / Path' },
+        { name: 'once', title: 'Once' },
+        { name: 'status', title: 'Status' },
+      ],
+      sort: (row1, row2) => row1.name.localeCompare(row2.name),
+    });
+
     const files = await glob(`dist/events/**/*.js`)
       .then((filePath) => map(filePath, (file) => path.resolve(file)))
       .catch((error) => {
@@ -27,30 +38,47 @@ export default class Handler implements IHandler {
         return [];
       });
 
-    forEach(files, async (file) => {
-      const event: Event = await import(file)
-        .then((module) => new module.default(this.client))
-        .catch((error) => logger.error(error));
+    await Promise.all(
+      map(files, async (file) => {
+        const event: Event = await import(file)
+          .then((module) => new module.default(this.client))
+          .catch((error) => logger.error(error));
 
-      if (!event.name) {
-        return delete require.cache[require.resolve(file)] && logger.error(`Missing event name in ${file}`);
-      }
+        if (!event.name) {
+          return (
+            delete require.cache[require.resolve(file)] &&
+            p.addRow({ name: file, status: "⚠️ Can't find event name", once: 'N/A' })
+          );
+        }
 
-      const execute = async (...args: unknown[]) => event.Execute(...args);
+        const execute = async (...args: unknown[]) => event.Execute(...args);
 
-      if (event.once) {
-        this.client.once(event.name.toString(), execute);
-      } else {
-        this.client.on(event.name.toString(), execute);
-      }
+        if (event.once) {
+          this.client.once(event.name.toString(), execute);
+        } else {
+          this.client.on(event.name.toString(), execute);
+        }
 
-      logger.info(`Loaded event ${event.name.toString()}`);
+        return (
+          delete require.cache[require.resolve(file)] &&
+          p.addRow({ name: event.name.toString(), status: '✅ Loaded', once: event.once })
+        );
+      })
+    );
 
-      return delete require.cache[require.resolve(file)];
-    });
+    p.printTable();
   }
 
   async LoadCommands() {
+    const p = new Table({
+      columns: [
+        { name: 'name', title: 'Name / Path' },
+        { name: 'type', title: 'Type' },
+        { name: 'category', title: 'Category' },
+        { name: 'status', title: 'Status' },
+      ],
+      sort: (row1, row2) => row1.name.localeCompare(row2.name),
+    });
     const files = await glob(`dist/commands/**/*.js`)
       .then((filePath) => map(filePath, (file) => path.resolve(file)))
       .catch((error) => {
@@ -58,21 +86,34 @@ export default class Handler implements IHandler {
         return [];
       });
 
-    forEach(files, async (file) => {
-      const command: Command = await import(file)
-        .then((module) => new module.default(this.client))
-        .catch((error) => logger.error(error));
+    await Promise.all(
+      map(files, async (file) => {
+        const command: Command | SubCommand = await import(file)
+          .then((module) => new module.default(this.client))
+          .catch((error) => logger.error(error));
 
-      if (!command.name) {
-        return delete require.cache[require.resolve(file)] && logger.error(`Missing command name in ${file}`);
-      }
+        if (!command.name) {
+          return (
+            delete require.cache[require.resolve(file)] &&
+            p.addRow({ name: file, status: "⚠️ Can't find command name", type: 'N/A' })
+          );
+        }
 
-      if (split(split(file, '/').pop(), '.')[2]) return this.client.subCommands.set(command.name, command);
+        if (split(command.name, '.')[1]) {
+          return (
+            this.client.subCommands.set(command.name, command) &&
+            p.addRow({ name: command.name, status: '✅', type: 'Subcommand', category: 'N/A' })
+          );
+        }
 
-      this.client.commands.set(command.name, command);
+        this.client.commands.set(command.name, command as Command);
+        p.addRow({ name: command.name, status: '✅', type: 'Command', category: (command as Command).category });
 
-      return delete require.cache[require.resolve(file)];
-    });
+        return delete require.cache[require.resolve(file)];
+      })
+    );
+
+    p.printTable();
   }
 
   async LoadButtons() {
