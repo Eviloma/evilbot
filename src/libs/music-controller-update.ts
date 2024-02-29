@@ -6,7 +6,6 @@ import { capitalize, find, noop, omit } from 'lodash';
 import Client from '../classes/Client';
 import DefaultEmbed from './discord-embeds';
 import EmbedTitles from './embed-titles';
-import env from './env';
 import audioEffects from './filters';
 
 export default async function MusicControllerUpdate(client: Client, player: KazagumoPlayer, track: KazagumoTrack) {
@@ -49,7 +48,7 @@ export default async function MusicControllerUpdate(client: Client, player: Kaza
     )
     .setImage(track.thumbnail ?? null);
 
-  const musicChannel = client.channels.cache.get(env.MUSIC_CHANNEL_ID);
+  const musicChannel = client.channels.cache.get(client.GetSetting('music_channel_id') ?? '');
 
   if (!musicChannel || !musicChannel.isTextBased()) return;
 

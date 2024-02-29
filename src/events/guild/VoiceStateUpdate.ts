@@ -10,13 +10,10 @@ import {
   VoiceChannel,
   VoiceState,
 } from 'discord.js';
-import { eq } from 'drizzle-orm';
-import { constant, noop } from 'lodash';
+import { noop } from 'lodash';
 
 import Client from '../../classes/Client';
 import Event from '../../classes/Event';
-import db from '../../db';
-import { tempVoicesTable } from '../../db/schemas/temp-voices';
 
 export default class VoiceStateUpdate extends Event {
   constructor(client: Client) {
@@ -31,22 +28,10 @@ export default class VoiceStateUpdate extends Event {
     const { member, guild } = oldState;
     const { channel: newChannel } = newState;
 
-    if (!guild || !member) return;
+    const joinToTalkChannel = guild.channels.cache.get(this.client.GetSetting('join_to_talk_channel_id') ?? '');
+    const parent = guild.channels.cache.get(this.client.GetSetting('temp_voice_channels_category_id') ?? '');
 
-    // Find settings for this guild in database
-    const data = await db
-      .select()
-      .from(tempVoicesTable)
-      .where(eq(tempVoicesTable.guild_id, guild.id))
-      .limit(1)
-      .catch(constant(null));
-
-    // If no settings found, return
-    if (!data || data.length === 0) return;
-
-    // Get channel and parent from settings in database
-    const joinToTalkChannel = guild.channels.cache.get(data[0].join_to_channel_id);
-    const parent = guild.channels.cache.get(data[0].temp_voice_channels_category_id);
+    if (!guild || !member || !joinToTalkChannel || !parent) return;
 
     // If channel or parent not found or channel not voice channel or parent not category, return
     if (!joinToTalkChannel || !parent || !joinToTalkChannel.isVoiceBased() || parent.type !== ChannelType.GuildCategory)

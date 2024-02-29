@@ -1,4 +1,4 @@
-import { AutocompleteInteraction, ChatInputCommandInteraction } from 'discord.js';
+import { ChatInputCommandInteraction } from 'discord.js';
 
 import Client from '../classes/Client';
 import Category from '../enums/Category';
@@ -13,6 +13,5 @@ export default interface ICommand {
   dm_permission: boolean;
   cooldown: number;
 
-  Execute(interaction: ChatInputCommandInteraction): void;
-  AutoComplete(interaction: AutocompleteInteraction): void;
+  Execute(interaction: ChatInputCommandInteraction): Promise<void>;
 }

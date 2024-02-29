@@ -1,8 +1,11 @@
 import Discord, { Collection } from 'discord.js';
 import { Kazagumo } from 'kazagumo';
 import Spotify from 'kazagumo-spotify';
+import { find } from 'lodash';
 import { Connectors } from 'shoukaku';
 
+import db from '../db';
+import { SettingKeys, Settings, settingsSchema } from '../db/schemas/settings';
 import IClient from '../interfaces/IClient';
 import env from '../libs/env';
 import LavalinkServers from '../libs/lavalink-servers';
@@ -25,6 +28,8 @@ export default class Client extends Discord.Client implements IClient {
 
   lavalink: Kazagumo;
 
+  settings: Settings[];
+
   constructor() {
     super({
       intents: [
@@ -38,6 +43,7 @@ export default class Client extends Discord.Client implements IClient {
       ],
     });
 
+    this.settings = [];
     this.handlers = new Handler(this);
     this.commands = new Collection();
     this.buttons = new Collection();
@@ -68,10 +74,6 @@ export default class Client extends Discord.Client implements IClient {
 
   async Init() {
     await this.LoadHandlers();
-
-    this.rest.on('rateLimited', (info) => {
-      console.log('rateLimited', info);
-    });
     await this.login(env.BOT_TOKEN).catch((error) => logger.error(error));
   }
 
@@ -80,5 +82,13 @@ export default class Client extends Discord.Client implements IClient {
     await this.handlers.LoadCommands();
     await this.handlers.LoadButtons();
     await this.handlers.LoadLavalinkEvents();
+  }
+
+  async UpdateSettings() {
+    this.settings = await db.select().from(settingsSchema);
+  }
+
+  GetSetting(key: SettingKeys) {
+    return find(this.settings, ['key', key])?.value;
   }
 }

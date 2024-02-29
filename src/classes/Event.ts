@@ -20,6 +20,7 @@ export default class Event implements IEvent {
     this.once = options.once;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  Execute(...args: unknown[]): void {}
+  async Execute(...args: unknown[]) {
+    throw new Error(`Execute not implemented. Args: ${JSON.stringify(args)}`);
+  }
 }
