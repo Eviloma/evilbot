@@ -1,16 +1,22 @@
-import { ChatInputCommandInteraction, GuildMember, PermissionsBitField } from 'discord.js';
+import {
+  ChatInputCommandInteraction,
+  Guild,
+  GuildMember,
+  GuildTextBasedChannel,
+  PermissionsBitField,
+} from 'discord.js';
+import { KazagumoPlayer } from 'kazagumo';
 import { forEach, slice } from 'lodash';
 import plural from 'plurals-cldr';
 
 import Client from '../../classes/Client';
-import Command from '../../classes/Command';
+import MusicCommand from '../../classes/commands/Music';
 import Category from '../../enums/Category';
-import DefaultEmbed, { ErrorEmbed, WarningEmbed } from '../../libs/discord-embeds';
+import DefaultEmbed from '../../libs/discord-embeds';
 import EmbedTitles from '../../libs/embed-titles';
-import env from '../../libs/env';
 import plurals from '../../libs/plurals';
 
-export default class Queue extends Command {
+export default class Queue extends MusicCommand {
   constructor(client: Client) {
     super(client, {
       name: 'queue',
@@ -22,61 +28,22 @@ export default class Queue extends Command {
     });
   }
 
-  async Execute(interaction: ChatInputCommandInteraction) {
-    const { guild, channel } = interaction;
-    const member = interaction.member as GuildMember | null;
+  async MusicCommandExecute(interaction: ChatInputCommandInteraction) {
+    const guild = interaction.guild as Guild;
+    const member = interaction.member as GuildMember;
+    const channel = interaction.channel as GuildTextBasedChannel;
+    const bot = guild.members.me as GuildMember;
 
-    if (!guild || !member || !channel) {
-      interaction.reply({
-        embeds: [ErrorEmbed(this.client, EmbedTitles.music, 'Помилка обробки команди')],
-        ephemeral: true,
-      });
-      return;
-    }
+    const musicChannelId = this.client.GetSetting('music_channel_id');
 
-    if (channel?.id !== env.MUSIC_CHANNEL_ID) {
-      interaction.reply({
-        embeds: [
-          ErrorEmbed(
-            this.client,
-            EmbedTitles.music,
-            `Ви можете використовувати цю команду тільки в ${this.client.channels.cache.get(env.MUSIC_CHANNEL_ID)}`
-          ),
-        ],
-        ephemeral: true,
-      });
-      return;
-    }
-
-    if (!member?.voice.channel) {
-      interaction.reply({
-        embeds: [ErrorEmbed(this.client, EmbedTitles.music, 'Ви не в голосовому каналі')],
-        ephemeral: true,
-      });
-      return;
-    }
-
-    if (guild?.members.me?.voice.channelId && member?.voice.channelId !== guild?.members.me?.voice.channelId) {
-      interaction.reply({
-        embeds: [
-          ErrorEmbed(
-            this.client,
-            EmbedTitles.music,
-            `Ви повинні бути в голосовому каналі разом з ботом (${guild.members.me.voice})`
-          ),
-        ],
-        ephemeral: true,
-      });
-      return;
-    }
+    await this.NullCheck(interaction);
+    await this.MusicChannelCheck(channel.id, musicChannelId);
+    await this.UserVoiceChannelCheck(member, bot);
 
     await interaction.deferReply({ ephemeral: true });
-    const player = this.client.lavalink.players.get(guild!.id);
+    const player = this.client.lavalink.players.get(guild!.id) as KazagumoPlayer;
 
-    if (!player || !player.queue || !player.queue.current) {
-      interaction.editReply({ embeds: [WarningEmbed(this.client, EmbedTitles.music, 'Наразі черга пуста.')] });
-      return;
-    }
+    await this.ClearQueueCheck(player);
 
     let data = '';
 

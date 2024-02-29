@@ -40,7 +40,7 @@ export default class Filter extends MusicCommand {
     });
   }
 
-  async Execute(interaction: ChatInputCommandInteraction) {
+  async MusicCommandExecute(interaction: ChatInputCommandInteraction) {
     const guild = interaction.guild as Guild;
     const member = interaction.member as GuildMember;
     const channel = interaction.channel as GuildTextBasedChannel;

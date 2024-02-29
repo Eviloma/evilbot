@@ -6,13 +6,13 @@ All notable changes to the "**Evilbot**" repository will be documented in this f
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
-## [**4.3.0**] - W.I.P.
+## [**4.3.0**] - 2024-02-29
 
 ### Added
 * Added **global chat setup** for the guild (used for greeting/leave messages, etc.)
 * Added **music chat setup**
 * Added **join role setup**
-* Added new commands: `/setup global-channel`, `/setup music-channel`, `/setup join-role`
+* Added new commands: `/setup global-channel`, `/setup music-channel`, `/setup join-role`, `/setup show`, `/setup temp_voice_channels_category`, `/setup join-to-talk-channel`
 
 ### Changed
 * All guild settings are now in one table
@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 ### Removed
 * Removed **GLOBAL_CHANNEL_ID**, **MUSIC_CHANNEL_ID**, **DEFAULT_MEMBER_ROLE_ID** and **GUILD_ID** envs
 * Removed Multi-guild function due to possible problems related to the musical part
+* Removed commands: `/setup temp-voice`
 
 
 ## [**4.2.0**] - 2024-02-28

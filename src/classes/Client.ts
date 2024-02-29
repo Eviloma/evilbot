@@ -5,7 +5,7 @@ import { find } from 'lodash';
 import { Connectors } from 'shoukaku';
 
 import db from '../db';
-import { Settings, settingsSchema } from '../db/schemas/settings';
+import { SettingKeys, Settings, settingsSchema } from '../db/schemas/settings';
 import IClient from '../interfaces/IClient';
 import env from '../libs/env';
 import LavalinkServers from '../libs/lavalink-servers';
@@ -88,7 +88,7 @@ export default class Client extends Discord.Client implements IClient {
     this.settings = await db.select().from(settingsSchema);
   }
 
-  GetSetting(key: string) {
+  GetSetting(key: SettingKeys) {
     return find(this.settings, ['key', key])?.value;
   }
 }

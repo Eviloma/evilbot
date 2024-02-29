@@ -1,19 +1,20 @@
 import {
   ApplicationCommandOptionType,
   ChatInputCommandInteraction,
+  Guild,
   GuildMember,
+  GuildTextBasedChannel,
   PermissionsBitField,
 } from 'discord.js';
 import { forEach } from 'lodash';
 
 import Client from '../../classes/Client';
-import Command from '../../classes/Command';
+import MusicCommand from '../../classes/commands/Music';
 import Category from '../../enums/Category';
 import DefaultEmbed, { ErrorEmbed, WarningEmbed } from '../../libs/discord-embeds';
 import EmbedTitles from '../../libs/embed-titles';
-import env from '../../libs/env';
 
-export default class Play extends Command {
+export default class Play extends MusicCommand {
   constructor(client: Client) {
     super(client, {
       name: 'play',
@@ -33,57 +34,21 @@ export default class Play extends Command {
     });
   }
 
-  async Execute(interaction: ChatInputCommandInteraction) {
-    const { guild, options, channel } = interaction;
-    const member = interaction.member as GuildMember | null;
-    const track = options.getString('track', true);
+  async MusicCommandExecute(interaction: ChatInputCommandInteraction) {
+    const guild = interaction.guild as Guild;
+    const member = interaction.member as GuildMember;
+    const channel = interaction.channel as GuildTextBasedChannel;
+    const bot = guild.members.me as GuildMember;
 
-    if (!guild || !member || !channel) {
-      interaction.reply({
-        embeds: [ErrorEmbed(this.client, EmbedTitles.music, 'Помилка обробки команди')],
-        ephemeral: true,
-      });
-      return;
-    }
+    const track = interaction.options.getString('track', true);
 
-    if (channel?.id !== env.MUSIC_CHANNEL_ID) {
-      interaction.reply({
-        embeds: [
-          ErrorEmbed(
-            this.client,
-            EmbedTitles.music,
-            `Ви можете використовувати цю команду тільки в ${this.client.channels.cache.get(env.MUSIC_CHANNEL_ID)}`
-          ),
-        ],
-        ephemeral: true,
-      });
-      return;
-    }
+    const musicChannelId = this.client.GetSetting('music_channel_id');
 
-    if (!member?.voice.channel) {
-      interaction.reply({
-        embeds: [ErrorEmbed(this.client, EmbedTitles.music, 'Ви не в голосовому каналі')],
-        ephemeral: true,
-      });
-      return;
-    }
-
-    if (guild?.members.me?.voice.channelId && member?.voice.channelId !== guild?.members.me?.voice.channelId) {
-      interaction.reply({
-        embeds: [
-          ErrorEmbed(
-            this.client,
-            EmbedTitles.music,
-            `Бот використовується в іншому голосовому каналі (${guild.members.me.voice})`
-          ),
-        ],
-        ephemeral: true,
-      });
-      return;
-    }
+    await this.NullCheck(interaction);
+    await this.MusicChannelCheck(channel.id, musicChannelId);
+    await this.UserVoiceChannelCheck(member, bot);
 
     await interaction.deferReply({ ephemeral: true });
-
     const player =
       this.client.lavalink.players.get(guild!.id) ??
       (await this.client.lavalink
@@ -121,7 +86,6 @@ export default class Play extends Command {
     }
 
     const embed = DefaultEmbed(this.client).setTitle(EmbedTitles.music);
-
     embed.setDescription(
       result.type === 'PLAYLIST'
         ? `🎶 Додано ${result.tracks.length} публікації з ${result.playlistName}`

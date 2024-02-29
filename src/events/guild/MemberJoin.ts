@@ -6,7 +6,6 @@ import { Events, GuildMember } from 'discord.js';
 import GreetingsCard from '../../canvas/GreetingsCard';
 import Client from '../../classes/Client';
 import Event from '../../classes/Event';
-import env from '../../libs/env';
 
 export default class MemberJoin extends Event {
   constructor(client: Client) {
@@ -18,12 +17,10 @@ export default class MemberJoin extends Event {
   }
 
   async Execute(member: GuildMember) {
-    const { user, guild, roles } = member;
-    const globalChannel = guild.channels.cache.get(env.GLOBAL_CHANNEL_ID);
-    const initialRole = guild.roles.cache.get(env.DEFAULT_MEMBER_ROLE_ID);
+    const { user, guild } = member;
+    const globalChannel = guild.channels.cache.get(this.client.GetSetting('global_channel_id') ?? '');
 
-    if (!globalChannel || !globalChannel.isTextBased() || !initialRole) return;
-
+    if (!globalChannel || !globalChannel.isTextBased()) return;
     await Font.fromFile(path.join(__dirname, '../../Raleway.ttf'));
 
     const card = new GreetingsCard()
@@ -35,6 +32,10 @@ export default class MemberJoin extends Event {
     const image = await card.build({ format: 'png' });
 
     await globalChannel.send({ content: `<@${user.id}>`, files: [image] });
-    await roles.add(env.DEFAULT_MEMBER_ROLE_ID, 'Member join');
+
+    const initialRole = guild.roles.cache.get(this.client.GetSetting('join_role_id') ?? '');
+    if (initialRole) {
+      await member.roles.add(initialRole, 'User joined to server');
+    }
   }
 }

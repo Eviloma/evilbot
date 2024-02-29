@@ -6,7 +6,6 @@ import { Events, GuildMember } from 'discord.js';
 import GreetingsCard from '../../canvas/GreetingsCard';
 import Client from '../../classes/Client';
 import Event from '../../classes/Event';
-import env from '../../libs/env';
 
 export default class MemberLeave extends Event {
   constructor(client: Client) {
@@ -19,7 +18,7 @@ export default class MemberLeave extends Event {
 
   async Execute(member: GuildMember) {
     const { user, guild } = member;
-    const globalChannel = guild.channels.cache.get(env.GLOBAL_CHANNEL_ID);
+    const globalChannel = guild.channels.cache.get(this.client.GetSetting('global_channel_id') ?? '');
 
     if (!globalChannel || !globalChannel.isTextBased()) return;
 
