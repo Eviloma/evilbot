@@ -1,8 +1,24 @@
-version: "3.8"
+version: '3.8'
 services:
   evilbot:
     image: higherror/evilbot
     environment:
-      - BOT_TOKEN=""
-      - CLIENT_ID=""
-      - GUILD_ID=""
+      # Bot settings
+      - BOT_TOKEN=
+      - CLIENT_ID=
+
+      # Spotify
+      - SPOTIFY_CLIENT_ID=
+      - SPOTIFY_CLIENT_SECRET=
+
+      # Lavalink
+      - LAVALINK_NAMES=
+      - LAVALINK_HOSTS=
+      - LAVALINK_PASSWORDS=
+      - LAVALINK_SECURED=
+
+      # Database (Postgresql)
+      - DATABASE_URL=postgresql://user:password@localhost:5432/db
+
+      # Disable update command on startup (optional)
+      - DISABLE_UPDATE_COMMANDS=false
