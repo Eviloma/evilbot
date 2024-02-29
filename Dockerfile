@@ -14,7 +14,7 @@ COPY --from=builder /usr/src/app/dist ./dist
 COPY --from=builder /usr/src/app/.husky ./.husky
 COPY --from=builder /usr/src/app/package.json ./package.json
 COPY --from=builder /usr/src/app/pnpm-lock.yaml ./pnpm-lock.yaml
-COPY --from=builder --chmod 755 /usr/src/app/start.sh ./start.sh
+COPY --from=builder --chmod=755 /usr/src/app/start.sh ./start.sh
 
 RUN npm install -g pnpm && pnpm install
 
