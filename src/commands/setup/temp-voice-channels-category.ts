@@ -8,7 +8,7 @@ import EmbedTitles from '../../libs/embed-titles';
 export default class JoinToTalkChannel extends SetupSubCommand {
   constructor(client: Client) {
     super(client, {
-      name: 'setup.temp_voice_channels_category',
+      name: 'setup.temp-voice-channels-category',
     });
   }
 

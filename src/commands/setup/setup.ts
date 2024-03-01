@@ -70,7 +70,7 @@ export default class Setup extends Command {
         },
 
         {
-          name: 'temp_voice_channels_category',
+          name: 'temp-voice-channels-category',
           description: 'Setup temp voice channels category',
           type: ApplicationCommandOptionType.Subcommand,
           options: [

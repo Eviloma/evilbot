@@ -60,7 +60,7 @@ const FunnyimagesEffect: IFunnyimagesEffect = {
   },
   rainbow: {
     name: 'rainbow',
-    description: 'Create rainbow (gay) filter images',
+    description: 'Create rainbow filter images',
     options: [SoloUser],
     minimumImages: 1,
     func: (images) => canvacord.rainbow(images[0]).catch(constant(null)),
