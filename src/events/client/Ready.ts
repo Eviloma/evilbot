@@ -16,28 +16,32 @@ export default class Ready extends Event {
   }
 
   async Execute() {
-    logger.info(`Starting...`);
-    logger.info(`Setting Presence...`);
+    logger.info(`⏳ Starting...`);
+    logger.info(`⏳ Setting Presence...`);
     this.client.user?.setPresence({
       activities: [
         { name: 'customstatus', type: ActivityType.Custom, state: `Evilbot v${process.env.npm_package_version}` },
       ],
       status: 'online',
     });
-    logger.info(`Client ${this.client.user?.tag} is ready`);
+    logger.info(`✅ Client ${this.client.user?.tag} is ready`);
+
+    logger.info(`⏳ Loading settings from database...`);
+    await this.client
+      .UpdateSettings()
+      .then(() => logger.info('✅ Database settings loaded'))
+      .catch((error) => logger.error(`❌ Error while loading settings: ${error}`));
 
     if (env.DISABLE_UPDATE_COMMANDS) {
-      logger.warn('Update commands is disabled');
+      logger.warn('⚠️ Update commands is disabled');
       return;
     }
 
-    logger.info('Updating commands...');
+    logger.info('⏳ Updating commands...');
 
     const commands = this.GetJson(this.client.commands);
 
     const rest = new REST({ globalRequestsPerSecond: 10, invalidRequestWarningInterval: 1 }).setToken(env.BOT_TOKEN);
-
-    logger.info('Updating commands...');
 
     await rest
       .put(Routes.applicationCommands(env.CLIENT_ID), {

@@ -54,8 +54,8 @@ export default class MusicCommand extends Command {
       throw new CustomError('Ви не в голосовому каналі', 'error');
     }
 
-    if (member.voice.channelId !== bot.voice.channelId) {
-      throw new CustomError(`Ви повинні бути в голосовому каналі разом з ботом (${bot.voice})`, 'error');
+    if (bot.voice.channel && member.voice.channelId !== bot.voice.channelId) {
+      throw new CustomError(`Ви повинні бути в голосовому каналі разом з ботом (${bot.voice.channel})`, 'error');
     }
   }
 
