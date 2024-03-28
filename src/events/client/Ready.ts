@@ -16,28 +16,28 @@ export default class Ready extends Event {
   }
 
   async Execute() {
-    logger.info(`⏳ Starting...`);
-    logger.info(`⏳ Setting Presence...`);
+    logger.info(`[Discord] ⏳ Starting...`);
+    logger.info(`[Discord] ⏳ Setting Presence...`);
     this.client.user?.setPresence({
       activities: [
         { name: 'customstatus', type: ActivityType.Custom, state: `Evilbot v${process.env.npm_package_version}` },
       ],
       status: 'online',
     });
-    logger.info(`✅ Client ${this.client.user?.tag} is ready`);
+    logger.info(`[Discord] ✅ Client ${this.client.user?.tag} is ready`);
 
-    logger.info(`⏳ Loading settings from database...`);
+    logger.info(`[Discord] ⏳ Loading settings from database...`);
     await this.client
       .UpdateSettings()
-      .then(() => logger.info('✅ Database settings loaded'))
-      .catch((error) => logger.error(`❌ Error while loading settings: ${error}`));
+      .then(() => logger.info('[Discord] ✅ Database settings loaded'))
+      .catch((error) => logger.error(`[Discord] ❌ Error while loading settings: ${error}`));
 
     if (env.DISABLE_UPDATE_COMMANDS) {
-      logger.warn('⚠️ Update commands is disabled');
+      logger.warn('[Discord] ⚠️ Update commands is disabled');
       return;
     }
 
-    logger.info('⏳ Updating commands...');
+    logger.info('[Discord] ⏳ Updating commands...');
 
     const commands = this.GetJson(this.client.commands);
 
@@ -47,8 +47,8 @@ export default class Ready extends Event {
       .put(Routes.applicationCommands(env.CLIENT_ID), {
         body: commands,
       })
-      .then((data) => logger.info(`✅ Successfully set ${(data as { length: number }).length} commands`))
-      .catch((error) => logger.error(`❌ Failed to set ${(error as { length: number }).length} commands`));
+      .then((data) => logger.info(`[Discord] ✅ Successfully set ${(data as { length: number }).length} commands`))
+      .catch((error) => logger.error(`[Discord] ❌ Failed to set commands: ${error} `));
   }
 
   private GetJson(commands: Collection<string, Command>) {

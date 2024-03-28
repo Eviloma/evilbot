@@ -4,6 +4,7 @@ import { Kazagumo } from 'kazagumo';
 import Button from '../classes/Button';
 import Command from '../classes/Command';
 import SubCommand from '../classes/SubCommand';
+import WebServer from '../classes/WebServer';
 
 export default interface IClient {
   commands: Collection<string, Command>;
@@ -11,6 +12,7 @@ export default interface IClient {
   subCommands: Collection<string, SubCommand>;
   cooldowns: Collection<string, Collection<string, number>>;
   lavalink: Kazagumo;
+  webServer: WebServer;
 
   Init(): void;
   LoadHandlers(): void;

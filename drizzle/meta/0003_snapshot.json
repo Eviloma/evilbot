@@ -1,0 +1,93 @@
+{
+  "id": "04c3cdc4-6214-4c91-aba2-5e1bd6a7379a",
+  "prevId": "f8469287-ce3f-4e9a-b866-543d040a38dc",
+  "version": "5",
+  "dialect": "pg",
+  "tables": {
+    "guild": {
+      "name": "guild",
+      "schema": "",
+      "columns": {
+        "user": {
+          "name": "user",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "valorant": {
+          "name": "valorant",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "guild_user_unique": {
+          "name": "guild_user_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "user"
+          ]
+        },
+        "guild_valorant_unique": {
+          "name": "guild_valorant_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "valorant"
+          ]
+        }
+      }
+    },
+    "guild_settings": {
+      "name": "guild_settings",
+      "schema": "",
+      "columns": {
+        "key": {
+          "name": "key",
+          "type": "setting_keys",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "value": {
+          "name": "value",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "guild_settings_key_unique": {
+          "name": "guild_settings_key_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "key"
+          ]
+        }
+      }
+    }
+  },
+  "enums": {
+    "setting_keys": {
+      "name": "setting_keys",
+      "values": {
+        "music_channel_id": "music_channel_id",
+        "global_channel_id": "global_channel_id",
+        "join_role_id": "join_role_id",
+        "join_to_talk_channel_id": "join_to_talk_channel_id",
+        "temp_voice_channels_category_id": "temp_voice_channels_category_id"
+      }
+    }
+  },
+  "schemas": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

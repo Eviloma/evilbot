@@ -141,35 +141,35 @@ export default class Handler implements IHandler {
 
   async LoadLavalinkEvents() {
     this.client.lavalink.shoukaku.on('close', (name, code, reason) => {
-      logger.info(`${name} is closed. Code: ${code}. Reason: ${reason}`);
+      logger.info(`[Lavalink] ${name} is closed. Code: ${code}. Reason: ${reason}`);
     });
 
     this.client.lavalink.shoukaku.on('debug', (name, info) => {
       if (env.isDev) {
-        logger.info(`Debug ${name}: ${info}`);
+        logger.info(`[Lavalink] Debug ${name}: ${info}`);
       }
     });
 
     this.client.lavalink.shoukaku.on('disconnect', (name) => {
-      logger.info(`${name} is disconnected.`);
+      logger.info(`[Lavalink] ${name} is disconnected.`);
     });
 
     this.client.lavalink.shoukaku.on('raw', (name, json) => {
       if (env.isDev) {
-        logger.info(`Raw ${name}: ${JSON.stringify(json)}`);
+        logger.info(`[Lavalink] Raw ${name}: ${JSON.stringify(json)}`);
       }
     });
 
     this.client.lavalink.shoukaku.on('ready', (name) => {
-      logger.info(`${name} is ready.`);
+      logger.info(`[Lavalink] ${name} is ready.`);
     });
 
     this.client.lavalink.shoukaku.on('reconnecting', (name, reconnectsLeft) => {
-      logger.info(`${name} is reconnecting... Reconnects left: ${reconnectsLeft}.`);
+      logger.info(`[Lavalink] ${name} is reconnecting... Reconnects left: ${reconnectsLeft}.`);
     });
 
     this.client.lavalink.shoukaku.on('error', (name, error) => {
-      logger.error(`${name}. Error: ${error.message}`);
+      logger.error(`[Lavalink] ${name}. Error: ${error.message}`);
     });
 
     this.client.lavalink.on('playerStart', (player, track) => {

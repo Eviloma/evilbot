@@ -22,6 +22,13 @@
       "when": 1709191331205,
       "tag": "0002_slim_dragon_man",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1711614687633,
+      "tag": "0003_tan_dust",
+      "breakpoints": true
     }
   ]
 }

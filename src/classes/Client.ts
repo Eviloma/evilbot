@@ -14,6 +14,7 @@ import Button from './Button';
 import Command from './Command';
 import Handler from './Handler';
 import SubCommand from './SubCommand';
+import WebServer from './WebServer';
 
 export default class Client extends Discord.Client implements IClient {
   handlers: Handler;
@@ -29,6 +30,8 @@ export default class Client extends Discord.Client implements IClient {
   lavalink: Kazagumo;
 
   settings: Settings[];
+
+  webServer: WebServer;
 
   constructor() {
     super({
@@ -70,6 +73,8 @@ export default class Client extends Discord.Client implements IClient {
       new Connectors.DiscordJS(this),
       [...LavalinkServers()]
     );
+
+    this.webServer = new WebServer(this);
   }
 
   async Init() {
