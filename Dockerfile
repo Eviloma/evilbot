@@ -6,4 +6,4 @@ ENV NODE_ENV=production
 
 RUN bun install --frozen-lockfile
 
-CMD ["bun", 'start']
+CMD [ "bun", "start" ]
