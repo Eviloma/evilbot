@@ -1,5 +1,3 @@
-import 'dotenv/config';
-
 import { bool, cleanEnv, str } from 'envalid';
 
 const env = cleanEnv(process.env, {

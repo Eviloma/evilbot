@@ -1,17 +1,14 @@
-/** @jsx JSX.createElement */
-/** @jsxFrag JSX.Fragment */
+import { Builder, loadImage } from 'canvacord';
+import React from 'react';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Builder, JSX, loadImage } from 'canvacord';
-
-interface Props {
+interface Properties {
   displayName: string;
   type: 'welcome' | 'goodbye';
   avatar: string;
   message: string;
 }
 
-export default class GreetingsCard extends Builder<Props> {
+export default class GreetingsCard extends Builder<Properties> {
   constructor() {
     super(930, 280);
     this.bootstrap({
@@ -27,7 +24,7 @@ export default class GreetingsCard extends Builder<Props> {
     return this;
   }
 
-  setType(value: Props['type']) {
+  setType(value: Properties['type']) {
     this.options.set('type', value);
     return this;
   }

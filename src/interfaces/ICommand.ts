@@ -1,7 +1,7 @@
-import { ChatInputCommandInteraction } from 'discord.js';
+import type { ChatInputCommandInteraction } from 'discord.js';
 
-import Client from '../classes/Client';
-import Category from '../enums/Category';
+import type Client from '@/classes/Client';
+import type Category from '@/enums/Category';
 
 export default interface ICommand {
   client: Client;

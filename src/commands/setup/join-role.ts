@@ -1,7 +1,7 @@
-import { ChatInputCommandInteraction } from 'discord.js';
+import { type ChatInputCommandInteraction } from 'discord.js';
 
-import Client from '../../classes/Client';
-import SetupSubCommand from '../../classes/commands/SetupSubCommand';
+import type Client from '@/classes/Client';
+import SetupSubCommand from '@/classes/commands/SetupSubCommand';
 
 export default class SetupMusicChannel extends SetupSubCommand {
   constructor(client: Client) {

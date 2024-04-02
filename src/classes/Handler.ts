@@ -1,18 +1,18 @@
-import path from 'node:path';
-
+import { Glob } from 'bun';
 import { Table } from 'console-table-printer';
-import { glob } from 'glob';
-import { forEach, map, noop, split } from 'lodash';
+import { map, noop, split } from 'lodash';
 
-import IHandler from '../interfaces/IHandler';
-import env from '../libs/env';
-import logger from '../libs/logger';
-import MusicControllerUpdate from '../libs/music-controller-update';
-import Button from './Button';
-import Client from './Client';
-import Command from './Command';
-import Event from './Event';
-import SubCommand from './SubCommand';
+import type IHandler from '@/interfaces/IHandler';
+import env from '@/utils/env';
+import logger from '@/utils/logger';
+import MusicControllerUpdate from '@/utils/music-controller-update';
+
+import type Button from './Button';
+import type Client from './Client';
+import type Command from './Command';
+import type Event from './Event';
+
+const glob = new Glob('**/*.ts');
 
 export default class Handler implements IHandler {
   client: Client;
@@ -31,37 +31,26 @@ export default class Handler implements IHandler {
       sort: (row1, row2) => row1.name.localeCompare(row2.name),
     });
 
-    const files = await glob(`dist/events/**/*.js`)
-      .then((filePath) => map(filePath, (file) => path.resolve(file)))
-      .catch((error) => {
-        logger.error(error);
-        return [];
-      });
-
     await Promise.all(
-      map(files, async (file) => {
-        const event: Event = await import(file)
+      map([...glob.scanSync('src/events/')], async (file) => {
+        const path = Bun.resolveSync(`src/events/${file}`, '.');
+        const event: Event = await import(path)
           .then((module) => new module.default(this.client))
           .catch((error) => logger.error(error));
-
         if (!event.name) {
           return (
-            delete require.cache[require.resolve(file)] &&
-            p.addRow({ name: file, status: "⚠️ Can't find event name", once: 'N/A' })
+            delete require.cache[require.resolve(path)] &&
+            p.addRow({ name: path, status: '⚠️ Event name not found', once: 'N/A' })
           );
         }
-
-        const execute = async (...args: unknown[]) => event.Execute(...args);
-
+        const execute = async (...arguments_: unknown[]) => event.Execute(...arguments_);
         if (event.once) {
           this.client.once(event.name.toString(), execute);
         } else {
           this.client.on(event.name.toString(), execute);
         }
-
         return (
-          delete require.cache[require.resolve(file)] &&
-          p.addRow({ name: event.name.toString(), status: '✅ Loaded', once: event.once })
+          delete require.cache[require.resolve(path)] && p.addRow({ name: path, status: '✅ Loaded', once: event.once })
         );
       })
     );
@@ -79,23 +68,18 @@ export default class Handler implements IHandler {
       ],
       sort: (row1, row2) => row1.name.localeCompare(row2.name),
     });
-    const files = await glob(`dist/commands/**/*.js`)
-      .then((filePath) => map(filePath, (file) => path.resolve(file)))
-      .catch((error) => {
-        logger.error(error);
-        return [];
-      });
 
     await Promise.all(
-      map(files, async (file) => {
-        const command: Command | SubCommand = await import(file)
+      map([...glob.scanSync('src/commands/')], async (file) => {
+        const path = Bun.resolveSync(`src/commands/${file}`, '.');
+        const command: Command = await import(path)
           .then((module) => new module.default(this.client))
           .catch((error) => logger.error(error));
 
         if (!command.name) {
           return (
-            delete require.cache[require.resolve(file)] &&
-            p.addRow({ name: file, status: "⚠️ Can't find command name", type: 'N/A' })
+            delete require.cache[require.resolve(path)] &&
+            p.addRow({ name: path, status: '⚠️ Command name not found', once: 'N/A' })
           );
         }
 
@@ -106,10 +90,10 @@ export default class Handler implements IHandler {
           );
         }
 
-        this.client.commands.set(command.name, command as Command);
+        this.client.commands.set(command.name, command);
         p.addRow({ name: command.name, status: '✅', type: 'Command', category: (command as Command).category });
 
-        return delete require.cache[require.resolve(file)];
+        return delete require.cache[require.resolve(path)];
       })
     );
 
@@ -117,26 +101,19 @@ export default class Handler implements IHandler {
   }
 
   async LoadButtons() {
-    const files = await glob(`dist/buttons/**/*.js`)
-      .then((filePath) => map(filePath, (file) => path.resolve(file)))
-      .catch((error) => {
-        logger.error(error);
-        return [];
-      });
-
-    forEach(files, async (file) => {
-      const button: Button = await import(file)
-        .then((module) => new module.default(this.client))
-        .catch((error) => logger.error(error));
-
-      if (!button.id) {
-        return delete require.cache[require.resolve(file)] && logger.error(`Missing button id in ${file}`);
-      }
-
-      this.client.buttons.set(button.id, button);
-
-      return delete require.cache[require.resolve(file)];
-    });
+    await Promise.all(
+      map([...glob.scanSync('src/buttons/')], async (file) => {
+        const path = Bun.resolveSync(`src/buttons/${file}`, '.');
+        const button: Button = await import(path)
+          .then((module) => new module.default(this.client))
+          .catch((error) => logger.error(error));
+        if (!button.id) {
+          return delete require.cache[require.resolve(path)] && logger.error(`Missing button id in ${path}`);
+        }
+        this.client.buttons.set(button.id, button);
+        return delete require.cache[require.resolve(path)];
+      })
+    );
   }
 
   async LoadLavalinkEvents() {

@@ -1,9 +1,9 @@
-import { ChannelType, ChatInputCommandInteraction, GuildChannel } from 'discord.js';
+import { ChannelType, type ChatInputCommandInteraction, type GuildChannel } from 'discord.js';
 
-import Client from '../../classes/Client';
-import SetupSubCommand from '../../classes/commands/SetupSubCommand';
-import { ErrorEmbed } from '../../libs/discord-embeds';
-import EmbedTitles from '../../libs/embed-titles';
+import type Client from '@/classes/Client';
+import SetupSubCommand from '@/classes/commands/SetupSubCommand';
+import { ErrorEmbed } from '@/utils/discord-embeds';
+import EmbedTitles from '@/utils/embed-titles';
 
 export default class JoinToTalkChannel extends SetupSubCommand {
   constructor(client: Client) {

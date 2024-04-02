@@ -1,6 +1,6 @@
-import { ButtonInteraction } from 'discord.js';
+import type { ButtonInteraction } from 'discord.js';
 
-import Client from '../classes/Client';
+import type Client from '@/classes/Client';
 
 export default interface IButton {
   client: Client;

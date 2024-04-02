@@ -1,4 +1,4 @@
-import { FilterOptions } from 'shoukaku';
+import type { FilterOptions } from 'shoukaku';
 
 const audioEffects: {
   key: string;

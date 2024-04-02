@@ -1,9 +1,9 @@
-import { Collection } from 'discord.js';
-import { Kazagumo } from 'kazagumo';
+import type { Collection } from 'discord.js';
+import type { Kazagumo } from 'kazagumo';
 
-import Button from '../classes/Button';
-import Command from '../classes/Command';
-import SubCommand from '../classes/SubCommand';
+import type Button from '@/classes/Button';
+import type Command from '@/classes/Command';
+import type SubCommand from '@/classes/SubCommand';
 
 export default interface IClient {
   commands: Collection<string, Command>;

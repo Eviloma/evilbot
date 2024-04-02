@@ -1,19 +1,19 @@
 import {
-  CategoryChannel,
+  type CategoryChannel,
   ChannelType,
-  Collection,
+  type Collection,
   Events,
-  Guild,
-  GuildMember,
+  type Guild,
+  type GuildMember,
   PermissionFlagsBits,
-  VoiceBasedChannel,
-  VoiceChannel,
+  type VoiceBasedChannel,
+  type VoiceChannel,
   VoiceState,
 } from 'discord.js';
 import { noop } from 'lodash';
 
-import Client from '../../classes/Client';
-import Event from '../../classes/Event';
+import type Client from '@/classes/Client';
+import Event from '@/classes/Event';
 
 export default class VoiceStateUpdate extends Event {
   constructor(client: Client) {
@@ -75,11 +75,11 @@ export default class VoiceStateUpdate extends Event {
   }
 
   private async RemoveTempVoiceChat(guild: Guild, parent: CategoryChannel) {
-    const channels = guild.channels.cache.filter(
+    const channelsCollection = guild.channels.cache.filter(
       (x) => x.parent === parent && x.type === ChannelType.GuildVoice
     ) as Collection<string, VoiceChannel>;
 
-    channels.forEach(async (x) => {
+    channelsCollection.forEach(async (x) => {
       if (x.members.size === 0) {
         await x.delete().catch(noop);
       }

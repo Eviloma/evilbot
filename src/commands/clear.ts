@@ -7,12 +7,12 @@ import {
 } from 'discord.js';
 import plural from 'plurals-cldr';
 
-import Client from '../classes/Client';
-import Command from '../classes/Command';
-import Category from '../enums/Category';
-import DefaultEmbed, { ErrorEmbed } from '../libs/discord-embeds';
-import EmbedTitles from '../libs/embed-titles';
-import plurals from '../libs/plurals';
+import type Client from '@/classes/Client';
+import Command from '@/classes/Command';
+import Category from '@/enums/Category';
+import DefaultEmbed, { ErrorEmbed } from '@/utils/discord-embeds';
+import EmbedTitles from '@/utils/embed-titles';
+import plurals from '@/utils/plurals';
 
 export default class Clear extends Command {
   constructor(client: Client) {

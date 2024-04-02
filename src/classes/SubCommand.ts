@@ -1,8 +1,10 @@
-import { CacheType, ChatInputCommandInteraction } from 'discord.js';
+/* eslint-disable class-methods-use-this */
+import { type CacheType, ChatInputCommandInteraction } from 'discord.js';
 
-import ISubCommand from '../interfaces/ISubCommand';
-import ISubCommandOptions from '../interfaces/ISubCommandOptions';
-import Client from './Client';
+import type ISubCommand from '@/interfaces/ISubCommand';
+import type ISubCommandOptions from '@/interfaces/ISubCommandOptions';
+
+import type Client from './Client';
 
 export default class SubCommand implements ISubCommand {
   client: Client;

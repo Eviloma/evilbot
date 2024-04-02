@@ -1,13 +1,14 @@
-import { ImageSource } from 'canvacord';
+import type { ImageSource } from 'canvacord';
 import { ChatInputCommandInteraction, GuildMember, PermissionsBitField } from 'discord.js';
 import { compact, constant, map } from 'lodash';
 
-import Category from '../../enums/Category';
-import IFunnyImageOptions from '../../interfaces/IFunnyImageOption';
-import { getImageByUrl } from '../../libs/axios';
-import { ErrorEmbed } from '../../libs/discord-embeds';
-import EmbedTitles from '../../libs/embed-titles';
-import Client from '../Client';
+import Category from '@/enums/Category';
+import type IFunnyImageOptions from '@/interfaces/IFunnyImageOption';
+import { getImageByUrl } from '@/utils/axios';
+import { ErrorEmbed } from '@/utils/discord-embeds';
+import EmbedTitles from '@/utils/embed-titles';
+
+import type Client from '../Client';
 import Command from '../Command';
 
 export default class FunnyImageCommand extends Command {

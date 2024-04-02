@@ -1,10 +1,12 @@
+/* eslint-disable class-methods-use-this */
 import { ChatInputCommandInteraction } from 'discord.js';
 
-import Category from '../enums/Category';
-import ICommand from '../interfaces/ICommand';
-import ICommandOption from '../interfaces/ICommandOption';
-import ICommandOptions from '../interfaces/ICommandOptions';
-import Client from './Client';
+import type Category from '@/enums/Category';
+import type ICommand from '@/interfaces/ICommand';
+import type ICommandOption from '@/interfaces/ICommandOption';
+import type ICommandOptions from '@/interfaces/ICommandOptions';
+
+import type Client from './Client';
 
 export default class Command implements ICommand {
   client: Client;

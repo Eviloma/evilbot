@@ -1,5 +1,5 @@
 import { map, max, slice, split } from 'lodash';
-import { NodeOption } from 'shoukaku';
+import type { NodeOption } from 'shoukaku';
 
 import env from './env';
 

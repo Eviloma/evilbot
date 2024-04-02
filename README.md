@@ -12,7 +12,7 @@
   </p>
 </p>
 
-![Contributors](https://img.shields.io/github/contributors/Eviloma/evilbot?color=dark-green) ![Issues](https://img.shields.io/github/issues/Eviloma/evilbot) ![License](https://img.shields.io/github/license/Eviloma/evilbot) 
+![Contributors](https://img.shields.io/github/contributors/Eviloma/evilbot?color=dark-green) ![Issues](https://img.shields.io/github/issues/Eviloma/evilbot) ![License](https://img.shields.io/github/license/Eviloma/evilbot)
 
 ## Table Of Contents
 
@@ -41,13 +41,13 @@ This Discord bot, developed in TypeScript, leverages the power of the discord.js
 - **Fun Image Filters Command**: Inject a dose of fun and creativity into your server with the bot's image filter command. Users can apply various entertaining and amusing filters to their images, sparking creativity and laughter within the community.
 - **Persistent Storage with PostgreSQL**: All these settings are securely stored in a PostgreSQL database, ensuring persistence across bot restarts. This not only facilitates easy configuration but also provides a reliable and scalable solution for managing server-specific settings.
 
-
 ## Commands
 
 - `[Param]` - Required params
 - `<Param>` - Optional params
 
-### Fun 
+### Fun
+
 - `/affected <member>` - create affected mem with member avatar
 - `/beautiful <member>` - create beautiful mem with member avatar
 - `/facepalm <member>` - create facepalm mem with member avatar
@@ -61,6 +61,7 @@ This Discord bot, developed in TypeScript, leverages the power of the discord.js
 - `/trash <member>` - create trash mem with member avatar
 
 ### Music
+
 - `/filter <filter>` - apply filter to the player
 - `/loop <mode>` - toggle loop mode (off, track, queue)
 - `/pause` - pause player
@@ -72,6 +73,7 @@ This Discord bot, developed in TypeScript, leverages the power of the discord.js
 - `/volume <number>` - change volume (0-100)
 
 ### Setup
+
 - `/setup show` - show setup
 - `/setup global-channel [channel]` - set global channel (must be a text channel). If no channel is specified, the current global channel will be removed
 - `/setup join-role [role]` - set role for member join. If no role is specified, the current join role will be removed
@@ -80,17 +82,18 @@ This Discord bot, developed in TypeScript, leverages the power of the discord.js
 - `/setup temp-voice-channels-category` - set temp voice channels category (must be a category). If no category is specified, the current temp voice channels category will be removed
 
 ### Other
+
 - `/clear [number]` - clear messages in channel (default 10)
 - `/ping` - show bot ping
 
-
 ## Built With
 
-* [Typescript](https://www.typescriptlang.org/)
-* [Discord.js](https://discord.js.org/)
-* [Kazagumo](https://github.com/Takiyo0/Kazagumo)
-* [Canvacord](https://canvacord.js.org/)
-* [Drizzle ORM](https://orm.drizzle.team/)
+- [Typescript](https://www.typescriptlang.org/)
+- [Bun](https://bun.sh/)
+- [Discord.js](https://discord.js.org/)
+- [Kazagumo](https://github.com/Takiyo0/Kazagumo)
+- [Canvacord](https://canvacord.js.org/)
+- [Drizzle ORM](https://orm.drizzle.team/)
 
 ## Roadmap
 
@@ -99,10 +102,11 @@ See the [open issues](https://github.com/Eviloma/evilbot/issues) for a list of p
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-* If you have suggestions for adding or removing projects, feel free to [open an issue](https://github.com/Eviloma/evilbot/issues/new) to discuss it, or directly create a pull request after you edit the *README.md* file with necessary changes.
-* Please make sure you check your spelling and grammar.
-* Create individual PR for each suggestion.
-* Please also read through the [Code Of Conduct](https://github.com/Eviloma/evilbot/blob/main/CODE_OF_CONDUCT.md) before posting your first idea as well.
+
+- If you have suggestions for adding or removing projects, feel free to [open an issue](https://github.com/Eviloma/evilbot/issues/new) to discuss it, or directly create a pull request after you edit the _README.md_ file with necessary changes.
+- Please make sure you check your spelling and grammar.
+- Create individual PR for each suggestion.
+- Please also read through the [Code Of Conduct](https://github.com/Eviloma/evilbot/blob/main/CODE_OF_CONDUCT.md) before posting your first idea as well.
 
 ### Creating A Pull Request
 

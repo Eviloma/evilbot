@@ -2,7 +2,7 @@ import { canvacord } from 'canvacord';
 import { ApplicationCommandOptionType } from 'discord.js';
 import { constant } from 'lodash';
 
-import IFunnyImageOptions from '../interfaces/IFunnyImageOption';
+import type IFunnyImageOptions from '@/interfaces/IFunnyImageOption';
 
 interface IFunnyimagesEffect {
   [key: string]: IFunnyImageOptions;
@@ -29,7 +29,7 @@ const SecondaryUser = {
   required: false,
 };
 
-const FunnyimagesEffect: IFunnyimagesEffect = {
+const FunnyImageEffects: IFunnyimagesEffect = {
   affected: {
     name: 'affected',
     description: 'Create affected filter images',
@@ -109,4 +109,4 @@ const FunnyimagesEffect: IFunnyimagesEffect = {
   },
 };
 
-export default FunnyimagesEffect;
+export default FunnyImageEffects;

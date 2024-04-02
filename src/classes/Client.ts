@@ -4,16 +4,17 @@ import Spotify from 'kazagumo-spotify';
 import { find } from 'lodash';
 import { Connectors } from 'shoukaku';
 
-import db from '../db';
-import { SettingKeys, Settings, settingsSchema } from '../db/schemas/settings';
-import IClient from '../interfaces/IClient';
-import env from '../libs/env';
-import LavalinkServers from '../libs/lavalink-servers';
-import logger from '../libs/logger';
-import Button from './Button';
-import Command from './Command';
+import db from '@/db';
+import { type SettingKeys, type Settings, settingsSchema } from '@/db/schema';
+import type IClient from '@/interfaces/IClient';
+import env from '@/utils/env';
+import LavalinkServers from '@/utils/lavalink-servers';
+import logger from '@/utils/logger';
+
+import type Button from './Button';
+import type Command from './Command';
 import Handler from './Handler';
-import SubCommand from './SubCommand';
+import type SubCommand from './SubCommand';
 
 export default class Client extends Discord.Client implements IClient {
   handlers: Handler;

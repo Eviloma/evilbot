@@ -1,6 +1,6 @@
-import { Events } from 'discord.js';
+import type { Events } from 'discord.js';
 
-import Client from '../classes/Client';
+import type Client from '@/classes/Client';
 
 export default interface IEvent {
   client: Client;

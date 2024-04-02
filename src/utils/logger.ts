@@ -8,7 +8,7 @@ const myFormat = printf(
 );
 
 const logger = winston.createLogger({
-  format: combine(colorize(), myFormat),
+  format: combine(myFormat),
   transports: [new winston.transports.Console({})],
 });
 

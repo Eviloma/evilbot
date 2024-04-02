@@ -1,7 +1,8 @@
 import { eq } from 'drizzle-orm';
 
-import db from '../../db';
-import { SettingKeys, settingsSchema } from '../../db/schemas/settings';
+import db from '@/db';
+import { type SettingKeys, settingsSchema } from '@/db/schema';
+
 import SubCommand from '../SubCommand';
 
 export default class SetupSubCommand extends SubCommand {

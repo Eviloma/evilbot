@@ -1,8 +1,8 @@
 import { ApplicationCommandOptionType, PermissionsBitField } from 'discord.js';
 
-import Client from '../../classes/Client';
-import Command from '../../classes/Command';
-import Category from '../../enums/Category';
+import type Client from '@/classes/Client';
+import Command from '@/classes/Command';
+import Category from '@/enums/Category';
 
 export default class Setup extends Command {
   constructor(client: Client) {

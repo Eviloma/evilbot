@@ -1,11 +1,9 @@
-import path from 'node:path';
-
 import { Font } from 'canvacord';
 import { Events, GuildMember } from 'discord.js';
 
-import GreetingsCard from '../../canvas/GreetingsCard';
-import Client from '../../classes/Client';
-import Event from '../../classes/Event';
+import GreetingsCard from '@/canvases/GreetingsCard';
+import type Client from '@/classes/Client';
+import Event from '@/classes/Event';
 
 export default class MemberJoin extends Event {
   constructor(client: Client) {
@@ -21,7 +19,7 @@ export default class MemberJoin extends Event {
     const globalChannel = guild.channels.cache.get(this.client.GetSetting('global_channel_id') ?? '');
 
     if (!globalChannel || !globalChannel.isTextBased()) return;
-    await Font.fromFile(path.join(__dirname, '../../Raleway.ttf'));
+    await Font.fromFile('src/assets/Raleway.ttf');
 
     const card = new GreetingsCard()
       .setAvatar(user.displayAvatarURL({ forceStatic: true }))

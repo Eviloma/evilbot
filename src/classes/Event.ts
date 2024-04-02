@@ -1,8 +1,9 @@
+/* eslint-disable class-methods-use-this */
 import { Events } from 'discord.js';
 
-import IEvent from '../interfaces/IEvent';
-import IEventOptions from '../interfaces/IEventOptions';
-import Client from './Client';
+import type IEvent from '../interfaces/IEvent';
+import type IEventOptions from '../interfaces/IEventOptions';
+import type Client from './Client';
 
 export default class Event implements IEvent {
   client: Client;
@@ -20,7 +21,7 @@ export default class Event implements IEvent {
     this.once = options.once;
   }
 
-  async Execute(...args: unknown[]) {
-    throw new Error(`Execute not implemented. Args: ${JSON.stringify(args)}`);
+  async Execute(...arguments_: unknown[]) {
+    throw new Error(`Execute not implemented. Args: ${JSON.stringify(arguments_)}`);
   }
 }

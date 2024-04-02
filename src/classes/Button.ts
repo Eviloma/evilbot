@@ -1,7 +1,9 @@
+/* eslint-disable class-methods-use-this */
 import { ButtonInteraction } from 'discord.js';
 
-import IButton from '../interfaces/IButton';
-import Client from './Client';
+import type IButton from '@/interfaces/IButton';
+
+import type Client from './Client';
 
 export default class Button implements IButton {
   client: Client;

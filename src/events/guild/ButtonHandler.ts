@@ -1,8 +1,8 @@
 import { ButtonInteraction, Events } from 'discord.js';
 
-import Button from '../../classes/Button';
-import Client from '../../classes/Client';
-import Event from '../../classes/Event';
+import type Button from '@/classes/Button';
+import type Client from '@/classes/Client';
+import Event from '@/classes/Event';
 
 export default class ButtonHandler extends Event {
   constructor(client: Client) {

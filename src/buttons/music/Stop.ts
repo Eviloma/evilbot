@@ -1,10 +1,10 @@
-import { ButtonInteraction, CacheType } from 'discord.js';
+import type { ButtonInteraction, CacheType } from 'discord.js';
 import { noop } from 'lodash';
 
-import Button from '../../classes/Button';
-import Client from '../../classes/Client';
-import DefaultEmbed, { ErrorEmbed, WarningEmbed } from '../../libs/discord-embeds';
-import EmbedTitles from '../../libs/embed-titles';
+import Button from '@/classes/Button';
+import type Client from '@/classes/Client';
+import DefaultEmbed, { ErrorEmbed, WarningEmbed } from '@/utils/discord-embeds';
+import EmbedTitles from '@/utils/embed-titles';
 
 export default class Stop extends Button {
   constructor(client: Client) {

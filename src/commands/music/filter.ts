@@ -3,19 +3,19 @@ import {
   ChatInputCommandInteraction,
   Guild,
   GuildMember,
-  GuildTextBasedChannel,
+  type GuildTextBasedChannel,
   PermissionsBitField,
 } from 'discord.js';
-import { KazagumoPlayer } from 'kazagumo';
+import type { KazagumoPlayer } from 'kazagumo';
 import { capitalize, find, map } from 'lodash';
 
-import Client from '../../classes/Client';
-import MusicCommand from '../../classes/commands/Music';
-import Category from '../../enums/Category';
-import DefaultEmbed, { WarningEmbed } from '../../libs/discord-embeds';
-import EmbedTitles from '../../libs/embed-titles';
-import audioEffects from '../../libs/filters';
-import MusicControllerUpdate from '../../libs/music-controller-update';
+import type Client from '@/classes/Client';
+import MusicCommand from '@/classes/commands/Music';
+import Category from '@/enums/Category';
+import audioEffects from '@/utils/audio-effects';
+import DefaultEmbed, { WarningEmbed } from '@/utils/discord-embeds';
+import EmbedTitles from '@/utils/embed-titles';
+import MusicControllerUpdate from '@/utils/music-controller-update';
 
 export default class Filter extends MusicCommand {
   constructor(client: Client) {

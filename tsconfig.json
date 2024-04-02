@@ -1,19 +1,38 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "CommonJS",
-    "moduleResolution": "Node",
+    // Enable latest features
+    "lib": ["ESNext", "DOM"],
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleDetection": "force",
+    "jsx": "react",
+    "allowJs": true,
+
+    // Bundler mode
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
+
+    // Best practices
     "strict": true,
-    "noImplicitAny": true,
-    "declaration": false,
     "skipLibCheck": true,
+    "noFallthroughCasesInSwitch": true,
+
+    // Some stricter flags (disabled by default)
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitAny": true,
     "strictNullChecks": true,
     "resolveJsonModule": true,
+    "noPropertyAccessFromIndexSignature": false,
     "esModuleInterop": true,
-    "outDir": "dist",
-    "rootDir": "src",
-    "jsx": "react"
+    "rootDir": "./",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "~/drizzle/*": ["drizzle/*"]
+    }
   },
-  "include": ["src", ".eslintrc.js"],
-  "exclude": ["node_modules"]
+  "include": ["**/*.ts", "**/*.tsx", "**/*.json", ".eslintrc.cjs"]
 }

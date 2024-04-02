@@ -1,10 +1,10 @@
 import { ActivityType, Collection, Events, REST, Routes } from 'discord.js';
 
-import Client from '../../classes/Client';
-import Command from '../../classes/Command';
-import Event from '../../classes/Event';
-import env from '../../libs/env';
-import logger from '../../libs/logger';
+import type Client from '@/classes/Client';
+import type Command from '@/classes/Command';
+import Event from '@/classes/Event';
+import env from '@/utils/env';
+import logger from '@/utils/logger';
 
 export default class Ready extends Event {
   constructor(client: Client) {
@@ -51,8 +51,8 @@ export default class Ready extends Event {
       .catch((error) => logger.error(`❌ Failed to set ${(error as { length: number }).length} commands`));
   }
 
-  private GetJson(commands: Collection<string, Command>) {
-    return commands.map((command) => ({
+  private GetJson(commandsCollection: Collection<string, Command>) {
+    return commandsCollection.map((command) => ({
       name: command.name,
       description: command.description,
       options: command.options,

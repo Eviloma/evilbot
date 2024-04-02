@@ -1,10 +1,10 @@
 import { ChatInputCommandInteraction, Collection, Events } from 'discord.js';
 
-import Client from '../../classes/Client';
-import Command from '../../classes/Command';
-import Event from '../../classes/Event';
-import { ErrorEmbed } from '../../libs/discord-embeds';
-import logger from '../../libs/logger';
+import type Client from '@/classes/Client';
+import type Command from '@/classes/Command';
+import Event from '@/classes/Event';
+import { ErrorEmbed } from '@/utils/discord-embeds';
+import logger from '@/utils/logger';
 
 export default class CommandHadler extends Event {
   constructor(client: Client) {

@@ -1,6 +1,6 @@
 import { EmbedBuilder } from 'discord.js';
 
-import Client from '../classes/Client';
+import type Client from '@/classes/Client';
 
 export default function DefaultEmbed(client: Client) {
   return new EmbedBuilder()

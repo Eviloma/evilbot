@@ -3,16 +3,16 @@ import {
   ChatInputCommandInteraction,
   Guild,
   GuildMember,
-  GuildTextBasedChannel,
+  type GuildTextBasedChannel,
   PermissionsBitField,
 } from 'discord.js';
 import { forEach } from 'lodash';
 
-import Client from '../../classes/Client';
-import MusicCommand from '../../classes/commands/Music';
-import Category from '../../enums/Category';
-import DefaultEmbed, { ErrorEmbed, WarningEmbed } from '../../libs/discord-embeds';
-import EmbedTitles from '../../libs/embed-titles';
+import type Client from '@/classes/Client';
+import MusicCommand from '@/classes/commands/Music';
+import Category from '@/enums/Category';
+import DefaultEmbed, { ErrorEmbed, WarningEmbed } from '@/utils/discord-embeds';
+import EmbedTitles from '@/utils/embed-titles';
 
 export default class Play extends MusicCommand {
   constructor(client: Client) {

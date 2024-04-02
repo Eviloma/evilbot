@@ -1,8 +1,9 @@
-import { ChatInputCommandInteraction, GuildMember } from 'discord.js';
-import { KazagumoPlayer } from 'kazagumo';
+import type { ChatInputCommandInteraction, GuildMember } from 'discord.js';
+import type { KazagumoPlayer } from 'kazagumo';
 
-import { ErrorEmbed, WarningEmbed } from '../../libs/discord-embeds';
-import EmbedTitles from '../../libs/embed-titles';
+import { ErrorEmbed, WarningEmbed } from '@/utils/discord-embeds';
+import EmbedTitles from '@/utils/embed-titles';
+
 import Command from '../Command';
 import CustomError from '../CustomError';
 

@@ -1,9 +1,9 @@
 /* eslint-disable sonarjs/no-nested-template-literals */
-import { ChatInputCommandInteraction } from 'discord.js';
+import { type ChatInputCommandInteraction } from 'discord.js';
 import { join } from 'lodash';
 
-import Client from '../../classes/Client';
-import SetupSubCommand from '../../classes/commands/SetupSubCommand';
+import type Client from '@/classes/Client';
+import SetupSubCommand from '@/classes/commands/SetupSubCommand';
 
 const ENABLED = '✅ Enabled';
 const DISABLED = '❌ Disabled';
