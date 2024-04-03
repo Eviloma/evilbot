@@ -6,6 +6,7 @@ services:
       # Bot settings
       - BOT_TOKEN=
       - CLIENT_ID=
+      - CLIENT_SECRET=
 
       # Spotify
       - SPOTIFY_CLIENT_ID=
@@ -22,3 +23,6 @@ services:
 
       # Disable update command on startup (optional)
       - DISABLE_UPDATE_COMMANDS=false
+
+      # WebServer
+      - BASE_URL= # optional

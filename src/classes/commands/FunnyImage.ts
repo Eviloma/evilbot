@@ -4,9 +4,9 @@ import { compact, constant, map } from 'lodash';
 
 import Category from '@/enums/Category';
 import type IFunnyImageOptions from '@/interfaces/IFunnyImageOption';
-import { getImageByUrl } from '@/utils/axios';
 import { ErrorEmbed } from '@/utils/discord-embeds';
 import EmbedTitles from '@/utils/embed-titles';
+import getImageByUrl from '@/utils/fetches/image-by-url';
 
 import type Client from '../Client';
 import Command from '../Command';

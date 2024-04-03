@@ -13,7 +13,15 @@ export const settingsSchema = pgTable('guild_settings', {
   value: text('value').notNull(),
 });
 
+export const guildSchema = pgTable('guild', {
+  user: text('user').notNull().primaryKey().unique(),
+  valorant: text('valorant').unique(),
+});
+
 export type SettingKeys = (typeof settingKeys.enumValues)[number];
 
 export type Settings = typeof settingsSchema.$inferSelect;
+export type Guild = typeof guildSchema.$inferSelect;
+
 export type SettingsInsert = typeof settingsSchema.$inferInsert;
+export type GuildInsert = typeof guildSchema.$inferInsert;

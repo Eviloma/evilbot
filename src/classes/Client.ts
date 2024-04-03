@@ -1,4 +1,5 @@
 import Discord, { Collection } from 'discord.js';
+import DiscordOauth2 from 'discord-oauth2';
 import { Kazagumo } from 'kazagumo';
 import Spotify from 'kazagumo-spotify';
 import { find } from 'lodash';
@@ -30,6 +31,8 @@ export default class Client extends Discord.Client implements IClient {
   lavalink: Kazagumo;
 
   settings: Settings[];
+
+  oauth: DiscordOauth2;
 
   constructor() {
     super({
@@ -71,6 +74,7 @@ export default class Client extends Discord.Client implements IClient {
       new Connectors.DiscordJS(this),
       [...LavalinkServers()]
     );
+    this.oauth = new DiscordOauth2({ version: 'v10', clientId: env.CLIENT_ID, clientSecret: env.CLIENT_SECRET });
   }
 
   async Init() {
