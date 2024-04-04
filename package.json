@@ -1,6 +1,6 @@
 {
   "name": "@eviloma/evilbot",
-  "version": "4.4.0",
+  "version": "4.4.1",
   "private": true,
   "description": "Official discord bot for Eviloma server",
   "keywords": [
@@ -22,7 +22,7 @@
   "scripts": {
     "db:generate": "drizzle-kit generate:pg",
     "db:migrate": "bun ./migrate.ts",
-    "dev": "NODE_ENV=development bun --hot .",
+    "dev": "NODE_ENV=development bun --watch .",
     "lint": "eslint --format=mo --fix .",
     "prepare": "husky",
     "start": "bun ."
@@ -42,7 +42,6 @@
     "lodash": "^4.17.21",
     "plurals-cldr": "^2.0.1",
     "postgres": "^3.4.4",
-    "react": "^18.2.0",
     "shoukaku": "^4.0.1",
     "winston": "^3.13.0"
   },

@@ -1,5 +1,8 @@
-import { Builder, loadImage } from 'canvacord';
-import React from 'react';
+/** @jsx JSX.createElement */
+/** @jsxFrag JSX.Fragment */
+
+// eslint-disable-next-line unused-imports/no-unused-imports
+import { Builder, JSX, loadImage } from 'canvacord';
 
 interface Properties {
   displayName: string;
