@@ -1,6 +1,6 @@
 {
   "name": "@eviloma/evilbot",
-  "version": "4.4.1",
+  "version": "4.4.2",
   "private": true,
   "description": "Official discord bot for Eviloma server",
   "keywords": [
@@ -28,6 +28,7 @@
     "start": "bun ."
   },
   "dependencies": {
+    "@napi-rs/canvas": "^0.1.51",
     "axios": "^1.6.8",
     "canvacord": "^6.0.2",
     "console-table-printer": "^2.12.0",
@@ -36,6 +37,7 @@
     "drizzle-orm": "^0.30.6",
     "easy-discord-components": "^1.1.2",
     "envalid": "^8.0.0",
+    "greetify": "^2.0.1",
     "kazagumo": "^3.0.3",
     "kazagumo-filter": "^2.0.0",
     "kazagumo-spotify": "^2.0.1",

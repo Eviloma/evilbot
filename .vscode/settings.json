@@ -2,9 +2,5 @@
   "typescript.tsdk": "node_modules\\typescript\\lib",
   "eslint.enable": true,
   "editor.formatOnSave": true,
-  "eslint.validate": ["json"],
-  "eslint.runtime": "bun",
-  "eslint.execArgv": ["--bun"],
-  "eslint.trace.server": "messages",
-  "eslint.workingDirectories": [{ "mode": "auto" }]
+  "eslint.validate": ["json", "javascript", "typescript", "typescriptreact"]
 }
