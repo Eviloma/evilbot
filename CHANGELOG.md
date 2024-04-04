@@ -8,6 +8,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ---
 
+## [**4.4.2**] - 2024-04-04
+
+### Added
+
+- Readded join message
+
+### Deleted
+
+- Deleted leave message permanently
+
 ## [**4.4.1**] - 2024-04-04
 
 ### Fixed
