@@ -8,6 +8,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ---
 
+## [**4.4.1**] - 2024-04-04
+
+### Fixed
+
+- Fixed ignore `LAVALINK_SECURED` flag
+
+### Removed
+
+- Temporary removed join/leave message
+
 ## [**4.4.0**] - 2024-04-02
 
 ### Changed

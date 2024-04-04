@@ -9,7 +9,7 @@ export default function LavalinkServers(): NodeOption[] {
   const names = split(LAVALINK_NAMES, '|');
   const hosts = split(LAVALINK_HOSTS, '|');
   const passwords = split(LAVALINK_PASSWORDS, '|');
-  const secured = map(split(LAVALINK_SECURED, '|'), Boolean);
+  const secured = map(split(LAVALINK_SECURED, '|'), (e) => e === 'true');
 
   const hostsCount = max([names.length, hosts.length, passwords.length, secured.length]);
 
