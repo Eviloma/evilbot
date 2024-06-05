@@ -1,29 +1,29 @@
 import {
   ApplicationCommandOptionType,
-  ChatInputCommandInteraction,
-  Guild,
-  GuildMember,
+  type ChatInputCommandInteraction,
+  type Guild,
+  type GuildMember,
   type GuildTextBasedChannel,
   PermissionsBitField,
-} from 'discord.js';
-import { forEach } from 'lodash';
+} from "discord.js";
 
-import type Client from '@/classes/Client';
-import MusicCommand from '@/classes/commands/Music';
-import Category from '@/enums/Category';
-import DefaultEmbed, { ErrorEmbed, WarningEmbed } from '@/utils/discord-embeds';
-import EmbedTitles from '@/utils/embed-titles';
+import type Client from "@/classes/Client";
+import MusicCommand from "@/classes/commands/Music";
+import Category from "@/enums/Category";
+import DefaultEmbed, { WarningEmbed } from "@/utils/discord-embeds";
+import EmbedTitles from "@/utils/embed-titles";
+import { forEach } from "lodash";
 
 export default class Play extends MusicCommand {
   constructor(client: Client) {
     super(client, {
-      name: 'play',
-      description: 'Play a song!',
+      name: "play",
+      description: "Play a song!",
       category: Category.Music,
       options: [
         {
-          name: 'track',
-          description: 'The track to play',
+          name: "track",
+          description: "The track to play",
           type: ApplicationCommandOptionType.String,
           required: true,
         },
@@ -40,57 +40,49 @@ export default class Play extends MusicCommand {
     const channel = interaction.channel as GuildTextBasedChannel;
     const bot = guild.members.me as GuildMember;
 
-    const track = interaction.options.getString('track', true);
+    const track = interaction.options.getString("track", true);
 
-    const musicChannelId = this.client.GetSetting('music_channel_id');
+    const musicChannelId = this.client.GetSetting("music_channel_id");
+
+    await interaction.deferReply({ ephemeral: true });
 
     await this.NullCheck(interaction);
     await this.MusicChannelCheck(channel.id, musicChannelId);
     await this.UserVoiceChannelCheck(member, bot);
 
-    await interaction.deferReply({ ephemeral: true });
     const player =
-      this.client.lavalink.players.get(guild!.id) ??
-      (await this.client.lavalink
-        .createPlayer({
-          guildId: guild.id,
-          textId: channel.id,
-          voiceId: member.voice.channelId!,
-          volume: 25,
-        })
-        .catch(() => {
-          interaction.editReply({
-            embeds: [ErrorEmbed(this.client, EmbedTitles.music, `Не вдалось створити плеєр.`)],
-          });
-          return null;
-        }));
+      this.client.lavalink.players.get(guild.id) ??
+      this.client.lavalink.createConnection({
+        guildId: guild.id,
+        // biome-ignore lint/style/noNonNullAssertion: Checked in MusicChannelCheck
+        textChannel: musicChannelId!,
+        // biome-ignore lint/style/noNonNullAssertion: Checked in UserVoiceChannelCheck
+        voiceChannel: member.voice.channelId!,
+      });
 
-    if (!player) return;
+    const result = await player.resolve({ query: track, requester: member });
 
-    const result = await this.client.lavalink.search(track, { requester: member });
     if (result.tracks.length === 0) {
-      interaction.editReply({
-        embeds: [WarningEmbed(this.client, EmbedTitles.music, 'Трек не знайдено')],
+      await interaction.editReply({
+        embeds: [WarningEmbed(this.client, EmbedTitles.music, "Трек не знайдено")],
       });
       return;
     }
 
-    if (result.type === 'PLAYLIST') {
-      forEach(result.tracks, (e) => player.queue.add(e));
-    } else {
-      player.queue.add(result.tracks[0]);
-    }
+    forEach(result.tracks, (track) => {
+      player.queue.add(track);
+    });
 
-    if (!player.playing) {
+    if (!player.isPlaying) {
       await player.play();
     }
 
     const embed = DefaultEmbed(this.client).setTitle(EmbedTitles.music);
     embed.setDescription(
-      result.type === 'PLAYLIST'
-        ? `🎶 Додано ${result.tracks.length} публікації з ${result.playlistName}`
-        : `🎶 Додано ${result.tracks[0].title}`
+      result.loadType === "playlist"
+        ? `🎶 Додано ${result.tracks.length} публікації з ${result.playlistInfo.name}`
+        : `🎶 Додано ${result.tracks[0].info.title}`,
     );
-    interaction.editReply({ embeds: [embed] });
+    await interaction.editReply({ embeds: [embed] });
   }
 }

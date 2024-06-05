@@ -34,5 +34,5 @@
       "~/drizzle/*": ["drizzle/*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", "**/*.json", ".eslintrc.cjs"]
+  "include": ["**/*.ts", "**/*.tsx", "**/*.json"]
 }

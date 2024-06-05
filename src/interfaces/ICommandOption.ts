@@ -1,4 +1,4 @@
-import type { ApplicationCommandOptionType } from 'discord.js';
+import type { ApplicationCommandOptionType } from "discord.js";
 
 export default interface ICommandOption {
   name: string;

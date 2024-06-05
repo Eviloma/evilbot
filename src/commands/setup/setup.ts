@@ -1,68 +1,68 @@
-import { ApplicationCommandOptionType, PermissionsBitField } from 'discord.js';
+import { ApplicationCommandOptionType, PermissionsBitField } from "discord.js";
 
-import type Client from '@/classes/Client';
-import Command from '@/classes/Command';
-import Category from '@/enums/Category';
+import type Client from "@/classes/Client";
+import Command from "@/classes/Command";
+import Category from "@/enums/Category";
 
 export default class Setup extends Command {
   constructor(client: Client) {
     super(client, {
-      name: 'setup',
-      description: 'Setup bot',
+      name: "setup",
+      description: "Setup bot",
       category: Category.Setup,
       options: [
         {
-          name: 'show',
-          description: 'Show all setup options',
+          name: "show",
+          description: "Show all setup options",
           type: ApplicationCommandOptionType.Subcommand,
         },
         {
-          name: 'music-channel',
-          description: 'Setup music channel',
+          name: "music-channel",
+          description: "Setup music channel",
           type: ApplicationCommandOptionType.Subcommand,
           options: [
             {
-              name: 'channel',
-              description: 'Text channel for msuic module',
+              name: "channel",
+              description: "Text channel for msuic module",
               type: ApplicationCommandOptionType.Channel,
               required: false,
             },
           ],
         },
         {
-          name: 'global-channel',
-          description: 'Setup global channel',
+          name: "global-channel",
+          description: "Setup global channel",
           type: ApplicationCommandOptionType.Subcommand,
           options: [
             {
-              name: 'channel',
-              description: 'Base text channel',
+              name: "channel",
+              description: "Base text channel",
               type: ApplicationCommandOptionType.Channel,
               required: false,
             },
           ],
         },
         {
-          name: 'join-role',
-          description: 'Setup join role',
+          name: "join-role",
+          description: "Setup join role",
           type: ApplicationCommandOptionType.Subcommand,
           options: [
             {
-              name: 'role',
-              description: 'Role give to new members',
+              name: "role",
+              description: "Role give to new members",
               type: ApplicationCommandOptionType.Role,
               required: false,
             },
           ],
         },
         {
-          name: 'join-to-talk-channel',
-          description: 'Setup join to talk channel',
+          name: "join-to-talk-channel",
+          description: "Setup join to talk channel",
           type: ApplicationCommandOptionType.Subcommand,
           options: [
             {
-              name: 'channel',
-              description: 'Voice channel for join to talk module',
+              name: "channel",
+              description: "Voice channel for join to talk module",
               type: ApplicationCommandOptionType.Channel,
               required: false,
             },
@@ -70,13 +70,13 @@ export default class Setup extends Command {
         },
 
         {
-          name: 'temp-voice-channels-category',
-          description: 'Setup temp voice channels category',
+          name: "temp-voice-channels-category",
+          description: "Setup temp voice channels category",
           type: ApplicationCommandOptionType.Subcommand,
           options: [
             {
-              name: 'category',
-              description: 'Category for temp voice channels',
+              name: "category",
+              description: "Category for temp voice channels",
               type: ApplicationCommandOptionType.Channel,
               required: false,
             },

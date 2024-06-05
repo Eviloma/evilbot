@@ -1,43 +1,43 @@
 import {
   ApplicationCommandOptionType,
-  ChatInputCommandInteraction,
-  Guild,
-  GuildMember,
+  type ChatInputCommandInteraction,
+  type Guild,
+  type GuildMember,
   type GuildTextBasedChannel,
   PermissionsBitField,
-} from 'discord.js';
-import type { KazagumoPlayer } from 'kazagumo';
+} from "discord.js";
 
-import type Client from '@/classes/Client';
-import MusicCommand from '@/classes/commands/Music';
-import Category from '@/enums/Category';
-import DefaultEmbed from '@/utils/discord-embeds';
-import EmbedTitles from '@/utils/embed-titles';
-import MusicControllerUpdate from '@/utils/music-controller-update';
+import type Client from "@/classes/Client";
+import MusicCommand from "@/classes/commands/Music";
+import Category from "@/enums/Category";
+import DefaultEmbed from "@/utils/discord-embeds";
+import EmbedTitles from "@/utils/embed-titles";
+import MusicControllerUpdate from "@/utils/music-controller-update";
+import type { Player } from "poru";
 
 export default class Loop extends MusicCommand {
   constructor(client: Client) {
     super(client, {
-      name: 'loop',
-      description: 'Set loop status',
+      name: "loop",
+      description: "Set loop status",
       category: Category.Music,
       options: [
         {
-          name: 'status',
-          description: 'Set loop status',
+          name: "status",
+          description: "Set loop status",
           type: ApplicationCommandOptionType.String,
           choices: [
             {
-              name: 'Off',
-              value: 'none',
+              name: "Off",
+              value: "NONE",
             },
             {
-              name: 'Queue',
-              value: 'queue',
+              name: "Queue",
+              value: "QUEUE",
             },
             {
-              name: 'One track',
-              value: 'track',
+              name: "One track",
+              value: "TRACK",
             },
           ],
           required: true,
@@ -54,34 +54,34 @@ export default class Loop extends MusicCommand {
     const channel = interaction.channel as GuildTextBasedChannel;
     const bot = guild.members.me as GuildMember;
 
-    const loopStatus = interaction.options.getString('status', true) as 'none' | 'queue' | 'track';
+    const loopStatus = interaction.options.getString("status", true) as "NONE" | "QUEUE" | "TRACK";
 
-    const musicChannelId = this.client.GetSetting('music_channel_id');
+    const musicChannelId = this.client.GetSetting("music_channel_id");
 
     await this.NullCheck(interaction);
     await this.MusicChannelCheck(channel.id, musicChannelId);
     await this.UserVoiceChannelCheck(member, bot);
 
     await interaction.deferReply({ ephemeral: true });
-    const player = this.client.lavalink.players.get(guild!.id) as KazagumoPlayer;
+    const player = this.client.lavalink.players.get(guild.id) as Player;
 
     await this.ClearQueueCheck(player);
     player.setLoop(loopStatus);
-    await MusicControllerUpdate(this.client, player, player!.queue.current!);
+    await MusicControllerUpdate(this.client, player);
 
     const embed = DefaultEmbed(this.client).setTitle(EmbedTitles.music);
 
     switch (loopStatus) {
-      case 'none': {
-        embed.setDescription('🔁 Повтор вимкнено');
+      case "NONE": {
+        embed.setDescription("🔁 Повтор вимкнено");
         break;
       }
-      case 'queue': {
-        embed.setDescription('🔁 Змінено на повтор списка відтвороення');
+      case "QUEUE": {
+        embed.setDescription("🔁 Змінено на повтор списка відтвороення");
         break;
       }
-      case 'track': {
-        embed.setDescription('🔁 Змінено на повтор однієї пісні');
+      case "TRACK": {
+        embed.setDescription("🔁 Змінено на повтор однієї пісні");
         break;
       }
       default: {

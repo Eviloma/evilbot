@@ -1,15 +1,15 @@
-import type { ImageSource } from 'canvacord';
-import { ChatInputCommandInteraction, GuildMember, PermissionsBitField } from 'discord.js';
-import { compact, constant, map } from 'lodash';
+import type { ImageSource } from "canvacord";
+import { type ChatInputCommandInteraction, type GuildMember, PermissionsBitField } from "discord.js";
+import { compact, constant, map } from "lodash";
 
-import Category from '@/enums/Category';
-import type IFunnyImageOptions from '@/interfaces/IFunnyImageOption';
-import { getImageByUrl } from '@/utils/axios';
-import { ErrorEmbed } from '@/utils/discord-embeds';
-import EmbedTitles from '@/utils/embed-titles';
+import Category from "@/enums/Category";
+import type IFunnyImageOptions from "@/interfaces/IFunnyImageOption";
+import { getImageByUrl } from "@/utils/axios";
+import { ErrorEmbed } from "@/utils/discord-embeds";
+import EmbedTitles from "@/utils/embed-titles";
 
-import type Client from '../Client';
-import Command from '../Command';
+import type Client from "../Client";
+import Command from "../Command";
 
 export default class FunnyImageCommand extends Command {
   minimalImages: number;
@@ -34,7 +34,7 @@ export default class FunnyImageCommand extends Command {
 
     if (!member) {
       interaction.reply({
-        embeds: [ErrorEmbed(this.client, EmbedTitles.fun, 'Помилка обробки команди')],
+        embeds: [ErrorEmbed(this.client, EmbedTitles.fun, "Помилка обробки команди")],
         ephemeral: true,
       });
       return;
@@ -45,7 +45,7 @@ export default class FunnyImageCommand extends Command {
 
     if (images.length < this.minimalImages) {
       interaction.reply({
-        embeds: [ErrorEmbed(this.client, EmbedTitles.fun, 'Не вдалось отримати зображення для обробки')],
+        embeds: [ErrorEmbed(this.client, EmbedTitles.fun, "Не вдалось отримати зображення для обробки")],
         ephemeral: true,
       });
       return;
@@ -54,7 +54,7 @@ export default class FunnyImageCommand extends Command {
     const filteredImage = await this.func(images).catch(constant(null));
     if (!filteredImage) {
       interaction.reply({
-        embeds: [ErrorEmbed(this.client, EmbedTitles.fun, 'Не вдалось обробити зображення')],
+        embeds: [ErrorEmbed(this.client, EmbedTitles.fun, "Не вдалось обробити зображення")],
         ephemeral: true,
       });
       return;
@@ -65,20 +65,20 @@ export default class FunnyImageCommand extends Command {
   async GetImages(users: GuildMember[], member: GuildMember) {
     if (this.minimalImages === 1) {
       return Promise.all([
-        getImageByUrl(users[0]?.displayAvatarURL({ size: 512 }) ?? ''),
-        getImageByUrl(member?.displayAvatarURL({ size: 512 }) ?? ''),
+        getImageByUrl(users[0]?.displayAvatarURL({ size: 512 }) ?? ""),
+        getImageByUrl(member?.displayAvatarURL({ size: 512 }) ?? ""),
       ]);
     }
     if (this.minimalImages === 2 && users.length === 2) {
       return Promise.all([
-        getImageByUrl(users[0]?.displayAvatarURL({ size: 512 }) ?? ''),
-        getImageByUrl(users[1]?.displayAvatarURL({ size: 512 }) ?? ''),
+        getImageByUrl(users[0]?.displayAvatarURL({ size: 512 }) ?? ""),
+        getImageByUrl(users[1]?.displayAvatarURL({ size: 512 }) ?? ""),
       ]);
     }
 
     return Promise.all([
-      getImageByUrl(member?.displayAvatarURL({ size: 512 }) ?? ''),
-      getImageByUrl(users[0]?.displayAvatarURL({ size: 512 }) ?? ''),
+      getImageByUrl(member?.displayAvatarURL({ size: 512 }) ?? ""),
+      getImageByUrl(users[0]?.displayAvatarURL({ size: 512 }) ?? ""),
     ]);
   }
 }

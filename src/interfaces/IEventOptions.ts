@@ -1,4 +1,4 @@
-import type { Events } from 'discord.js';
+import type { Events } from "discord.js";
 
 export default interface IEventOptions {
   name: Events;

@@ -1,4 +1,4 @@
-type ErrorType = 'error' | 'warning';
+type ErrorType = "error" | "warning";
 
 export default class CustomError extends Error {
   type: ErrorType;

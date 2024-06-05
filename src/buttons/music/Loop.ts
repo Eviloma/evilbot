@@ -1,30 +1,30 @@
-import type { ButtonInteraction, CacheType } from 'discord.js';
+import type { ButtonInteraction, CacheType } from "discord.js";
 
-import Button from '@/classes/Button';
-import type Client from '@/classes/Client';
-import DefaultEmbed, { ErrorEmbed, WarningEmbed } from '@/utils/discord-embeds';
-import EmbedTitles from '@/utils/embed-titles';
-import MusicControllerUpdate from '@/utils/music-controller-update';
+import Button from "@/classes/Button";
+import type Client from "@/classes/Client";
+import DefaultEmbed, { ErrorEmbed, WarningEmbed } from "@/utils/discord-embeds";
+import EmbedTitles from "@/utils/embed-titles";
+import MusicControllerUpdate from "@/utils/music-controller-update";
 
 export default class Loop extends Button {
   constructor(client: Client) {
-    super(client, 'music-loop');
+    super(client, "music-loop");
   }
 
   async Execute(interaction: ButtonInteraction<CacheType>) {
     const { guild } = interaction;
     if (!guild) {
       interaction.reply({
-        embeds: [ErrorEmbed(this.client, EmbedTitles.music, 'Помилка обробки команди')],
+        embeds: [ErrorEmbed(this.client, EmbedTitles.music, "Помилка обробки команди")],
         ephemeral: true,
       });
       return;
     }
 
     const player = this.client.lavalink.players.get(guild.id);
-    if (!player || !player.queue || !player.queue.current) {
+    if (!player?.currentTrack) {
       interaction.reply({
-        embeds: [WarningEmbed(this.client, EmbedTitles.music, 'Наразі черга пуста.')],
+        embeds: [WarningEmbed(this.client, EmbedTitles.music, "Наразі черга пуста.")],
         ephemeral: true,
       });
       return;
@@ -34,24 +34,24 @@ export default class Loop extends Button {
     const embed = DefaultEmbed(this.client).setTitle(EmbedTitles.music);
 
     switch (loopStatus) {
-      case 'none': {
-        player.setLoop('queue');
-        embed.setDescription('🔁 Змінено на повтор списка відтвороення');
+      case "NONE": {
+        player.setLoop("QUEUE");
+        embed.setDescription("🔁 Змінено на повтор списка відтвороення");
         break;
       }
-      case 'queue': {
-        player.setLoop('track');
-        embed.setDescription('🔁 Змінено на повтор однієї пісні');
+      case "QUEUE": {
+        player.setLoop("TRACK");
+        embed.setDescription("🔁 Змінено на повтор однієї пісні");
         break;
       }
       default: {
-        player.setLoop('none');
-        embed.setDescription('🔁 Повтор вимкнено');
+        player.setLoop("NONE");
+        embed.setDescription("🔁 Повтор вимкнено");
         break;
       }
     }
 
-    await MusicControllerUpdate(this.client, player, player.queue.current);
+    await MusicControllerUpdate(this.client, player);
 
     interaction.reply({ embeds: [embed], ephemeral: true });
   }

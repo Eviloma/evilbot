@@ -1,9 +1,8 @@
-/* eslint-disable class-methods-use-this */
-import { Events } from 'discord.js';
+import type { Events } from "discord.js";
 
-import type IEvent from '../interfaces/IEvent';
-import type IEventOptions from '../interfaces/IEventOptions';
-import type Client from './Client';
+import type IEvent from "../interfaces/IEvent";
+import type IEventOptions from "../interfaces/IEventOptions";
+import type Client from "./Client";
 
 export default class Event implements IEvent {
   client: Client;

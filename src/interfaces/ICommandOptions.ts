@@ -1,6 +1,6 @@
-import type Category from '@/enums/Category';
+import type Category from "@/enums/Category";
 
-import type ICommandOption from './ICommandOption';
+import type ICommandOption from "./ICommandOption";
 
 export default interface ICommandOptions {
   name: string;

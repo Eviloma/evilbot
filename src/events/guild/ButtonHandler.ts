@@ -1,14 +1,14 @@
-import { ButtonInteraction, Events } from 'discord.js';
+import { type ButtonInteraction, Events } from "discord.js";
 
-import type Button from '@/classes/Button';
-import type Client from '@/classes/Client';
-import Event from '@/classes/Event';
+import type Button from "@/classes/Button";
+import type Client from "@/classes/Client";
+import Event from "@/classes/Event";
 
 export default class ButtonHandler extends Event {
   constructor(client: Client) {
     super(client, {
       name: Events.InteractionCreate,
-      description: 'Button Handler',
+      description: "Button Handler",
       once: false,
     });
   }
@@ -20,7 +20,7 @@ export default class ButtonHandler extends Event {
 
     if (!button) {
       await interaction.reply({
-        content: 'Button not found',
+        content: "Button not found",
         ephemeral: true,
       });
       return;

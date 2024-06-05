@@ -1,43 +1,45 @@
-import { ButtonStyle, Message } from 'discord.js';
-import { Button, Row } from 'easy-discord-components';
-import { KazagumoPlayer, KazagumoTrack } from 'kazagumo';
-import { capitalize, find, noop, omit } from 'lodash';
+import { ButtonStyle, type Message } from "discord.js";
+import { Button, Row } from "easy-discord-components";
+import { noop } from "lodash";
 
-import type Client from '@/classes/Client';
+import type Client from "@/classes/Client";
+import type { Player } from "poru";
+import DefaultEmbed from "./discord-embeds";
+import EmbedTitles from "./embed-titles";
 
-import audioEffects from './audio-effects';
-import DefaultEmbed from './discord-embeds';
-import EmbedTitles from './embed-titles';
+let musicMessage: Message | null = null;
 
-export default async function MusicControllerUpdate(client: Client, player: KazagumoPlayer, track: KazagumoTrack) {
-  const oldMessage = player.data.get('message') as Message | null;
+export default async function MusicControllerUpdate(client: Client, player: Player) {
+  const nowPlayingTrack = player.currentTrack;
 
-  oldMessage?.delete().catch(noop);
+  musicMessage?.delete().catch(noop);
+
+  if (!(player && nowPlayingTrack && player.isConnected)) return;
 
   const row = Row([
     Button({
-      customId: 'music-resume',
-      label: '▶️',
+      customId: "music-resume",
+      label: "▶️",
       style: ButtonStyle.Success,
     }),
     Button({
-      customId: 'music-pause',
-      label: '⏸️',
+      customId: "music-pause",
+      label: "⏸️",
       style: ButtonStyle.Secondary,
     }),
     Button({
-      customId: 'music-skip',
-      label: '⏩',
+      customId: "music-skip",
+      label: "⏩",
       style: ButtonStyle.Primary,
     }),
     Button({
-      customId: 'music-loop',
-      label: '🔁',
+      customId: "music-loop",
+      label: "🔁",
       style: ButtonStyle.Primary,
     }),
     Button({
-      customId: 'music-stop',
-      label: '⏹️',
+      customId: "music-stop",
+      label: "⏹️",
       style: ButtonStyle.Danger,
     }),
   ]);
@@ -45,18 +47,20 @@ export default async function MusicControllerUpdate(client: Client, player: Kaza
   const embed = DefaultEmbed(client)
     .setTitle(EmbedTitles.music)
     .setDescription(
-      `**Зараз грає**: [${track.title}](${track.uri})\n**Автор**: ${track.author}\n\n **Ввімкнено за запитом**: ${track.requester}\n\n**Статус повтору**: ${player.loop === 'none' ? 'Вимкнено' : player.loop === 'queue' ? 'Список відтворення' : 'Один трек'}\n**Фільтр**: ${capitalize(find(audioEffects, ['value', omit(player.filters, 'volume')])?.key ?? 'Не вдалось визначити')}`
+      `**Зараз грає**: [${nowPlayingTrack.info.title}](${nowPlayingTrack.info.uri})\n**Автор**: ${nowPlayingTrack.info.author}\n\n **Ввімкнено за запитом**: ${nowPlayingTrack.info.requester}\n\n**Статус повтору**: ${player.loop === "NONE" ? "Вимкнено" : player.loop === "QUEUE" ? "Список відтворення" : "Один трек"}`,
     )
-    .setImage(track.thumbnail ?? null);
+    .setImage(nowPlayingTrack.info.artworkUrl ?? null);
 
-  const musicChannel = client.channels.cache.get(client.GetSetting('music_channel_id') ?? '');
+  const musicChannel = client.channels.cache.get(client.GetSetting("music_channel_id") ?? "");
 
-  if (!musicChannel || !musicChannel.isTextBased()) return;
+  if (!musicChannel?.isTextBased()) return;
 
   await musicChannel
     .send({
       embeds: [embed],
       components: [row],
     })
-    .then((x) => player.data.set('message', x));
+    .then((x) => {
+      musicMessage = x;
+    });
 }

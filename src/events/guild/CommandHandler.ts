@@ -1,16 +1,16 @@
-import { ChatInputCommandInteraction, Collection, Events } from 'discord.js';
+import { type ChatInputCommandInteraction, Collection, Events } from "discord.js";
 
-import type Client from '@/classes/Client';
-import type Command from '@/classes/Command';
-import Event from '@/classes/Event';
-import { ErrorEmbed } from '@/utils/discord-embeds';
-import logger from '@/utils/logger';
+import type Client from "@/classes/Client";
+import type Command from "@/classes/Command";
+import Event from "@/classes/Event";
+import { ErrorEmbed } from "@/utils/discord-embeds";
+import logger from "@/utils/logger";
 
 export default class CommandHadler extends Event {
   constructor(client: Client) {
     super(client, {
       name: Events.InteractionCreate,
-      description: 'Command Handler',
+      description: "Command Handler",
       once: false,
     });
   }
@@ -22,7 +22,7 @@ export default class CommandHadler extends Event {
 
     if (!command) {
       await interaction.reply({
-        content: 'Command not found',
+        content: "Command not found",
         ephemeral: true,
       });
       this.client.commands.delete(interaction.commandName);
@@ -40,7 +40,7 @@ export default class CommandHadler extends Event {
 
     if (timestamps?.has(interaction.user.id) && now < (timestamps.get(interaction.user.id) ?? 0) + cooldownAmount) {
       await interaction.reply({
-        embeds: [ErrorEmbed(this.client, 'Cooldown', 'You are on cooldown, please wait')],
+        embeds: [ErrorEmbed(this.client, "Cooldown", "You are on cooldown, please wait")],
         ephemeral: true,
       });
       return;

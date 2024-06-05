@@ -1,6 +1,6 @@
-import type { ImageSource } from 'canvacord';
+import type { ImageSource } from "canvacord";
 
-import type ICommandOption from './ICommandOption';
+import type ICommandOption from "./ICommandOption";
 
 export default interface IFunnyImageOptions {
   name: string;

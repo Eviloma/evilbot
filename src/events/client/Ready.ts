@@ -1,43 +1,43 @@
-import { ActivityType, Collection, Events, REST, Routes } from 'discord.js';
+import { ActivityType, type Collection, Events, REST, Routes } from "discord.js";
 
-import type Client from '@/classes/Client';
-import type Command from '@/classes/Command';
-import Event from '@/classes/Event';
-import env from '@/utils/env';
-import logger from '@/utils/logger';
+import type Client from "@/classes/Client";
+import type Command from "@/classes/Command";
+import Event from "@/classes/Event";
+import env from "@/utils/env";
+import logger from "@/utils/logger";
 
 export default class Ready extends Event {
   constructor(client: Client) {
     super(client, {
       name: Events.ClientReady,
-      description: 'Client is ready',
+      description: "Client is ready",
       once: true,
     });
   }
 
   async Execute() {
-    logger.info(`⏳ Starting...`);
-    logger.info(`⏳ Setting Presence...`);
+    logger.info("⏳ Starting...");
+    logger.info("⏳ Setting Presence...");
     this.client.user?.setPresence({
       activities: [
-        { name: 'customstatus', type: ActivityType.Custom, state: `Evilbot v${process.env.npm_package_version}` },
+        { name: "customstatus", type: ActivityType.Custom, state: `Evilbot v${process.env.npm_package_version}` },
       ],
-      status: 'online',
+      status: "online",
     });
     logger.info(`✅ Client ${this.client.user?.tag} is ready`);
 
-    logger.info(`⏳ Loading settings from database...`);
+    logger.info("⏳ Loading settings from database...");
     await this.client
       .UpdateSettings()
-      .then(() => logger.info('✅ Database settings loaded'))
+      .then(() => logger.info("✅ Database settings loaded"))
       .catch((error) => logger.error(`❌ Error while loading settings: ${error}`));
 
     if (env.DISABLE_UPDATE_COMMANDS) {
-      logger.warn('⚠️ Update commands is disabled');
+      logger.warn("⚠️ Update commands is disabled");
       return;
     }
 
-    logger.info('⏳ Updating commands...');
+    logger.info("⏳ Updating commands...");
 
     const commands = this.GetJson(this.client.commands);
 

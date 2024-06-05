@@ -1,9 +1,9 @@
-import { eq } from 'drizzle-orm';
+import { eq } from "drizzle-orm";
 
-import db from '@/db';
-import { type SettingKeys, settingsSchema } from '@/db/schema';
+import db from "@/db";
+import { type SettingKeys, settingsSchema } from "@/db/schema";
 
-import SubCommand from '../SubCommand';
+import SubCommand from "../SubCommand";
 
 export default class SetupSubCommand extends SubCommand {
   async UpdateDatabaseKeySetting(key: SettingKeys, value: string | null) {

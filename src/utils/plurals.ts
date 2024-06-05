@@ -6,14 +6,14 @@ interface IPlural {
 
 const plurals: IPlural = {
   track: {
-    one: 'трек',
-    few: 'треки',
-    many: 'треків',
+    one: "трек",
+    few: "треки",
+    many: "треків",
   },
   message: {
-    one: 'повідомлення',
-    few: 'повідомлення',
-    many: 'повідомлень',
+    one: "повідомлення",
+    few: "повідомлення",
+    many: "повідомлень",
   },
 };
 

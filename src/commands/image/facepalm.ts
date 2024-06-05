@@ -1,6 +1,6 @@
-import type Client from '@/classes/Client';
-import FunnyImageCommand from '@/classes/commands/FunnyImage';
-import FunnyImageEffects from '@/utils/funny-image-effect';
+import type Client from "@/classes/Client";
+import FunnyImageCommand from "@/classes/commands/FunnyImage";
+import FunnyImageEffects from "@/utils/funny-image-effect";
 
 export default class Facepalm extends FunnyImageCommand {
   constructor(client: Client) {

@@ -8,6 +8,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ---
 
+## [**4.5.0**] - 2024-06-05
+
+### Added
+- Biome.js
+
+### Replaced
+- `bun db:migrate` with `bun migrate`
+- `bun db:generate` with `bun generate`
+- `LAVALINK_NAMES` with `LAVALINK_NANE`
+- `LAVALINK_HOSTS` with `LAVALINK_HOST`
+- `LAVALINK_PASSWORDS` with `LAVALINK_PASSWORD`
+- Shoukaku wuth Poru
+
+### Removed
+- Eslint and Prettier with Bione.js
+- Removed support multiple Lavalink servers
+- Temporary removed filters
+
 ## [**4.4.2**] - 2024-04-04
 
 ### Added

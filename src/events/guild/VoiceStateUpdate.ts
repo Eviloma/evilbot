@@ -8,18 +8,18 @@ import {
   PermissionFlagsBits,
   type VoiceBasedChannel,
   type VoiceChannel,
-  VoiceState,
-} from 'discord.js';
-import { noop } from 'lodash';
+  type VoiceState,
+} from "discord.js";
+import { noop } from "lodash";
 
-import type Client from '@/classes/Client';
-import Event from '@/classes/Event';
+import type Client from "@/classes/Client";
+import Event from "@/classes/Event";
 
 export default class VoiceStateUpdate extends Event {
   constructor(client: Client) {
     super(client, {
       name: Events.VoiceStateUpdate,
-      description: 'VoiceStateUpdate',
+      description: "VoiceStateUpdate",
       once: false,
     });
   }
@@ -28,13 +28,13 @@ export default class VoiceStateUpdate extends Event {
     const { member, guild } = oldState;
     const { channel: newChannel } = newState;
 
-    const joinToTalkChannel = guild.channels.cache.get(this.client.GetSetting('join_to_talk_channel_id') ?? '');
-    const parent = guild.channels.cache.get(this.client.GetSetting('temp_voice_channels_category_id') ?? '');
+    const joinToTalkChannel = guild.channels.cache.get(this.client.GetSetting("join_to_talk_channel_id") ?? "");
+    const parent = guild.channels.cache.get(this.client.GetSetting("temp_voice_channels_category_id") ?? "");
 
-    if (!guild || !member || !joinToTalkChannel || !parent) return;
+    if (!(guild && member && joinToTalkChannel && parent)) return;
 
     // If channel or parent not found or channel not voice channel or parent not category, return
-    if (!joinToTalkChannel || !parent || !joinToTalkChannel.isVoiceBased() || parent.type !== ChannelType.GuildCategory)
+    if (!(joinToTalkChannel && parent && joinToTalkChannel.isVoiceBased()) || parent.type !== ChannelType.GuildCategory)
       return;
 
     // If new channel is join to talk channel
@@ -49,7 +49,7 @@ export default class VoiceStateUpdate extends Event {
     guild: Guild,
     member: GuildMember,
     joinToTalkChannel: VoiceBasedChannel,
-    parent: CategoryChannel
+    parent: CategoryChannel,
   ) {
     const voiceChannel = await guild.channels
       .create({
@@ -76,14 +76,14 @@ export default class VoiceStateUpdate extends Event {
 
   private async RemoveTempVoiceChat(guild: Guild, parent: CategoryChannel) {
     const channelsCollection = guild.channels.cache.filter(
-      (x) => x.parent === parent && x.type === ChannelType.GuildVoice
+      (x) => x.parent === parent && x.type === ChannelType.GuildVoice,
     ) as Collection<string, VoiceChannel>;
 
-    channelsCollection.forEach(async (x) => {
-      if (x.members.size === 0) {
-        await x.delete().catch(noop);
+    for (const [_, el] of channelsCollection) {
+      if (el.members.size === 0) {
+        await el.delete().catch(noop);
       }
-    });
+    }
   }
 
   private RestrictCreateTempVoiceChat(member: GuildMember, joinToTalkChannel: VoiceBasedChannel) {

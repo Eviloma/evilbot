@@ -2,10 +2,10 @@ export default interface ILocalization {
   id?: string; //	Indonesian
   da?: string; //	Danish
   de?: string; //	German
-  'en-GB'?: string; //	English, UK
-  'en-US'?: string; //	English, US
-  'es-ES'?: string; //	Spanish
-  'es-419'?: string; //	Spanish, LATAM
+  "en-GB"?: string; //	English, UK
+  "en-US"?: string; //	English, US
+  "es-ES"?: string; //	Spanish
+  "es-419"?: string; //	Spanish, LATAM
   fr?: string; //	French
   hr?: string; //	Croatian
   it?: string; //	Italian
@@ -14,10 +14,10 @@ export default interface ILocalization {
   nl?: string; //	Dutch
   no?: string; //	Norwegian
   pl?: string; //	Polish
-  'pt-BR'?: string; //	Portuguese, Brazilian
+  "pt-BR"?: string; //	Portuguese, Brazilian
   ro?: string; //	Romanian, Romania
   fi?: string; // Finnish
-  'sv-SE'?: string; //	Swedish
+  "sv-SE"?: string; //	Swedish
   vi?: string; //	Vietnamese
   tr?: string; //	Turkish
   cs?: string; //	Czech
@@ -26,8 +26,8 @@ export default interface ILocalization {
   uk?: string; //	Ukrainian
   hi?: string; //	Hindi
   th?: string; //	Thai
-  'zh-CN'?: string; //	Chinese, China
+  "zh-CN"?: string; //	Chinese, China
   ja?: string; //	Japanese
-  'zh-TW'?: string; //	Chinese, Taiwan
+  "zh-TW"?: string; //	Chinese, Taiwan
   ko?: string; //	Korean
 }

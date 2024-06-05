@@ -34,23 +34,17 @@
         "temp_voices_guild_id_unique": {
           "name": "temp_voices_guild_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "guild_id"
-          ]
+          "columns": ["guild_id"]
         },
         "temp_voices_join_to_channel_id_unique": {
           "name": "temp_voices_join_to_channel_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "join_to_channel_id"
-          ]
+          "columns": ["join_to_channel_id"]
         },
         "temp_voices_temp_voice_channels_category_id_unique": {
           "name": "temp_voices_temp_voice_channels_category_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "temp_voice_channels_category_id"
-          ]
+          "columns": ["temp_voice_channels_category_id"]
         }
       }
     }

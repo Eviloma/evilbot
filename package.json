@@ -1,11 +1,9 @@
 {
   "name": "@eviloma/evilbot",
-  "version": "4.4.2",
+  "version": "4.5.0",
   "private": true,
   "description": "Official discord bot for Eviloma server",
-  "keywords": [
-    "discord, discord-bot, eviloma"
-  ],
+  "keywords": ["discord, discord-bot, eviloma"],
   "homepage": "https://github.com/Eviloma/evilbot",
   "bugs": {
     "url": "https://github.com/Eviloma/evilbot/issues",
@@ -20,70 +18,41 @@
   "type": "module",
   "main": "index.ts",
   "scripts": {
-    "db:generate": "drizzle-kit generate:pg",
-    "db:migrate": "bun ./migrate.ts",
+    "generate": "drizzle-kit generate",
+    "migrate": "bun ./migrate.ts",
     "dev": "NODE_ENV=development bun --watch .",
-    "lint": "eslint --format=mo --fix .",
+    "check": "biome check --write .",
     "prepare": "husky",
     "start": "bun ."
   },
   "dependencies": {
-    "@napi-rs/canvas": "^0.1.51",
-    "axios": "^1.6.8",
+    "@napi-rs/canvas": "^0.1.52",
+    "axios": "^1.7.2",
     "canvacord": "^6.0.2",
     "console-table-printer": "^2.12.0",
-    "dayjs": "^1.11.10",
-    "discord.js": "^14.14.1",
-    "drizzle-orm": "^0.30.6",
+    "dayjs": "^1.11.11",
+    "discord.js": "^14.15.3",
+    "drizzle-orm": "^0.31.1",
     "easy-discord-components": "^1.1.2",
     "envalid": "^8.0.0",
     "greetify": "^2.0.1",
-    "kazagumo": "^3.0.3",
-    "kazagumo-filter": "^2.0.0",
-    "kazagumo-spotify": "^2.0.1",
     "lodash": "^4.17.21",
     "plurals-cldr": "^2.0.1",
+    "poru": "^5.2.0",
+    "poru-spotify": "^2.0.2",
     "postgres": "^3.4.4",
-    "shoukaku": "^4.0.1",
     "winston": "^3.13.0"
   },
   "devDependencies": {
-    "@types/bun": "^1.0.12",
-    "@types/eslint": "^8.56.7",
-    "@types/lodash": "^4.17.0",
+    "@biomejs/biome": "1.8.0",
+    "@types/bun": "^1.1.3",
+    "@types/lodash": "^4.17.4",
     "@types/plurals-cldr": "^1.0.5",
-    "@types/react": "^18.2.73",
-    "@typescript-eslint/eslint-plugin": "^7.5.0",
-    "@typescript-eslint/parser": "^7.5.0",
-    "drizzle-kit": "^0.20.14",
-    "eslint": "^8.57.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-airbnb-typescript": "^18.0.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-formatter-mo": "^1.2.0",
-    "eslint-import-resolver-typescript": "^3.6.1",
-    "eslint-import-resolver-typescript-bun": "^0.0.83",
-    "eslint-plugin-drizzle": "^0.2.3",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-json-format": "^2.0.1",
-    "eslint-plugin-lodash": "^7.4.0",
-    "eslint-plugin-no-secrets": "^0.8.9",
-    "eslint-plugin-prettier": "^5.1.3",
-    "eslint-plugin-promise": "^6.1.1",
-    "eslint-plugin-security": "^2.1.1",
-    "eslint-plugin-simple-import-sort": "^12.0.0",
-    "eslint-plugin-sonarjs": "^0.25.0",
-    "eslint-plugin-unicorn": "^51.0.1",
-    "eslint-plugin-unused-imports": "^3.1.0",
-    "eslint-plugin-xss": "^0.1.12",
+    "@types/react": "^18.3.3",
+    "drizzle-kit": "^0.22.2",
     "husky": "^9.0.11",
-    "lint-staged": "^15.2.2",
-    "prettier": "^3.2.5"
+    "lint-staged": "^15.2.5",
+    "typescript": "^5.4.5"
   },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  },
-  "trustedDependencies": [
-    "es5-ext"
-  ]
+  "trustedDependencies": ["@biomejs/biome", "es5-ext", "esbuild"]
 }

@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 services:
   evilbot:
     image: higherror/evilbot
@@ -12,9 +12,10 @@ services:
       - SPOTIFY_CLIENT_SECRET=
 
       # Lavalink
-      - LAVALINK_NAMES=
-      - LAVALINK_HOSTS=
-      - LAVALINK_PASSWORDS=
+      - LAVALINK_NAME=
+      - LAVALINK_HOST=
+      - LAVALINK_PORT=
+      - LAVALINK_PASSWORD=
       - LAVALINK_SECURED=
 
       # Database (Postgresql)

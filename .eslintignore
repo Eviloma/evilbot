@@ -1,4 +1,0 @@
-.husky
-!.*.json
-**/node_modules
-dist
