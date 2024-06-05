@@ -91,7 +91,7 @@ This Discord bot, developed in TypeScript, leverages the power of the discord.js
 - [Typescript](https://www.typescriptlang.org/)
 - [Bun](https://bun.sh/)
 - [Discord.js](https://discord.js.org/)
-- [Kazagumo](https://github.com/Takiyo0/Kazagumo)
+- [Poru](https://github.com/parasop/poru)
 - [Canvacord](https://canvacord.js.org/)
 - [Drizzle ORM](https://orm.drizzle.team/)
 
