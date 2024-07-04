@@ -1,8 +1,9 @@
 import { Events, type GuildMember } from "discord.js";
-import { Minimal } from "greetify";
 
 import type Client from "@/classes/Client";
 import Event from "@/classes/Event";
+import logger from "@/utils/logger";
+import { Card } from "welcomify";
 
 export default class MemberJoin extends Event {
   constructor(client: Client) {
@@ -15,26 +16,29 @@ export default class MemberJoin extends Event {
 
   async Execute(member: GuildMember) {
     const { user, guild, roles } = member;
-    const globalChannel = guild.channels.cache.get(this.client.GetSetting("global_channel_id") ?? "");
-
-    if (!globalChannel?.isTextBased()) return;
-    const card = await Minimal({
-      name: user.username,
-      avatar: user.displayAvatarURL({
-        size: 4096,
-      }),
-      circleBorder: true,
-      backgroundImage: "https://ik.imagekit.io/eviloma/card-background",
-      type: "Welcome",
-      message: `You are ${guild.memberCount}th member`,
-      nameColor: "#6666ff",
-    });
-
-    await globalChannel.send({ files: [{ attachment: card, name: `welcome-${user.username}.png` }] });
 
     const initialRole = guild.roles.cache.get(this.client.GetSetting("join_role_id") ?? "");
     if (initialRole) {
-      await roles.add(initialRole, "User joined to server");
+      await roles.add(initialRole, "User joined to server").catch(() => logger.error("Failed to add role"));
     }
+
+    const globalChannel = guild.channels.cache.get(this.client.GetSetting("global_channel_id") ?? "");
+    if (!globalChannel?.isTextBased()) return;
+
+    const card = await new Card()
+      .setTitle("Вітаємо")
+      .setName(user.username)
+      .setAvatar(user.displayAvatarURL({ size: 512 }))
+      .setMessage(`Нас тепер ${guild.memberCount - 1}`)
+      .setBackground("https://s3.eviloma.org/public/discord-bg.jpg")
+      .setColor("B79FF4")
+      .build();
+
+    await globalChannel
+      .send({
+        files: [card],
+        content: `<@${user.id}>`,
+      })
+      .catch(() => logger.error("Failed to send card"));
   }
 }

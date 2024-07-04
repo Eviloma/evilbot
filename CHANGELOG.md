@@ -8,6 +8,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ---
 
+## [**4.6.0**] - 2024-07-04
+
+### Updated
+- Updated all dependencies
+
+### Fixed
+- Crash in music module
+- Don't delete MusicControllerMessage
+- Crash on welcome message
+
 ## [**4.5.0**] - 2024-06-05
 
 ### Added
@@ -19,10 +29,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 - `LAVALINK_NAMES` with `LAVALINK_NANE`
 - `LAVALINK_HOSTS` with `LAVALINK_HOST`
 - `LAVALINK_PASSWORDS` with `LAVALINK_PASSWORD`
-- Shoukaku wuth Poru
+- Shoukaku with Poru
+- Eslint and Prettier with Bione.js
 
 ### Removed
-- Eslint and Prettier with Bione.js
 - Removed support multiple Lavalink servers
 - Temporary removed filters
 

@@ -1,5 +1,5 @@
-import Discord, { Collection } from "discord.js";
-import { find } from "lodash";
+import Discord, { Collection, type Message } from "discord.js";
+import { find, noop } from "lodash";
 
 import db from "@/db";
 import { type SettingKeys, type Settings, settingsSchema } from "@/db/schema";
@@ -7,8 +7,11 @@ import type IClient from "@/interfaces/IClient";
 import env from "@/utils/env";
 import logger from "@/utils/logger";
 
+import DefaultEmbed from "@/utils/discord-embeds";
+import EmbedTitles from "@/utils/embed-titles";
+import { musicControllRow } from "@/utils/rows";
 import { Spotify } from "node_modules/poru-spotify/dist/Spotify";
-import { Poru } from "poru";
+import { type Player, Poru, type Track } from "poru";
 import type Button from "./Button";
 import type Command from "./Command";
 import Handler from "./Handler";
@@ -28,6 +31,8 @@ export default class Client extends Discord.Client implements IClient {
   lavalink: Poru;
 
   settings: Settings[];
+
+  musicMessage: Message | null | undefined;
 
   constructor() {
     super({
@@ -91,5 +96,32 @@ export default class Client extends Discord.Client implements IClient {
 
   GetSetting(key: SettingKeys) {
     return find(this.settings, ["key", key])?.value;
+  }
+
+  async MusicControllerUpdate(player: Player, track: Track | null) {
+    this.musicMessage?.delete().catch(noop);
+
+    if (!(track && player.isConnected)) return;
+
+    const embed = DefaultEmbed(this)
+      .setTitle(EmbedTitles.music)
+      .setDescription(
+        `**Зараз грає**: [${track.info.title}](${track.info.uri})\n**Автор**: ${track.info.author}\n\n **Ввімкнено за запитом**: ${track.info.requester}\n\n**Статус повтору**: ${player.loop === "NONE" ? "Вимкнено" : player.loop === "QUEUE" ? "Список відтворення" : "Один трек"}`,
+      )
+      .setImage(track.info.artworkUrl ?? null);
+
+    const musicChannel = this.channels.cache.get(this.GetSetting("music_channel_id") ?? "");
+
+    if (!musicChannel?.isTextBased()) return;
+
+    await musicChannel
+      .send({
+        embeds: [embed],
+        components: [musicControllRow],
+      })
+      .then((x) => {
+        this.musicMessage = x;
+      })
+      .catch(noop);
   }
 }

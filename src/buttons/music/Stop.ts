@@ -5,7 +5,6 @@ import Button from "@/classes/Button";
 import type Client from "@/classes/Client";
 import DefaultEmbed, { ErrorEmbed, WarningEmbed } from "@/utils/discord-embeds";
 import EmbedTitles from "@/utils/embed-titles";
-import MusicControllerUpdate from "@/utils/music-controller-update";
 
 export default class Stop extends Button {
   constructor(client: Client) {
@@ -32,7 +31,6 @@ export default class Stop extends Button {
     }
 
     player.destroy().catch(noop);
-    MusicControllerUpdate(this.client, player);
     const embed = DefaultEmbed(this.client).setTitle(EmbedTitles.music).setDescription("⏹️ Програвання зупинено.");
 
     interaction.reply({ embeds: [embed], ephemeral: true });

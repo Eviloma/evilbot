@@ -6,12 +6,14 @@
     "module": "ESNext",
     "moduleDetection": "force",
     "jsx": "react",
+    "jsxFactory": "React.createElement",
+    "jsxFragmentFactory": "JSX.Fragment",
     "allowJs": true,
 
     // Bundler mode
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
-    "verbatimModuleSyntax": true,
+    // "verbatimModuleSyntax": true,
     "noEmit": true,
 
     // Best practices

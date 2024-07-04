@@ -5,7 +5,6 @@ import { map, split } from "lodash";
 import type IHandler from "@/interfaces/IHandler";
 import logger from "@/utils/logger";
 
-import MusicControllerUpdate from "@/utils/music-controller-update";
 import type Button from "./Button";
 import type Client from "./Client";
 import type Command from "./Command";
@@ -122,13 +121,18 @@ export default class Handler implements IHandler {
     );
     this.client.lavalink.on("debug", (name, info) => console.debug(`Lavalink ${name}: Debug,`, info));
     this.client.lavalink.on("nodeDisconnect", (node, event) => {
-      console.warn(`Lavalink ${node.options.name}: Disconnected, ${event}`);
+      logger.warn(`Lavalink ${node.options.name}: Disconnected, ${event}`);
     });
-    this.client.lavalink.on("playerUpdate", (player) => {
-      MusicControllerUpdate(this.client, player);
-    });
-    this.client.lavalink.on("trackStart", (player) => {
-      MusicControllerUpdate(this.client, player);
+    this.client.lavalink.on("trackStart", (player, track) => this.client.MusicControllerUpdate(player, track));
+    this.client.lavalink.on("trackEnd", (player) => this.client.MusicControllerUpdate(player, null));
+    this.client.lavalink.on("playerDestroy", (player) => this.client.MusicControllerUpdate(player, null));
+    this.client.lavalink.on("queueEnd", (player) => {
+      this.client.MusicControllerUpdate(player, null);
+      setTimeout(() => {
+        if (player.isConnected && !player.isPlaying && !player.isPaused && player.queue.length === 0) {
+          player.destroy();
+        }
+      }, 10_000);
     });
   }
 }

@@ -4,7 +4,6 @@ import Button from "@/classes/Button";
 import type Client from "@/classes/Client";
 import DefaultEmbed, { ErrorEmbed, WarningEmbed } from "@/utils/discord-embeds";
 import EmbedTitles from "@/utils/embed-titles";
-import MusicControllerUpdate from "@/utils/music-controller-update";
 
 export default class Loop extends Button {
   constructor(client: Client) {
@@ -51,7 +50,7 @@ export default class Loop extends Button {
       }
     }
 
-    await MusicControllerUpdate(this.client, player);
+    await this.client.MusicControllerUpdate(player, player.currentTrack);
 
     interaction.reply({ embeds: [embed], ephemeral: true });
   }

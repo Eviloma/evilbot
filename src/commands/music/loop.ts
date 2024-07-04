@@ -12,7 +12,6 @@ import MusicCommand from "@/classes/commands/Music";
 import Category from "@/enums/Category";
 import DefaultEmbed from "@/utils/discord-embeds";
 import EmbedTitles from "@/utils/embed-titles";
-import MusicControllerUpdate from "@/utils/music-controller-update";
 import type { Player } from "poru";
 
 export default class Loop extends MusicCommand {
@@ -67,7 +66,7 @@ export default class Loop extends MusicCommand {
 
     await this.ClearQueueCheck(player);
     player.setLoop(loopStatus);
-    await MusicControllerUpdate(this.client, player);
+    await this.client.MusicControllerUpdate(player, player.currentTrack);
 
     const embed = DefaultEmbed(this.client).setTitle(EmbedTitles.music);
 

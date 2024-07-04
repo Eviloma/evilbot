@@ -11,7 +11,6 @@ import MusicCommand from "@/classes/commands/Music";
 import Category from "@/enums/Category";
 import DefaultEmbed from "@/utils/discord-embeds";
 import EmbedTitles from "@/utils/embed-titles";
-import MusicControllerUpdate from "@/utils/music-controller-update";
 import type { Player } from "poru";
 
 export default class Stop extends MusicCommand {
@@ -42,8 +41,6 @@ export default class Stop extends MusicCommand {
     await this.ClearQueueCheck(player);
 
     await player.destroy();
-
-    await MusicControllerUpdate(this.client, player);
 
     const embed = DefaultEmbed(this.client).setTitle(EmbedTitles.music).setDescription("⏹️ Відтворення зупинено");
     interaction.reply({ embeds: [embed] });
