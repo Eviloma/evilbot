@@ -1,9 +1,12 @@
 <br/>
 <p align="center">
-  <h1 align="center">Evilbot</h1>
+  <h1 align="center">Evilbot 4.6.0 (Oreo)</h1>
 
   <p align="center">
     Official discord bot for Eviloma server
+    <br/>
+    <br/>
+    <img src="banners/4.6.0.jpg" width="450"/>
     <br/>
     <br/>
     <a href="https://github.com/Eviloma/evilbot/issues">Report Bug</a>
@@ -12,7 +15,9 @@
   </p>
 </p>
 
-![Contributors](https://img.shields.io/github/contributors/Eviloma/evilbot?color=dark-green) ![Issues](https://img.shields.io/github/issues/Eviloma/evilbot) ![License](https://img.shields.io/github/license/Eviloma/evilbot)
+![Contributors](https://img.shields.io/github/contributors/Eviloma/evilbot) 
+![Issues](https://img.shields.io/github/issues/Eviloma/evilbot) 
+![License](https://img.shields.io/github/license/Eviloma/evilbot)
 
 ## Table Of Contents
 
