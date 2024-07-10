@@ -8,6 +8,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ---
 
+## [**4.6.1**] - 2024-07-10
+
+### Changed
+- Changed delay disconnect after queue end to 0
+
 ## [**4.6.0**] - 2024-07-04
 
 ### Updated

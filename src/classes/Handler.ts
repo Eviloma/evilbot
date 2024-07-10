@@ -119,20 +119,19 @@ export default class Handler implements IHandler {
     this.client.lavalink.on("nodeError", (node, error) =>
       logger.error(`Lavalink ${node.options.name}: Error Caught,`, error),
     );
-    this.client.lavalink.on("debug", (name, info) => console.debug(`Lavalink ${name}: Debug,`, info));
+    // this.client.lavalink.on("debug", (name, info) => console.debug(`Lavalink ${name}: Debug,`, info));
     this.client.lavalink.on("nodeDisconnect", (node, event) => {
       logger.warn(`Lavalink ${node.options.name}: Disconnected, ${event}`);
     });
     this.client.lavalink.on("trackStart", (player, track) => this.client.MusicControllerUpdate(player, track));
     this.client.lavalink.on("trackEnd", (player) => this.client.MusicControllerUpdate(player, null));
-    this.client.lavalink.on("playerDestroy", (player) => this.client.MusicControllerUpdate(player, null));
-    this.client.lavalink.on("queueEnd", (player) => {
+    this.client.lavalink.on("playerDestroy", (player) => {
+      player.queue.clear();
       this.client.MusicControllerUpdate(player, null);
-      setTimeout(() => {
-        if (player.isConnected && !player.isPlaying && !player.isPaused && player.queue.length === 0) {
-          player.destroy();
-        }
-      }, 10_000);
+    });
+    this.client.lavalink.on("queueEnd", (player) => {
+      player.destroy();
+      this.client.MusicControllerUpdate(player, null);
     });
   }
 }
