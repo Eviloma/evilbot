@@ -13,6 +13,11 @@ export const settingsSchema = pgTable("guild_settings", {
   value: text("value").notNull(),
 });
 
+export const connectionsSchema = pgTable("connections", {
+  userId: text("user_id").notNull().unique().primaryKey(),
+  valorantPUUID: text("valorant_puuid"),
+});
+
 export type SettingKeys = (typeof settingKeys.enumValues)[number];
 
 export type Settings = typeof settingsSchema.$inferSelect;

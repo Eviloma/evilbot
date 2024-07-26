@@ -8,6 +8,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ---
 
+## [**W.I.P**] - W.I.P
+
+### Added
+- `CLIENT_SECRET` environment variable. Required for valorant module
+- `BASE_URL` environment variable. Required for valorant module
+- Web server for get discord connections
+- `/valorant link` command to link your discord account to your valorant account
+
 ## [**4.6.1**] - 2024-07-10
 
 ### Changed

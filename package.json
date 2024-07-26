@@ -30,9 +30,10 @@
     "axios": "^1.7.2",
     "canvacord": "^6.0.2",
     "console-table-printer": "^2.12.1",
-    "dayjs": "^1.11.11",
+    "dayjs": "^1.11.12",
+    "discord-oauth2": "^2.12.1",
     "discord.js": "^14.15.3",
-    "drizzle-orm": "^0.31.2",
+    "drizzle-orm": "^0.32.1",
     "easy-discord-components": "^1.1.2",
     "envalid": "^8.0.0",
     "lodash": "^4.17.21",
@@ -42,18 +43,18 @@
     "postgres": "^3.4.4",
     "react": "^18.3.1",
     "welcomify": "^1.0.5",
-    "winston": "^3.13.0"
+    "winston": "^3.13.1"
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
     "@types/bun": "^1.1.6",
-    "@types/lodash": "^4.17.6",
+    "@types/lodash": "^4.17.7",
     "@types/plurals-cldr": "^1.0.5",
     "@types/react": "^18.3.3",
-    "drizzle-kit": "^0.22.8",
-    "husky": "^9.0.11",
+    "drizzle-kit": "^0.23.0",
+    "husky": "^9.1.2",
     "lint-staged": "^15.2.7",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.4"
   },
   "trustedDependencies": ["@biomejs/biome", "es5-ext", "esbuild"]
 }

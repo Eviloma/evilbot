@@ -4,6 +4,7 @@ enum Category {
   Fun = "Fun",
   Music = "Music",
   Setup = "Setup",
+  Valorant = "Valorant",
 }
 
 export default Category;

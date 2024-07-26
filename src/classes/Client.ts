@@ -10,6 +10,7 @@ import logger from "@/utils/logger";
 import DefaultEmbed from "@/utils/discord-embeds";
 import EmbedTitles from "@/utils/embed-titles";
 import { musicControllRow } from "@/utils/rows";
+import DiscordOauth2 from "discord-oauth2";
 import { Spotify } from "node_modules/poru-spotify/dist/Spotify";
 import { type Player, Poru, type Track } from "poru";
 import type Button from "./Button";
@@ -33,6 +34,8 @@ export default class Client extends Discord.Client implements IClient {
   settings: Settings[];
 
   musicMessage: Message | null | undefined;
+
+  oauth: DiscordOauth2;
 
   constructor() {
     super({
@@ -75,6 +78,12 @@ export default class Client extends Discord.Client implements IClient {
         ],
       },
     );
+
+    this.oauth = new DiscordOauth2({
+      version: "v10",
+      clientId: env.CLIENT_ID,
+      clientSecret: env.CLIENT_SECRET,
+    });
   }
 
   async Init() {

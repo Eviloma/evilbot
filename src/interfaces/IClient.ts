@@ -3,6 +3,7 @@ import type { Collection, Message } from "discord.js";
 import type Button from "@/classes/Button";
 import type Command from "@/classes/Command";
 import type SubCommand from "@/classes/SubCommand";
+import type DiscordOauth2 from "discord-oauth2";
 import type { Player, Poru, Track } from "poru";
 
 export default interface IClient {
@@ -12,6 +13,7 @@ export default interface IClient {
   cooldowns: Collection<string, Collection<string, number>>;
   lavalink: Poru;
   musicMessage: Message | null | undefined;
+  oauth: DiscordOauth2;
 
   Init(): void;
   LoadHandlers(): void;
