@@ -6,7 +6,6 @@ const commands = await getAllCommands();
 
 const event: Event = {
   name: Events.InteractionCreate,
-  once: true,
   execute: async (i: Interaction) => {
     if (i.isChatInputCommand()) {
       const command = commands.get(i.commandName);
@@ -21,7 +20,7 @@ const event: Event = {
       } catch (err) {
         console.error(`[ERROR] Error executing command ${i.commandName}:`, err);
         if (i.replied || i.deferred) {
-          await i.followUp({ content: "There was an error while executing this command!", ephemeral: true });
+          await i.editReply({ content: "There was an error while executing this command!", ephemeral: true });
         } else {
           await i.reply({ content: "There was an error while executing this command!", ephemeral: true });
         }

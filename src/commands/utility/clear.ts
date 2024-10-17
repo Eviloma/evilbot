@@ -19,7 +19,7 @@ const commands: Command = {
     const { client, options, channel } = i;
     if (!channel?.isTextBased() || channel.isDMBased()) {
       await i.reply({
-        embeds: [getErrorEmbed(client, "Clear error", "This command can only be used in a guild text channel!")],
+        embeds: [getErrorEmbed(client, "This command can only be used in a guild text channel!")],
         ephemeral: true,
       });
       return;

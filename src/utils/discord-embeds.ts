@@ -17,9 +17,6 @@ export function getWarningEmbed(c: Client, title: string | null, description: st
     .setDescription(`⛔ ${description}`);
 }
 
-export function getErrorEmbed(c: Client, title: string | null, description: string) {
-  return getDefaultEmbed(c)
-    .setColor("Yellow")
-    .setTitle(title ?? "Error")
-    .setDescription(`⚠️ ${description}`);
+export function getErrorEmbed(c: Client, description: string) {
+  return getDefaultEmbed(c).setColor("Yellow").setTitle("Error").setDescription(`⚠️ ${description}`);
 }
