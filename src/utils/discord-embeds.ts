@@ -1,27 +1,25 @@
-import { EmbedBuilder } from "discord.js";
+import { type Client, EmbedBuilder } from "discord.js";
 
-import type Client from "@/classes/Client";
-
-export default function DefaultEmbed(client: Client) {
+export function getDefaultEmbed(c: Client) {
   return new EmbedBuilder()
-    .setColor(0x56_20_c0)
+    .setColor(0x5620c0)
     .setTimestamp()
     .setFooter({
-      text: client.user?.username ?? "Unknown user",
-      iconURL: client.user?.avatarURL() ?? undefined,
+      text: c.user?.username ?? "Unknown",
+      iconURL: c.user?.avatarURL() ?? undefined,
     });
 }
 
-export function ErrorEmbed(client: Client, title: string | null, description: string) {
-  return DefaultEmbed(client)
+export function getWarningEmbed(c: Client, title: string | null, description: string) {
+  return getDefaultEmbed(c)
     .setColor("Red")
-    .setTitle(title ?? "Помилка")
+    .setTitle(title ?? "Warning")
     .setDescription(`⛔ ${description}`);
 }
 
-export function WarningEmbed(client: Client, title: string | null, description: string) {
-  return DefaultEmbed(client)
+export function getErrorEmbed(c: Client, title: string | null, description: string) {
+  return getDefaultEmbed(c)
     .setColor("Yellow")
-    .setTitle(title ?? "Попередження")
+    .setTitle(title ?? "Error")
     .setDescription(`⚠️ ${description}`);
 }
