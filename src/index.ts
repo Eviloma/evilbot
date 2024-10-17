@@ -1,3 +1,4 @@
+import { Font } from "canvacord";
 import { Client, GatewayIntentBits } from "discord.js";
 import env from "./utils/env";
 import { registerClientEvents } from "./utils/handlers";
@@ -13,7 +14,7 @@ const client = new Client({
     GatewayIntentBits.GuildVoiceStates,
   ],
 });
-
+Font.loadDefault();
 await registerClientEvents(client);
 
 client.login(env.BOT_TOKEN);
