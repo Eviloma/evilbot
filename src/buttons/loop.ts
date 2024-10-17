@@ -19,12 +19,15 @@ const button: Button = {
     switch (loopStatus) {
       case RainlinkLoopMode.NONE:
         player.setLoop(RainlinkLoopMode.SONG);
+        embed.setDescription("🔁 Changed loop mode to Track");
         break;
       case RainlinkLoopMode.SONG:
         player.setLoop(RainlinkLoopMode.QUEUE);
+        embed.setDescription("🔁 Changed loop mode to Queue");
         break;
       case RainlinkLoopMode.QUEUE:
         player.setLoop(RainlinkLoopMode.NONE);
+        embed.setDescription("🔁 Changed loop mode to None");
         break;
     }
 
