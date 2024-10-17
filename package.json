@@ -27,18 +27,19 @@
     "start": "bun .",
     "dev": "bun --watch .",
     "deploy-commands": "bun ./src/utils/deploy-commands.ts",
-    "check": "bunx biome check --write ."
+    "check": "bunx biome check --write .",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.3",
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
-  "trustedDependencies": [
-    "@biomejs/biome"
-  ],
+  "trustedDependencies": ["@biomejs/biome"],
   "dependencies": {
     "canvacord": "^6.0.2",
     "discord.js": "^14.16.3",

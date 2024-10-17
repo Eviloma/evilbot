@@ -1,7 +1,7 @@
+import { readdir } from "node:fs/promises";
 import type { Command } from "@/types/Command";
 import type { Event } from "@/types/Event";
 import { Collection } from "discord.js";
-import { readdir } from "node:fs/promises";
 
 export async function getAllCommands() {
   const commands = new Collection<string, Command>();
