@@ -5,6 +5,7 @@ const env = cleanEnv(process.env, {
   CLIENT_ID: str(),
   JOIN_ROLE_ID: str({ default: undefined }),
   MAIN_TEXT_CHANNEL_ID: str(),
+  MUSIC_TEXT_CHANNEL_ID: str({ default: undefined }),
   JOIN_TO_TALK_CHANNEL_ID: str({ default: undefined }),
   JOIN_TO_TALK_GROUP_ID: str({ default: undefined }),
 });

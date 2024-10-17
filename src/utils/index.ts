@@ -1,4 +1,5 @@
 import { readdir } from "node:fs/promises";
+import type { Button } from "@/types/Button";
 import type { Command } from "@/types/Command";
 import type { Event } from "@/types/Event";
 import { Collection } from "discord.js";
@@ -24,15 +25,28 @@ export async function getAllCommands() {
   return commands;
 }
 
-export async function getAllEvents(category: "client") {
+export async function getAllEvents() {
   const events: Event[] = [];
-  const eventFiles = await readdir(`${__dirname}/../events/${category}`);
+  const eventFiles = await readdir(`${__dirname}/../events`);
 
   for (const eventFile of eventFiles) {
-    const event: Event = await import(`../events/${category}/${eventFile}`).then((e) => e.default);
+    const event: Event = await import(`../events/${eventFile}`).then((e) => e.default);
     if ("name" in event && "execute" in event) {
       events.push(event);
     }
   }
   return events;
+}
+
+export async function getAllButons() {
+  const buttons: Collection<string, Button> = new Collection();
+  const buttonFiles = await readdir(`${__dirname}/../buttons`);
+
+  for (const buttonFile of buttonFiles) {
+    const button: Button = await import(`../buttons/${buttonFile}`).then((e) => e.default);
+    if ("id" in button && "execute" in button) {
+      buttons.set(button.id, button);
+    }
+  }
+  return buttons;
 }

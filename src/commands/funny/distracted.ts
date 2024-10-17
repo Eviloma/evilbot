@@ -1,9 +1,9 @@
+import { FailedGenerateImage, OnlyGuildTextChannel } from "@/classes/CustomError";
 import type { Command } from "@/types/Command";
-import { getErrorEmbed } from "@/utils/discord-embeds";
 import { canvacord } from "canvacord";
 import { GuildMember, SlashCommandBuilder, type User } from "discord.js";
 
-const commands: Command = {
+const command: Command = {
   data: new SlashCommandBuilder()
     .setName("distracted")
     .setDescription("Create an distracted avatar and send it!")
@@ -12,14 +12,7 @@ const commands: Command = {
     .addUserOption((el) => el.setName("third-user").setRequired(true).setDescription("The third user to distract.")),
   async execute(i) {
     const { channel, member } = i;
-
-    if (!(channel?.isTextBased() && member instanceof GuildMember)) {
-      await i.reply({
-        embeds: [getErrorEmbed(i.client, "This command can only be used in a guild text channel!")],
-        ephemeral: true,
-      });
-      return;
-    }
+    if (!(channel?.isTextBased() && member instanceof GuildMember)) throw OnlyGuildTextChannel;
 
     await i.deferReply();
 
@@ -27,13 +20,17 @@ const commands: Command = {
     const secondUser = i.options.getUser("second-user") as User;
     const thirdUser = i.options.getUser("third-user") as User;
 
-    const image = await canvacord.distracted(
-      firstUser.displayAvatarURL({ extension: "png" }),
-      secondUser.displayAvatarURL({ extension: "png" }),
-      thirdUser.displayAvatarURL({ extension: "png" }),
-    );
+    const image = await canvacord
+      .distracted(
+        firstUser.displayAvatarURL({ extension: "png" }),
+        secondUser.displayAvatarURL({ extension: "png" }),
+        thirdUser.displayAvatarURL({ extension: "png" }),
+      )
+      .catch(() => null);
+    if (!image) throw FailedGenerateImage;
+
     await i.editReply({ files: [{ attachment: image, name: "distracted.png" }] });
   },
 };
 
-export default commands;
+export default command;

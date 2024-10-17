@@ -1,0 +1,13 @@
+{
+  "$schema": "./assets/nodesSchema.json",
+  "nodes": [
+    {
+      "name": "node.lewdhutao.my.eu.org",
+      "host": "node.lewdhutao.my.eu.org",
+      "port": 80,
+      "auth": "youshallnotpass",
+      "secure": false,
+      "driver": "lavalink/v4/koinu"
+    }
+  ]
+}

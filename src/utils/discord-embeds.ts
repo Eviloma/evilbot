@@ -10,13 +10,10 @@ export function getDefaultEmbed(c: Client) {
     });
 }
 
-export function getWarningEmbed(c: Client, title: string | null, description: string) {
-  return getDefaultEmbed(c)
-    .setColor("Red")
-    .setTitle(title ?? "Warning")
-    .setDescription(`⛔ ${description}`);
+export function getErrorEmbed(c: Client, description: string) {
+  return getDefaultEmbed(c).setColor("Red").setTitle("Error").setDescription(`⛔ ${description}`);
 }
 
-export function getErrorEmbed(c: Client, description: string) {
-  return getDefaultEmbed(c).setColor("Yellow").setTitle("Error").setDescription(`⚠️ ${description}`);
+export function getWarningEmbed(c: Client, description: string) {
+  return getDefaultEmbed(c).setColor("Yellow").setTitle("Warning").setDescription(`⚠️ ${description}`);
 }

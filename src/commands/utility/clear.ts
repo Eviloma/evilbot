@@ -1,8 +1,9 @@
+import { OnlyGuildTextChannel } from "@/classes/CustomError";
 import type { Command } from "@/types/Command";
-import { getDefaultEmbed, getErrorEmbed } from "@/utils/discord-embeds";
+import { getDefaultEmbed } from "@/utils/discord-embeds";
 import { PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
 
-const commands: Command = {
+const command: Command = {
   data: new SlashCommandBuilder()
     .setName("clear")
     .setDescription("Clear the current channel's messages, but maximum 14 days old.")
@@ -17,13 +18,8 @@ const commands: Command = {
     ),
   async execute(i) {
     const { client, options, channel } = i;
-    if (!channel?.isTextBased() || channel.isDMBased()) {
-      await i.reply({
-        embeds: [getErrorEmbed(client, "This command can only be used in a guild text channel!")],
-        ephemeral: true,
-      });
-      return;
-    }
+    if (!channel?.isTextBased() || channel.isDMBased()) throw OnlyGuildTextChannel;
+
     const messages = await channel.bulkDelete(options.getInteger("amount", true), true);
     i.reply({
       embeds: [
@@ -34,4 +30,4 @@ const commands: Command = {
   },
 };
 
-export default commands;
+export default command;

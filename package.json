@@ -44,6 +44,8 @@
   "dependencies": {
     "canvacord": "^6.0.2",
     "discord.js": "^14.16.3",
-    "envalid": "^8.0.0"
+    "easy-discord-components": "^1.1.2",
+    "envalid": "^8.0.0",
+    "rainlink": "^1.2.5"
   }
 }
