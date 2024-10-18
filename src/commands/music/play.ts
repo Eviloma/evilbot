@@ -1,88 +1,43 @@
-import {
-  ApplicationCommandOptionType,
-  type ChatInputCommandInteraction,
-  type Guild,
-  type GuildMember,
-  type GuildTextBasedChannel,
-  PermissionsBitField,
-} from "discord.js";
+import { MusicSearchNotFound } from "@/classes/CustomError";
+import type { Command } from "@/types/Command";
+import { getDefaultEmbed } from "@/utils/discord-embeds";
+import { getLavalinkPlayer, isAvalableToUseMusicCommands } from "@/utils/lavalink";
+import { SlashCommandBuilder } from "discord.js";
 
-import type Client from "@/classes/Client";
-import MusicCommand from "@/classes/commands/Music";
-import Category from "@/enums/Category";
-import DefaultEmbed, { WarningEmbed } from "@/utils/discord-embeds";
-import EmbedTitles from "@/utils/embed-titles";
-import { forEach } from "lodash";
+const command: Command = {
+  data: new SlashCommandBuilder()
+    .setName("play")
+    .setDescription("Play a song by name or URL.")
+    .addStringOption((o) => o.setName("query").setDescription("The song to play.").setRequired(true)),
+  async execute(i) {
+    await i.deferReply({ ephemeral: true });
+    isAvalableToUseMusicCommands(i);
 
-export default class Play extends MusicCommand {
-  constructor(client: Client) {
-    super(client, {
-      name: "play",
-      description: "Play a song!",
-      category: Category.Music,
-      options: [
-        {
-          name: "track",
-          description: "The track to play",
-          type: ApplicationCommandOptionType.String,
-          required: true,
-        },
-      ],
-      default_member_permissions: PermissionsBitField.Flags.UseApplicationCommands,
-      dm_permission: false,
-      cooldown: 10,
-    });
-  }
+    const query = i.options.getString("query", true);
 
-  async MusicCommandExecute(interaction: ChatInputCommandInteraction) {
-    const guild = interaction.guild as Guild;
-    const member = interaction.member as GuildMember;
-    const channel = interaction.channel as GuildTextBasedChannel;
-    const bot = guild.members.me as GuildMember;
+    const player = await getLavalinkPlayer(i);
+    const result = await player.search(query, { requester: i.user });
 
-    const track = interaction.options.getString("track", true);
-
-    const musicChannelId = this.client.GetSetting("music_channel_id");
-
-    await interaction.deferReply({ ephemeral: true });
-
-    await this.NullCheck(interaction);
-    await this.MusicChannelCheck(channel.id, musicChannelId);
-    await this.UserVoiceChannelCheck(member, bot);
-
-    const player =
-      this.client.lavalink.players.get(guild.id) ??
-      this.client.lavalink.createConnection({
-        guildId: guild.id,
-        // biome-ignore lint/style/noNonNullAssertion: Checked in MusicChannelCheck
-        textChannel: musicChannelId!,
-        // biome-ignore lint/style/noNonNullAssertion: Checked in UserVoiceChannelCheck
-        voiceChannel: member.voice.channelId!,
-      });
-
-    const result = await player.resolve({ query: track, requester: member });
-
-    if (result.tracks.length === 0) {
-      await interaction.editReply({
-        embeds: [WarningEmbed(this.client, EmbedTitles.music, "Трек не знайдено")],
-      });
-      return;
+    if (!result.tracks.length) throw MusicSearchNotFound;
+    if (result.type === "PLAYLIST") {
+      for (const track of result.tracks) {
+        player.queue.add(track);
+      }
+    } else {
+      player.queue.add(result.tracks[0]);
     }
 
-    forEach(result.tracks, (track) => {
-      player.queue.add(track);
-    });
+    if (!player.playing) player.play();
 
-    if (!player.isPlaying) {
-      await player.play();
-    }
-
-    const embed = DefaultEmbed(this.client).setTitle(EmbedTitles.music);
+    const embed = getDefaultEmbed(i.client).setTitle("Added to queue");
     embed.setDescription(
-      result.loadType === "playlist"
-        ? `🎶 Додано ${result.tracks.length} публікації з ${result.playlistInfo.name}`
-        : `🎶 Додано ${result.tracks[0].info.title}`,
+      result.type === "PLAYLIST"
+        ? `🎶 Added **${result.tracks.length}** tracks from **${result.playlistName}** playlist`
+        : `🎶 Added **${result.tracks[0].title}**`,
     );
-    await interaction.editReply({ embeds: [embed] });
-  }
-}
+
+    await i.editReply({ embeds: [embed] });
+  },
+};
+
+export default command;

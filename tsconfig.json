@@ -6,14 +6,14 @@
     "module": "ESNext",
     "moduleDetection": "force",
     "jsx": "react",
-    "jsxFactory": "React.createElement",
+    "jsxFactory": "JSX.createElement",
     "jsxFragmentFactory": "JSX.Fragment",
     "allowJs": true,
 
     // Bundler mode
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
-    // "verbatimModuleSyntax": true,
+    "verbatimModuleSyntax": false,
     "noEmit": true,
 
     // Best practices
@@ -29,12 +29,11 @@
     "resolveJsonModule": true,
     "noPropertyAccessFromIndexSignature": false,
     "esModuleInterop": true,
-    "rootDir": "./",
-    "baseUrl": "./",
+    "rootDir": "src",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "~/drizzle/*": ["drizzle/*"]
+      "@/*": ["./src/*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", "**/*.json"]
+  "include": ["**/*.ts", "**/*.tsx"]
 }

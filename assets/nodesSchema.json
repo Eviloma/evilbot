@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "nodes": {
+      "type": "array",
+      "items": [
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "The name of the node. Used for logging purposes."
+            },
+            "host": {
+              "type": "string",
+              "description": "The host of the node."
+            },
+            "port": {
+              "type": "integer",
+              "description": "The port of the node."
+            },
+            "auth": {
+              "type": "string",
+              "description": "The password of the node."
+            },
+            "secure": {
+              "type": "boolean",
+              "description": "Whether the node is secure or not."
+            },
+            "driver": {
+              "type": "string",
+              "enum": ["lavalink/v4/koinu", "lavalink/v3/koto", "nodelink/v2/nari"],
+              "description": "https://rainlinkjs.vercel.app/introduction/how-to-use"
+            }
+          },
+          "required": ["name", "host", "port", "auth", "secure", "driver"]
+        }
+      ]
+    }
+  },
+  "required": ["nodes"]
+}

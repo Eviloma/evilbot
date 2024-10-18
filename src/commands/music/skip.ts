@@ -1,49 +1,21 @@
-import {
-  type ChatInputCommandInteraction,
-  type Guild,
-  type GuildMember,
-  type GuildTextBasedChannel,
-  PermissionsBitField,
-} from "discord.js";
+import type { Command } from "@/types/Command";
+import { getDefaultEmbed } from "@/utils/discord-embeds";
+import { getLavalinkPlayer, isAvalableToUseMusicCommands } from "@/utils/lavalink";
+import { SlashCommandBuilder } from "discord.js";
 
-import type Client from "@/classes/Client";
-import MusicCommand from "@/classes/commands/Music";
-import Category from "@/enums/Category";
-import DefaultEmbed from "@/utils/discord-embeds";
-import EmbedTitles from "@/utils/embed-titles";
-import type { Player } from "poru";
+const command: Command = {
+  data: new SlashCommandBuilder().setName("skip").setDescription("Skip the current song."),
+  async execute(i) {
+    await i.deferReply({ ephemeral: true });
+    isAvalableToUseMusicCommands(i);
 
-export default class Stop extends MusicCommand {
-  constructor(client: Client) {
-    super(client, {
-      name: "skip",
-      description: "Skip the current track",
-      category: Category.Music,
-      options: [],
-      default_member_permissions: PermissionsBitField.Flags.UseApplicationCommands,
-      dm_permission: false,
+    const player = await getLavalinkPlayer(i);
+    await player.skip();
+
+    await i.editReply({
+      embeds: [getDefaultEmbed(i.client).setTitle("Music").setDescription("⏭️ Skipped song")],
     });
-  }
+  },
+};
 
-  async MusicCommandExecute(interaction: ChatInputCommandInteraction) {
-    const guild = interaction.guild as Guild;
-    const member = interaction.member as GuildMember;
-    const channel = interaction.channel as GuildTextBasedChannel;
-    const bot = guild.members.me as GuildMember;
-
-    const musicChannelId = this.client.GetSetting("music_channel_id");
-
-    await this.NullCheck(interaction);
-    await this.MusicChannelCheck(channel.id, musicChannelId);
-    await this.UserVoiceChannelCheck(member, bot);
-
-    await interaction.deferReply({ ephemeral: true });
-    const player = this.client.lavalink.players.get(guild.id) as Player;
-
-    await this.ClearQueueCheck(player);
-    player.skip();
-
-    const embed = DefaultEmbed(this.client).setTitle(EmbedTitles.music).setDescription("⏭️ Ця пісня була пропущена");
-    interaction.editReply({ embeds: [embed] });
-  }
-}
+export default command;
