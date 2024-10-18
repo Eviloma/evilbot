@@ -2,13 +2,11 @@
 <br/>
 
 <p align="center">
-  <h1 align="center">Evilbot 5.0.0 (DEVELOPMENT)</h1>
+  <h1 align="center">Evilbot 5.0.0</h1>
 
   <p align="center">
     Official discord bot for Eviloma server
     <br/>
-    <br/>
-    <img src="banners/5.0.0.jpg" width="450"/>
     <br/>
     <br/>
     <a href="https://github.com/Eviloma/evilbot/issues">Report Bug</a>
@@ -25,8 +23,6 @@
 
 - [Table Of Contents](#table-of-contents)
 - [About The Project](#about-the-project)
-- [Commands](#commands)
-- [Built With](#built-with)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
   - [Creating A Pull Request](#creating-a-pull-request)
@@ -34,15 +30,7 @@
 
 ## About The Project
 
-W.I.P.
-
-## Commands
-
-W.I.P.
-
-## Built With
-
-W.I.P.
+Another discord bot for Eviloma server. With music, join to talk, and more.
 
 ## Roadmap
 

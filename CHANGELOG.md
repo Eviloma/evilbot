@@ -8,7 +8,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ---
 
-## [**5.0.0**] - DEV
+## [**5.0.0**] - 18.10.2024
+
+- Added: support to multiple lavalink nodes
+- Fixed: crashes in music module
+- Fixed: temp voice channel creation and deletion instantly
+- DEV: Remove db temporary
+- DEV: Move all settings to .env
+- DEV: Move lavalink nodes settings to lavalink.json
 
 ## [**<5.0.0**] - OLD
 

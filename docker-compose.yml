@@ -3,9 +3,15 @@ services:
   evilbot:
     image: higherror/evilbot
     environment:
-      BOT_TOKEN:
-      CLIENT_ID:
+      # https://discordjs.guide/preparations/setting-up-a-bot-application.html#your-bot-s-token
+      BOT_TOKEN: # Required
+      # https://discordjs.guide/creating-your-bot/command-deployment.html#command-registration
+      CLIENT_ID: # Required
 
-      JOIN_ROLE_ID:
+      JOIN_ROLE_ID: # Optional, leave empty if you don't want to add a role
 
-      MAIN_TEXT_CHANNEL_ID:
+      MAIN_TEXT_CHANNEL_ID: # Required
+      MUSIC_TEXT_CHANNEL_ID: # Optional, leave empty if you don't want "music" module
+
+      JOIN_TO_TALK_CHANNEL_ID: # Optional, leave empty if you don't want to "join to talk" module
+      JOIN_TO_TALK_GROUP_ID: # Optional, leave empty if you don't want to "join to talk" module
