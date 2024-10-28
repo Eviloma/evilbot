@@ -8,6 +8,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ---
 
+## [**5.0.1**] - 28.10.2024
+
+- Added: Support **halloween** holiday
+  - Auto enable from 25.10 to 6.11
+  - Change temp voice name
+- DEV: Support any holiday in `/src/utils/holiday.ts`
+
 ## [**5.0.0**] - 18.10.2024
 
 - Added: support to multiple lavalink nodes

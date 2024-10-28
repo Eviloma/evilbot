@@ -1,5 +1,6 @@
 import type { Event } from "@/types/Event";
 import env from "@/utils/env";
+import { getTempVoiceName } from "@/utils/holiday";
 import {
   type CategoryChannel,
   ChannelType,
@@ -13,7 +14,7 @@ import {
 async function CreateVoiceChannel(member: GuildMember, channel: VoiceBasedChannel, parent: CategoryChannel) {
   const voiceChannel = await member.guild.channels
     .create({
-      name: `🔊${member.displayName}`,
+      name: getTempVoiceName(member.displayName),
       type: ChannelType.GuildVoice,
       reason: `Create temp voice chat for ${member.displayName}`,
       permissionOverwrites: [
