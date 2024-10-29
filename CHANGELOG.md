@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ---
 
+## [**5.0.2**] - 29.10.2024
+
+- Added: RichPresence show bot version
+
 ## [**5.0.1**] - 28.10.2024
 
 - Added: Support **halloween** holiday
