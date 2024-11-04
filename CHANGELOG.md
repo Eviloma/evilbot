@@ -8,6 +8,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ---
 
+## [**5.0.3**] - 29.10.2024
+
+- Changed: Halloween end date from 6.11 to 4.11
+- Added: Cristmas holiday
+
 ## [**5.0.2**] - 29.10.2024
 
 - Added: RichPresence show bot version
