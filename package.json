@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "evilbot",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "description": "Official discord bot for Eviloma discord server",
   "homepage": "https://github.com/Eviloma/evilbot",
   "bugs": {
