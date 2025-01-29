@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ---
 
+## [**5.0.4**] - 29.01.2025
+
+- Added: More holidays
+- Updated: All dependencies
+- Added: Commitizen (for dev)
+
 ## [**5.0.3**] - 04.11.2024
 
 - Changed: Halloween end date from 6.11 to 4.11
